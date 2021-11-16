@@ -1,0 +1,18 @@
+FROM moodlehq/moodle-php-apache:7.4-buster
+
+# Add custom PHP ini
+COPY custom-php.ini /usr/local/etc/php/conf.d
+
+# Install Moosh
+RUN cd /tmp && curl -O https://moodle.org/plugins/download.php/25295/moosh_moodle311_2021101200.zip
+
+RUN unzip /tmp/moosh_moodle311_2021101200.zip -d /usr/local/
+
+RUN ln -s /usr/local/moosh/moosh.php /usr/local/bin/moosh
+
+# Install XDebug
+RUN pecl install xdebug
+
+COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+RUN docker-php-ext-enable xdebug
