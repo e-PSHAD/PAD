@@ -1,0 +1,48 @@
+name: Upgrade PAD EIG
+
+on:
+  push:
+    branches: [ pad-eig ]
+
+jobs:
+  upgrade-pad:
+    runs-on: ubuntu-latest
+    environment: eig-preprod
+
+    env:
+      SSH_CONNECTION: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+      WEBUSER: www-data
+      INSTALL_PATH: /var/www/eig-epshad.com
+
+    steps:
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2.3.1
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+      - name: Enable maintenance mode on server
+        run: >
+          ssh ${{ env.SSH_CONNECTION }}
+          'sudo -u ${{ env.WEBUSER }} /usr/bin/php ${{ env.INSTALL_PATH }}/admin/cli/maintenance.php --enable'
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Synchronize files with server
+        run: >
+          rsync -avz
+          --chown=${{ secrets.SSH_USER }}:${{ env.WEBUSER }}
+          --exclude={'config.php','.git'}
+          --delete-after
+          ./ ${{ env.SSH_CONNECTION }}:${{ env.INSTALL_PATH }}
+
+      - name: Run Moodle upgrade script
+        run: >
+          ssh ${{ env.SSH_CONNECTION }}
+          'sudo -u ${{ env.WEBUSER }} /usr/bin/php ${{ env.INSTALL_PATH }}/admin/cli/upgrade.php --non-interactive'
+
+      - name: Disable maintenance mode on server
+        run: >
+          ssh ${{ env.SSH_CONNECTION }}
+          'sudo -u ${{ env.WEBUSER }} /usr/bin/php ${{ env.INSTALL_PATH }}/admin/cli/maintenance.php --disable'
