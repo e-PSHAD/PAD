@@ -1,1 +1,12 @@
-// By setting this variables in pre.scss we can override the default value of this variable everywhere it is used.
+// // By setting this variables in pre.scss we can override the default value of this variable everywhere it is used.
+@font-face {
+    font-family: 'Roboto-Medium';
+    src: url('Roboto-Medium.eot');
+    src: url('Roboto-Medium.eot') format('embedded-opentype'),
+         url('Roboto-Medium.woff2') format('woff2'),
+         url('Roboto-Medium.woff') format('woff'),
+         url('Roboto-Medium.ttf') format('truetype'),
+         url('Roboto-Medium.svg#Roboto-Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}
