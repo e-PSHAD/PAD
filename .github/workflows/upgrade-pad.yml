@@ -31,9 +31,9 @@ jobs:
 
       - name: Synchronize files with server
         run: >
-          rsync -avz
+          rsync -aiz
           --chown=${{ secrets.SSH_USER }}:${{ env.WEBUSER }}
-          --exclude={'config.php','.git'}
+          --exclude={'/config.php','.git'}
           --delete-after
           ./ ${{ env.SSH_CONNECTION }}:${{ env.INSTALL_PATH }}
 
