@@ -20,12 +20,12 @@
  * @package   theme_padplus
  */
 
-// This line protects the file from being accessed by a URL directly.                                                               
+// This line protects the file from being accessed by a URL directly.
 defined('MOODLE_INTERNAL') || die();
 
-// A description shown in the admin theme selector.                                                                                
-$string['choosereadme'] = 'Le thème PAD+ est un thème enfant de Boost.';                
-// The name of our plugin.                                                                                                          
-$string['pluginname'] = 'PAD+';                                                                                                    
-// We need to include a lang string for each block region.                                                                          
+// A description shown in the admin theme selector.
+$string['choosereadme'] = 'Le thème PAD+ est un thème enfant de Boost.';
+// The name of our plugin.
+$string['pluginname'] = 'PAD+';
+// We need to include a lang string for each block region.
 $string['region-side-pre'] = 'Droit';
