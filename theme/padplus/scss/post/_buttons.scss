@@ -1,0 +1,13 @@
+.btn-burgermenu {
+    color: #1d2125;
+    background-color: $white;
+    border: 1px solid #CED4DA;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 2px 6px;
+    &:hover {
+        color: #1d2125;
+        background-color: #e2e6ea;
+        border-color: #dae0e5; 
+    }
+}
