@@ -1,43 +1,43 @@
 body {
     font-family: Roboto !default;
     font-style: normal;
-    color: #000000;
+    color: $black;
 }
 
 h1 {
-    font-weight: bold;
-    font-size: 32px;
-    line-height: 150%;
+    color: #4C8341;
+    font-weight: $font-weight-bold;
+    font-size: $h1-font-size;
+    line-height: 48px;
 }
 
 h2 {
-    font-weight: bold;
+    color: #4C8341;
+    font-weight: $font-weight-bold;
     font-size: 24px;
-    line-height: 150%;
+    line-height: 36px;
 }
 
 h3 {
-    font-weight: normal;
+    font-weight: $font-weight-normal;
     font-size: 18px;
     line-height: 24px;
 }
 
 h4 {
-    font-weight: normal;
+    font-weight: $font-weight-bold;
     font-size: 16px;
-    line-height: 24px;
+    line-height: 30px;
 }
 
 h5 {
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 150%;
-    font-style: normal;
-    color: #4C8341;
+    font-weight: $font-weight-normal;
+    font-size: $h5-font-size;
+    line-height: 24px;
 }
-    
+
 p, a {
     font-weight: normal;
     font-size: 14px;
-    line-height: 150%;
+    line-height: 21px;
 }

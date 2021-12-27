@@ -1,12 +1,20 @@
 // // By setting this variables in pre.scss we can override the default value of this variable everywhere it is used.
-@font-face {
-    font-family: 'Roboto-Medium';
-    src: url('Roboto-Medium.eot');
-    src: url('Roboto-Medium.eot') format('embedded-opentype'),
-         url('Roboto-Medium.woff2') format('woff2'),
-         url('Roboto-Medium.woff') format('woff'),
-         url('Roboto-Medium.ttf') format('truetype'),
-         url('Roboto-Medium.svg#Roboto-Medium') format('svg');
-    font-weight: 500;
-    font-style: normal;
-}
+
+// Fonts variables
+$h1-font-size: 32px;
+$h2-font-size: 24px;
+$h3-font-size: 18px;
+$h4-font-size: 16px;
+$h5-font-size: 16px;
+
+// Colors
+$pantone: #B8CDEC;
+$pantone-yellow: #FFDE16;
+$pantone-299: #00A8E2;
+$pantone-301: #234395;
+$pantone-362: #3BA847;
+$pantone-368: #76B82A;
+$pantone-380: #D5DA2E;
+$pantone-567: #07413F;
+$pantone-660: #1C75BC;
+$pantone-2766: #292960;
