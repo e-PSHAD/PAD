@@ -1,1 +1,75 @@
 // By setting this variables in pre.scss we can override the default value of this variable everywhere it is used.
+
+// Color system
+
+// 1) define your colors
+// EPNAK theme (accessibility ok)
+$epnak-green:       #008A28; // primary|success
+$epnak-link:        #0877D9;
+$epnak-info:        #234395;
+$epnak-warning:     #b34000;
+$epnak-danger:      #ac0808;
+$epnak-border:      #d8d8d8;
+$epnak-light-blue:  #eff4fd; // (bg color)
+$epnak-light-green: #f7fbf0; // (bg color sidebar)
+
+$white:    #fff !default;
+$gray-100: #f3f3f3 !default;
+$gray-200: #e9e9e9 !default;
+$gray-300: #d3d3d3 !default;
+$gray-400: #bdbdbd !default;
+$gray-500: #a6a6a6 !default;
+$gray-600: #909090 !default;
+$gray-700: #636363 !default;
+$gray-800: #4e4e4e !default;
+$gray-900: #222222 !default;
+$black:    #000 !default;
+
+// 2) map your custom colors on Bootstrap/PAD+ theme colors
+// Override Bootstrap theme colors
+$primary:       $epnak-green;
+$secondary:     $gray-800;
+$success:       $epnak-green;
+$info:          $epnak-info;
+$warning:       $epnak-warning;
+$danger:        $epnak-danger;
+$light:         $gray-100;
+$dark:          $gray-800;
+// Custom PAD+ theme colors
+$padinvert:     $white; // used as front color when $primary is background color (e.g. hover state)
+$padlink:       $epnak-link;
+$padborder:     $epnak-border;
+$padsidebarbg:  $epnak-light-green;
+
+// Initialize theme-colors map with PAD customs
+$theme-colors: (
+    padinvert:      $padinvert,
+    padlink:        $padlink,
+    padborder:      $padborder,
+    padsidebarbg:   $padsidebarbg
+);
+
+// Body
+
+$body-bg:    $white !default;
+$body-color: $gray-900 !default;
+
+
+// Links
+
+$link-color: $padlink;
+
+// Typography
+
+// these are the default from Boost + Bootstrap
+// $font-size-base: 0.9375rem !default; // body
+// $small-font-size: 80% !default; // secondary text 0.75rem
+
+$h1-font-size: 2.25rem !default;
+$h2-font-size: 1.75rem !default;
+$h3-font-size: 1.5rem !default;
+$h4-font-size: 1.125rem !default;
+$h5-font-size: 1rem !default;
+$h6-font-size: 1rem !default;
+
+$headings-line-height: 1.5 !default;
