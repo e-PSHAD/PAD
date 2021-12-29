@@ -70,7 +70,7 @@
         </form>
     </div>
     <a
-        class="btn btn-open"
+        class="btn btn-open mr-3"
         data-toggle="collapse"
         data-action="opensearch"
         href="#searchform-navbar"
@@ -78,8 +78,7 @@
         aria-expanded="false"
         aria-controls="searchform-navbar"
     >
-        {{#pix}} a/search, core {{/pix}}
-        <span class="sr-only">{{#str}} togglesearch {{/str}}</span>
+        <i class="icon navbar-icon fa fa-search fa-fw " title="{{#str}} togglesearch {{/str}}" aria-label="{{#str}} togglesearch {{/str}}"></i>
     </a>
 </div>
 
@@ -113,4 +112,35 @@ function(
         input.focus();
     });
 });
+
+var container = document.querySelector("#searchinput-navbar-{{uniqid}}");
+var searchForm = container.querySelector('#searchform-navbar');
+var openSearch = container.querySelector('[data-action="opensearch"]');
+
+function displaySearchBar(x) {
+  if (x.matches) { // If media query matches
+    searchForm.classList.remove('show');
+  } else {
+    searchForm.classList.add('show');
+  }
+}
+
+var screenWidthForSearchBar = window.matchMedia("(max-width: 992px)");
+
+displaySearchBar(screenWidthForSearchBar);
+screenWidthForSearchBar.addListener(displaySearchBar);
+
+function displaySearchButton(x) {
+  if (x.matches) { // If media query matches
+    openSearch.classList.remove('d-none');
+  } else {
+    openSearch.classList.add('d-none');
+  }
+}
+
+var screenWidthForSearchButton = window.matchMedia("(max-width: 993px)");
+
+displaySearchButton(screenWidthForSearchButton);
+screenWidthForSearchButton.addListener(displaySearchButton);
+
 {{/js}}

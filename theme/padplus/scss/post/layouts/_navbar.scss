@@ -4,6 +4,11 @@
 
 .navbar-icon {
     @include font-size(1.3rem);
+    color: $navbar-light-color;
+
+    @include hover-focus() {
+      color: $navbar-light-hover-color;
+    }
 }
 
 .navbar.fixed-top .dropdown .dropdown-menu {

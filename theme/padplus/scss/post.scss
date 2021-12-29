@@ -1,5 +1,11 @@
 // Post SCSS is useful for defining full CSS rules. Because they are included last, they override any previous matching selector with the same specificity.
 
+// Common
 @import 'post/typography.scss';
+
+// Components
 @import 'post/components/buttons.scss';
+@import 'post/components/searchbar.scss';
+
+// Layouts
 @import 'post/layouts/navbar.scss';

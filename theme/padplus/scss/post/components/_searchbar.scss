@@ -1,0 +1,53 @@
+#searchbar-container {
+    .simplesearchform .form-control {
+        background-image:url([[pix:theme_padplus|search-padplus]]);
+        background-repeat: no-repeat;
+        background-position: 98%;
+        border: 1px solid #CED4DA;
+        border-radius: 4px;
+    }
+
+    .form-inline .input-group {
+        width: 400px;
+    }
+
+    // Icons
+    .fa-remove:before, .fa-close:before, .fa-times:before {
+        font-size: 22px;
+    }
+
+    .simplesearchform .btn-close {
+        color: $navbar-light-color;
+        position: absolute;
+        right: -40px;
+
+        @include hover-focus() {
+            color: $navbar-light-hover-color;
+        }
+    }
+
+    .input-group-append {
+        display: none;
+    }
+
+    .simplesearchform .btn-open {
+        color: black;
+        &:hover {
+            color: #E2E6EA;
+        }
+    }
+}
+
+// Responsive
+@media screen and (min-width: 993px) {
+    #searchbar-container {
+        margin-left: auto;
+        margin-right: auto;
+
+        .simplesearchform {
+            a {
+                display: none;
+            }
+        }
+    }
+}
