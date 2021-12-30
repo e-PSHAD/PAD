@@ -17,22 +17,3 @@
 .userbutton .usertext {
     color: #0048D3;
 }
-
-// Search bar
-.form-control {
-    background-image:url([[pix:theme_padplus|search-padplus]]);
-    background-repeat: no-repeat;
-    background-position: 98%;
-    border: 1px solid #CED4DA;
-    border-radius: 4px;
-}
-
-.simplesearchform {
-    @media (max-width: 1024px) {
-        display: none;
-    }
-}
-
-.form-inline .input-group {
-    width: 400px;
-}
