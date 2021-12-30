@@ -1,3 +1,34 @@
 #nav-drawer {
     background-color: #F8FBF0;
+    padding-right: 0px;
+    padding-top: 50px;
+    padding-left: 10px;
+    border-right: solid 1px #CED4DA;
+}
+
+.list-group-item {
+    background-color: #F8FBF0;
+    border: 0px;
+    border-right: solid 4px #F8FBF0;
+    font-size: 16px;
+    height: 56px;
+    line-height: 24px;
+    transition: all ease 0.1s;
+    &:hover {
+        background-color: #F8FBF0;
+        color: #4C8341;
+        font-weight: 700;
+        border-right: solid 4px #4C8341;
+    }
+}
+
+.list-group-item.active {
+    background-color: #F8FBF0;
+    color: #4C8341;
+    font-weight: 700;
+    border-right: solid 4px;
+}
+
+.media-body {
+    margin-left: 6px;
 }
