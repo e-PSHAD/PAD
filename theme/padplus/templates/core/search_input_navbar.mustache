@@ -33,7 +33,7 @@
     }
 }}
 <div id="searchinput-navbar-{{uniqid}}" class="simplesearchform">
-    <div class="collapse show" id="searchform-navbar">
+    <div class="collapse" id="searchform-navbar">
         <form autocomplete="off" action="{{{ action }}}" method="get" accept-charset="utf-8" class="mform form-inline searchform-navbar">
             {{#hiddenfields}}
                 <input type="hidden" name="{{ name }}" value="{{ value }}">
@@ -45,15 +45,42 @@
                     <input type="text"
                        id="searchinput-{{uniqid}}"
                        class="form-control withclear"
-                       placeholder="Rechercher sur la plateforme"
+                       placeholder="{{{ searchstring }}}"
                        aria-label="{{{ searchstring }}}"
                        name="{{{ inputname }}}"
                        data-region="input"
                        autocomplete="off"
                     >
+                    <a class="btn btn-close"
+                        data-action="closesearch"
+                        data-toggle="collapse"
+                        href="#searchform-navbar"
+                        role="button"
+                    >
+                        {{#pix}} e/cancel, core {{/pix}}
+                        <span class="sr-only">{{#str}} closebuttontitle {{/str}}</span>
+                    </a>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-submit" data-action="submit">
+                        {{#pix}} a/search, core {{/pix}}
+                        <span class="sr-only">{{{ searchstring }}}</span>
+                    </button>
+                </div>
             </div>
         </form>
     </div>
+    <a
+        class="btn btn-open"
+        data-toggle="collapse"
+        data-action="opensearch"
+        href="#searchform-navbar"
+        role="button"
+        aria-expanded="false"
+        aria-controls="searchform-navbar"
+    >
+        {{#pix}} a/search, core {{/pix}}
+        <span class="sr-only">{{#str}} togglesearch {{/str}}</span>
+    </a>
 </div>
 
 {{#js}}
@@ -86,4 +113,46 @@ function(
         input.focus();
     });
 });
+
+var searchBarContainer = document.querySelector("#searchbar-container");
+var container = document.querySelector("#searchinput-navbar-{{uniqid}}");
+var searchForm = container.querySelector('#searchform-navbar');
+var openSearch = container.querySelector('[data-action="opensearch"]');
+
+function displaySearchBar(x) {
+  if (x.matches) { // If media query matches
+    searchForm.classList.remove('show');
+    searchBarContainer.classList.remove('mx-auto');
+  } else {
+    searchBarContainer.classList.add('mx-auto');
+    searchForm.classList.add('show');
+  }
+}
+
+var screenWidthForSearchBar = window.matchMedia("(max-width: 992px)");
+
+displaySearchBar(screenWidthForSearchBar);
+screenWidthForSearchBar.addListener(displaySearchBar);
+
+function displaySearchButton(x) {
+  if (x.matches) { // If media query matches
+    openSearch.classList.remove('d-none');
+    searchBarContainer.classList.add('ml-auto');
+  } else {
+    openSearch.classList.add('d-none');
+    searchBarContainer.classList.remove('ml-auto');
+  }
+}
+
+var screenWidthForSearchButton = window.matchMedia("(max-width: 993px)");
+
+displaySearchButton(screenWidthForSearchButton);
+screenWidthForSearchButton.addListener(displaySearchButton);
+
+{{! 
+4. Mover la X a la parte derecha de la pantalla. Lo de la X no lo veo muy grave, así que por el momento no es prioritario
+5. Quitar la lupa o hacer que solo aparezca en esta barra de búsqueda 
+6. El hover de la sidebar
+7. Hacer push 
+
 {{/js}}

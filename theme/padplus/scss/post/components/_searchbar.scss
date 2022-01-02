@@ -1,5 +1,4 @@
-// Search bar
-.form-control {
+.simplesearchform .form-control {
     background-image:url([[pix:theme_padplus|search-padplus]]);
     background-repeat: no-repeat;
     background-position: 98%;
@@ -7,12 +6,43 @@
     border-radius: 4px;
 }
 
-.simplesearchform {
-    @media (max-width: 1024px) {
-        display: none;
-    }
-}
 
 .form-inline .input-group {
     width: 400px;
+}
+
+// Icon x
+.fa-remove:before, .fa-close:before, .fa-times:before {
+    font-size: 22px;
+}
+
+.simplesearchform .btn-close {
+    color: black;
+    position: absolute;
+    right: -40px;
+    &:hover {
+        color: #E2E6EA;
+    }
+}
+
+// Icon search
+.input-group-append {
+    display: none;
+}
+
+.navbar.navbar-light .simplesearchform .btn-open {
+    color: black;
+    &:hover {
+        color: #E2E6EA;
+    }
+}
+
+// Responsive
+
+@media screen and (min-width: 993px) {
+    .simplesearchform {
+        a {
+            display: none;
+        }
+    }
 }
