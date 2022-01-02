@@ -11,7 +11,7 @@
     width: 400px;
 }
 
-// Icon x
+// Icons
 .fa-remove:before, .fa-close:before, .fa-times:before {
     font-size: 22px;
 }
@@ -25,7 +25,6 @@
     }
 }
 
-// Icon search
 .input-group-append {
     display: none;
 }
@@ -38,11 +37,14 @@
 }
 
 // Responsive
-
 @media screen and (min-width: 993px) {
     .simplesearchform {
         a {
             display: none;
         }
+    }
+    #searchbar-container {
+        margin-left: auto;
+        margin-right: auto;
     }
 }

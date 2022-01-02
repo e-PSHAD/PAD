@@ -114,7 +114,6 @@ function(
     });
 });
 
-var searchBarContainer = document.querySelector("#searchbar-container");
 var container = document.querySelector("#searchinput-navbar-{{uniqid}}");
 var searchForm = container.querySelector('#searchform-navbar');
 var openSearch = container.querySelector('[data-action="opensearch"]');
@@ -122,9 +121,7 @@ var openSearch = container.querySelector('[data-action="opensearch"]');
 function displaySearchBar(x) {
   if (x.matches) { // If media query matches
     searchForm.classList.remove('show');
-    searchBarContainer.classList.remove('mx-auto');
   } else {
-    searchBarContainer.classList.add('mx-auto');
     searchForm.classList.add('show');
   }
 }
@@ -137,10 +134,8 @@ screenWidthForSearchBar.addListener(displaySearchBar);
 function displaySearchButton(x) {
   if (x.matches) { // If media query matches
     openSearch.classList.remove('d-none');
-    searchBarContainer.classList.add('ml-auto');
   } else {
     openSearch.classList.add('d-none');
-    searchBarContainer.classList.remove('ml-auto');
   }
 }
 
@@ -149,10 +144,4 @@ var screenWidthForSearchButton = window.matchMedia("(max-width: 993px)");
 displaySearchButton(screenWidthForSearchButton);
 screenWidthForSearchButton.addListener(displaySearchButton);
 
-{{! 
-4. Mover la X a la parte derecha de la pantalla. Lo de la X no lo veo muy grave, así que por el momento no es prioritario
-5. Quitar la lupa o hacer que solo aparezca en esta barra de búsqueda 
-6. El hover de la sidebar
-7. Hacer push 
- }}
 {{/js}}
