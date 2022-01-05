@@ -9,12 +9,12 @@
   font-style: normal;
   font-weight: 400;
   font-display: $fa-font-display;
-  src: url('#{$fa-font-path}/fa-regular-400.eot');
-  src: url('#{$fa-font-path}/fa-regular-400.eot?#iefix') format('embedded-opentype'),
-  url('#{$fa-font-path}/fa-regular-400.woff2') format('woff2'),
-  url('#{$fa-font-path}/fa-regular-400.woff') format('woff'),
-  url('#{$fa-font-path}/fa-regular-400.ttf') format('truetype'),
-  url('#{$fa-font-path}/fa-regular-400.svg#fontawesome') format('svg');
+  src: url('[[font:core|fa-regular-400.eot]]?v=#{$fa-version}');
+  src: url('[[font:core|fa-regular-400.eot]]?#iefix') format('embedded-opentype'),
+  url('[[font:core|fa-regular-400.woff2]]?v=#{$fa-version}') format('woff2'),
+  url('[[font:core|fa-regular-400.woff]]?v=#{$fa-version}') format('woff'),
+  url('[[font:core|fa-regular-400.ttf]]?v=#{$fa-version}') format('truetype'),
+  url('[[font:core|fa-regular-400.svg]]?v=#{$fa-version}#fontawesome') format('svg');
 }
 
 .far {

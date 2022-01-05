@@ -107,9 +107,9 @@
   </library>
   <library>
     <location>scss/fontawesome</location>
-    <name>Font Awesome by Dave Gandy - http://fontawesome.io</name>
+    <name>Font Awesome by @fontawesome - https://fontawesome.com</name>
     <license>(MIT)</license>
-    <version>4.7.0</version>
+    <version>5.15.4</version>
     <licenseversion></licenseversion>
   </library>
 </libraries>
