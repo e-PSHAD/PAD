@@ -29,3 +29,5 @@ $string['choosereadme'] = 'Theme PAD+ is a child theme of Boost.';
 $string['pluginname'] = 'PAD+';
 // We need to include a lang string for each block region.
 $string['region-side-pre'] = 'Right';
+
+$string['allcourses-menu'] = 'All courses';

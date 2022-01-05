@@ -54,3 +54,21 @@ function theme_padplus_get_main_scss_content($theme) {
     // Combine them together.
     return $pre . "\n" . $scss . "\n" . $post;
 }
+
+// Helper function to fill target nav from source nav by selecting given menu keys.
+function fill_nav_from_menu_keys(flat_navigation $source, flat_navigation $target, array $menukeys) {
+    foreach ($menukeys as $menukey) {
+        $menuitem = $source->get($menukey);
+        if (is_object($menuitem)) {
+            $target->add($menuitem);
+        }
+    }
+}
+
+// Helper function to fill target nav from source nav by selecting menu items by type (e.g. navigation_node::TYPE_COURSE).
+function fill_nav_from_menu_type(flat_navigation $source, flat_navigation $target, int $type) {
+    $menuitems = $source->type($type);
+    foreach ($menuitems as $menuitem) {
+        $target->add($menuitem);
+    }
+}

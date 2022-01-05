@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A two column layout for the boost theme.
+ * A two column layout for the padplus theme, from boost theme.
  *
- * @package   theme_boost
- * @copyright 2016 Damyon Wiese
+ * @package   theme_padplus
+ * @copyright 2022 Epnak
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -54,7 +54,58 @@ $templatecontext = [
 ];
 
 $nav = $PAGE->flatnav;
-$templatecontext['flatnavigation'] = $nav;
-$templatecontext['firstcollectionlabel'] = $nav->get_collectionlabel();
-echo $OUTPUT->render_from_template('theme_boost/columns2', $templatecontext);
 
+/*** PADPLUS: sidemenu customisation */
+// We rebuild the side menu by selecting and reordering menu items from the default flat navigation.
+$padnav = new flat_navigation($PAGE);
+
+// Group: global site navigation. Options left out: 'home', 'privatefiles', 'contentbank'.
+fill_nav_from_menu_keys($nav, $padnav, ['myhome', 'calendar']);
+// Always disable divider on myhome since it will always be first.
+$myhome = $padnav->get('myhome');
+if (is_object($myhome)) {
+    $myhome->set_showdivider(false);
+}
+
+// @codingStandardsIgnoreStart
+// Usual 'my courses' menu items in main pages.
+// fill_nav_from_menu_keys($nav, $padnav, ['mycourses']);
+// fill_nav_from_menu_type($nav, $padnav, navigation_node::TYPE_COURSE);
+// fill_nav_from_menu_keys($nav, $padnav, ['courseindexpage']);
+// @codingStandardsIgnoreEnd
+
+// Group: site administration.
+fill_nav_from_menu_keys($nav, $padnav, ['sitesettings']);
+
+// Custom 'all courses' item - only for users with category management capability (admin, manager).
+// Check at system level for now, might need to change with access at healthcare facility (category) level.
+$context = context_system::instance();
+if (has_capability('moodle/category:manage', $context)) {
+    $allcoursesnode = navigation_node::create(
+        get_string('allcourses-menu', 'theme_padplus'),
+        new moodle_url('/course/index.php'),
+        navigation_node::TYPE_CUSTOM,
+        null,
+        'allcourses',
+        new pix_icon('i/course', '')
+    );
+    $padnav->add(new flat_navigation_node($allcoursesnode, 0));
+}
+
+// Group: current course and its sections. Options left out: 'badgesview', 'competencies'.
+fill_nav_from_menu_keys($nav, $padnav, ['coursehome', 'participants', 'grades']);
+fill_nav_from_menu_type($nav, $padnav, navigation_node::TYPE_SECTION);
+// Enable divider on coursehome since it comes after the main menu now.
+$coursehome = $padnav->get('coursehome');
+if (is_object($coursehome)) {
+    $coursehome->set_showdivider(true, $coursehome->text);
+}
+
+// Group: add block.
+fill_nav_from_menu_keys($nav, $padnav, ['addblock']);
+
+$templatecontext['flatnavigation'] = $padnav;
+$templatecontext['firstcollectionlabel'] = $padnav->get_collectionlabel();
+/*** PADPLUS END */
+
+echo $OUTPUT->render_from_template('theme_boost/columns2', $templatecontext);
