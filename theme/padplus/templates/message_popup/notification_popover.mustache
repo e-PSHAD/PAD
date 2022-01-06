@@ -44,7 +44,7 @@
 
     {{$togglelabel}}{{#str}} shownotificationwindownonew, message {{/str}}{{/togglelabel}}
     {{$togglecontent}}
-        {{#pix}} i/notifications, core, {{#str}} togglenotificationmenu, message {{/str}} {{/pix}}
+        <i class="icon navbar-icon far fa-bell fa-fw " title="{{#str}} togglenotificationmenu, message {{/str}}" aria-label="{{#str}} togglenotificationmenu, message {{/str}}"></i>
         <div class="count-container {{^unreadcount}}hidden{{/unreadcount}}" data-region="count-container"
         aria-label="{{#str}} unreadnotifications, core_message, {{unreadcount}} {{/str}}">{{unreadcount}}</div>
     {{/togglecontent}}

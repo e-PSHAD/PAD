@@ -132,11 +132,13 @@ class theme_padplus_core_renderer extends core_renderer {
             );
         }
 
+        /*** PADPLUS: switch avatar and username in user menu */
         $returnstr .= html_writer::span(
-            html_writer::span($usertextcontents, 'usertext mr-1') .
-            html_writer::span($avatarcontents, $avatarclasses),
+            html_writer::span($avatarcontents, $avatarclasses) .
+            html_writer::span($usertextcontents, 'usertext mr-1'),
             'userbutton'
         );
+        /*** PADPLUS END */
 
         // Create a divider (well, a filler).
         $divider = new action_menu_filler();

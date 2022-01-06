@@ -36,26 +36,11 @@
 
 }}
 <div class="popover-region collapsed" data-region="popover-region-messages">
-    <a id="message-drawer-toggle-{{uniqid}}" class="nav-link d-inline-block popover-region-toggle position-relative icon-no-margin" href="#"
+    <a id="message-drawer-toggle-{{uniqid}}" class="nav-link d-inline-block popover-region-toggle position-relative icon-no-margin mx-3" href="{{{ config.wwwroot }}}/message/index.php"
             role="button">
-        {{#pix}} t/message, core, {{#str}} togglemessagemenu, message {{/str}} {{/pix}}
+        <i class="icon navbar-icon far fa-comment fa-fw " title="{{#str}} togglemessagemenu, message {{/str}}" aria-label="{{#str}} togglemessagemenu, message {{/str}}"></i>
         <div class="count-container {{^unreadcount}}hidden{{/unreadcount}}" data-region="count-container"
         aria-label="{{#str}} unreadconversations, core_message, {{unreadcount}} {{/str}}">{{unreadcount}}</div>
     </a>
     {{> core_message/message_jumpto }}
 </div>
-
-{{#js}}
-require(
-[
-    'jquery',
-    'core_message/message_popover'
-],
-function(
-    $,
-    Popover
-) {
-    var toggle = $('#message-drawer-toggle-{{uniqid}}');
-    Popover.init(toggle);
-});
-{{/js}}
