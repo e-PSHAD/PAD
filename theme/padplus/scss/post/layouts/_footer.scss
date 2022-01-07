@@ -1,0 +1,13 @@
+.pad-footer {
+    color: $body-color;
+    background-color: gray("100");
+}
+
+#page-footer a {
+    color: $body-color;
+}
+
+.pad-footer-list {
+    display: flex;
+    justify-content: space-between;
+}

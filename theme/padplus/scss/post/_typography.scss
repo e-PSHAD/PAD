@@ -10,3 +10,7 @@ h3 {
 h5 {
     font-weight: $font-weight-bold;
 }
+
+.secondary-text {
+    color: theme-color("secondary");
+}

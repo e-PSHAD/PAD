@@ -106,6 +106,17 @@ fill_nav_from_menu_keys($nav, $padnav, ['addblock']);
 
 $templatecontext['flatnavigation'] = $padnav;
 $templatecontext['firstcollectionlabel'] = $padnav->get_collectionlabel();
+
+/*** PADPLUS: footer configuration */
+$padfooter = [
+    'tutoriallink' => $CFG->padtutorial,
+    'supportlink' => $CFG->padsupport,
+    'legalnoticeslink' => $CFG->padmentionslegales,
+    'privacylink' => $CFG->padconfidentialite,
+    'contactlink' => $CFG->padcontact,
+    'copyright' => $CFG->padcopyright
+];
+$templatecontext['padfooter'] = $padfooter;
 /*** PADPLUS END */
 
 echo $OUTPUT->render_from_template('theme_boost/columns2', $templatecontext);
