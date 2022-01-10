@@ -55,7 +55,7 @@
         ]
     }
 }}
-<nav class="list-group" aria-label="{{firstcollectionlabel}}">
+<nav class="list-group" aria-label="{{firstcollectionlabel}}" role="navigation">
     <ul>
     {{# flatnavigation }}
         {{#showdivider}}
@@ -64,7 +64,7 @@
             <div class="flat-menu-divider">
                 <hr />
             </div>
-            <nav class="list-group mt-1" aria-label="{{get_collectionlabel}}">
+            <nav class="list-group mt-1" aria-label="{{get_collectionlabel}}" role="navigation">
             <ul>
         {{/showdivider}}
         {{#action}}

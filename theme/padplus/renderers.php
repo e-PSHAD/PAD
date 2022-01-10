@@ -16,6 +16,12 @@
 
 class theme_padplus_core_renderer extends core_renderer {
 
+    /*** PADPLUS: set main region for accessibility */
+    public function main_content() {
+        return '<main role="main">'.$this->unique_main_content_token.'</main>';
+    }
+    /*** PADPLUS END */
+
     public function user_menu($user = null, $withlinks = null) {
         global $USER, $CFG;
         require_once($CFG->dirroot . '/user/lib.php');
