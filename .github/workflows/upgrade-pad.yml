@@ -42,6 +42,11 @@ jobs:
           ssh ${{ env.SSH_CONNECTION }}
           'sudo -u ${{ env.WEBUSER }} /usr/bin/php ${{ env.INSTALL_PATH }}/admin/cli/upgrade.php --non-interactive'
 
+      - name: Purge all Moodle caches
+        run: >
+          ssh ${{ env.SSH_CONNECTION }}
+          'sudo -u ${{ env.WEBUSER }} /usr/bin/php ${{ env.INSTALL_PATH }}/admin/cli/purge_caches.php'
+
       - name: Disable maintenance mode on server
         run: >
           ssh ${{ env.SSH_CONNECTION }}
