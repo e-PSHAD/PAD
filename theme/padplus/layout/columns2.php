@@ -125,11 +125,11 @@ $templatecontext['firstcollectionlabel'] = $padnav->get_collectionlabel();
 
 /*** PADPLUS: footer configuration */
 $padfooter = [
-    'tutoriallink' => $CFG->padtutorial,
+    'helplink' => $CFG->padaide,
     'supportlink' => $CFG->padsupport,
+    'contactlink' => $CFG->padcontact,
     'legalnoticeslink' => $CFG->padmentionslegales,
     'privacylink' => $CFG->padconfidentialite,
-    'contactlink' => $CFG->padcontact,
     'copyright' => $CFG->padcopyright
 ];
 $templatecontext['padfooter'] = $padfooter;

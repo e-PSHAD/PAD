@@ -5,9 +5,96 @@
 
 #page-footer a {
     color: $body-color;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
-.pad-footer-list {
-    display: flex;
-    justify-content: space-between;
+#page-footer {
+    border-top: 2px solid $epnak-green;
+    nav {
+        height: 64px;
+        img {
+            max-height: 35px;
+        }
+        ul {
+            display: flex;
+            justify-content: space-between;
+            .page-footer-subgroup-left li:first-child {
+                    margin: 0px;
+            }
+            .page-footer-subgroup-left, .page-footer-subgroup-right {
+                align-items: center;
+                display: flex;
+                height: 64px;
+                li {
+                    margin: 0px 20px;
+                }
+            }
+        }
+    }
+
+    // Responsive
+    // We needed to overwrite the breakpoint boost rules.
+    @media (min-width: 1200px) {
+        .container {
+            max-width: 100%;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .container {
+            max-width: 100%;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .container {
+            max-width: 100%;
+        }
+    }
+
+    @media (min-width: 576px) {
+        .container {
+            max-width: 100%;
+        }
+    }
+
+    // We have divided our responsive into 3 breakpoints: 1 line, 2 lines (each subgroup is a line) & column.
+    @media (max-width: 1200px) {
+        nav {
+            height: unset !important;
+            ul {
+                flex-direction: column;
+                .page-footer-subgroup-left, .page-footer-subgroup-right {
+                    justify-content: center;
+                }
+                .page-footer-subgroup-right {
+                    margin-top: -12px;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        nav {
+            height: unset !important;
+            .page-footer-subgroup-left, .page-footer-subgroup-right {
+                height: unset !important;
+                flex-direction: column;
+                li {
+                    height: 47px;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+            .page-footer-subgroup-left li:first-child {
+                margin-top: 11px !important;
+            }
+            .page-footer-subgroup-right {
+                margin-top: 0 !important;
+            }
+        }
+    }
 }
