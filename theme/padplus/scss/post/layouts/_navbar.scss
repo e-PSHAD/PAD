@@ -4,10 +4,19 @@
 
 .navbar-icon {
     @include font-size(1.3rem);
-    color: $navbar-light-color;
+    color: $body-color;
 
     @include hover-focus() {
-      color: $navbar-light-hover-color;
+        -webkit-text-stroke: 0.6px $body-color !important;
+    }
+}
+
+#searchbar-container {
+    .simplesearchform .btn .icon {
+        -webkit-text-stroke: 0.6px $white; //It is not a standard attribute, it allows us to make the icon bold when we hover it. To replace
+        &:hover {
+            -webkit-text-stroke: 0.1px $body-color !important;
+        }
     }
 }
 

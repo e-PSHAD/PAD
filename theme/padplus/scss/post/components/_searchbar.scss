@@ -1,14 +1,23 @@
 #searchbar-container {
     .simplesearchform .form-control {
-        background-image:url([[pix:theme_padplus|search-padplus]]);
-        background-repeat: no-repeat;
-        background-position: 98%;
         border: 1px solid #CED4DA;
         border-radius: 4px;
     }
-
+    
     .form-inline .input-group {
         width: 400px;
+        .fa-search:before { 
+            color: $body-color;
+            font-size: 1.2rem;
+            position: absolute;
+            right: 35px;
+            top: 9px;
+            transition: all 0.2s ease-in-out;
+            z-index: 3;
+        }
+        .form-control:focus + .fa-search:before {
+                color: theme-color("primary");
+        }
     }
 
     // Icons
@@ -48,6 +57,14 @@
             a {
                 display: none;
             }
+        }
+    }
+}
+
+@media screen and (max-width: 499px) {
+    #searchbar-container {
+        .form-inline .input-group {
+            width: 100%;
         }
     }
 }
