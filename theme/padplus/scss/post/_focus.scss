@@ -1,0 +1,38 @@
+// Buttons
+.btn-outline-secondary:focus {
+    box-shadow: 0 0 0 0.2rem theme-color("primary") !important;
+    outline: 0.2rem solid theme-color("primary") !important;
+}
+
+.custom-select:focus {
+    box-shadow: 0 0 0 0.2rem theme-color("primary") !important;
+}
+
+.btn-secondary:focus {
+    outline: 0.2rem solid theme-color("primary") !important;
+}
+
+// Links
+a:not([class]):focus {
+    background-color: transparent;
+    box-shadow: 0 0 0 0.2rem theme-color("primary") !important;
+}
+
+
+.arrow_link:focus {
+    background-color: transparent;
+    box-shadow: 0 0 0 0.2rem theme-color("primary") !important;
+}
+
+// Links footer
+#page-footer a:not([class]):focus {
+    background-color: transparent;
+}
+
+a:focus {
+    box-shadow: 0 0 0 0.2rem theme-color("primary") !important;
+}
+
+a:focus-visible {
+    outline: none !important;
+}
