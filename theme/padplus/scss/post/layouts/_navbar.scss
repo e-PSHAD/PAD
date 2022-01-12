@@ -2,6 +2,12 @@
     margin-left: 15px;
 }
 
+.navbar.fixed-top .dropdown .dropdown-menu {
+    border-radius: 4px;
+    box-shadow: 0px 8px 8px rgba(56, 69, 76, 0.04), 0px 4px 4px rgba(56, 69, 76, 0.04);
+}
+
+// Icons
 .navbar-icon {
     @include font-size(1.3rem);
     color: $body-color;
@@ -20,7 +26,19 @@
     }
 }
 
-.navbar.fixed-top .dropdown .dropdown-menu {
-    border-radius: 4px;
-    box-shadow: 0px 8px 8px rgba(56, 69, 76, 0.04), 0px 4px 4px rgba(56, 69, 76, 0.04);
+// Popovers
+.popover-region-toggle::after {
+    bottom: -6px;
+}
+
+.navbar .popover-region-container {
+    top: 2.85rem;
+}
+
+.popover-region-toggle::before {
+    bottom: -6px;
+}
+
+.navbar-expand .navbar-nav .dropdown-menu {
+    top: 42px;
 }
