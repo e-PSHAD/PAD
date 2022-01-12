@@ -9,7 +9,6 @@ $epnak-link:        #0877D9;
 $epnak-info:        #234395;
 $epnak-warning:     #b34000;
 $epnak-danger:      #ac0808;
-$epnak-border:      #d8d8d8;
 $epnak-light-blue:  #eff4fd; // (bg color)
 $epnak-light-green: #f7fbf0; // (bg color sidebar)
 
@@ -38,7 +37,7 @@ $dark:          $gray-800;
 // Custom PAD+ theme colors
 $padinvert:     $white; // used as front color when $primary is background color (e.g. hover state)
 $padlink:       $epnak-link;
-$padborder:     $epnak-border;
+$padborder:     $gray-300;
 $padsidebarbg:  $epnak-light-green;
 
 // Initialize theme-colors map with PAD customs
