@@ -9,8 +9,9 @@
 
     .list-group-item {
         background-color: theme-color("padsidebarbg");
-        border: 0px;
+        border: 4px solid transparent;
         color: $body-color;
+        display: flex;
         height: 56px;
         line-height: 24px;
         padding-left: 30px;
@@ -20,13 +21,28 @@
             color: theme-color("padinvert");
             text-decoration: underline;
         }
+        &:focus {
+            border-color: theme-color("primary") !important;
+            box-shadow: none !important;
+        }
+        &:first-child {
+            display: flex;
+            align-items: center;
+        }
     }
-
+    
     .list-group-item.active {
         background-color: theme-color("padsidebarbg");
+        border-bottom: 0px solid transparent;
+        border-right: solid 4px theme-color("primary");
+        border-top: 0px solid transparent;
         color: theme-color("primary");
         font-weight: $font-weight-bold;
-        border-right: solid 4px theme-color("primary");
+        margin: 1px 0px;
+        &:focus {
+            border: 4px solid theme-color("primary");
+            box-shadow: none !important;
+        }
     }
 }
 
@@ -42,4 +58,13 @@
 
 .media-body {
     margin-left: 6px;
+}
+
+// Icons
+.fa.fa-tachometer:before {
+    content: "\f009" !important; // icon fa-th-large fontawesome
+}
+
+.fa.fa-graduation-cap:before {
+    content: "\f5fd" !important; // icon layer-group fontawesome
 }
