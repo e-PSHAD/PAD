@@ -1,0 +1,22 @@
+// Override dashboard style (/my/index page)
+#page {
+    background-color: $white;
+}
+
+.card {
+    border: none;
+}
+
+#page-my-index {
+    // hide avater and messaging button in My Dashboard header
+    .page-header-image,
+    .header-button-group {
+        display: none;
+    }
+
+    #page-header {
+        .btn-secondary {
+            margin-left: 22px;
+        }
+    }
+}

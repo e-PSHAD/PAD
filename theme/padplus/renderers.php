@@ -213,4 +213,28 @@ class theme_padplus_core_renderer extends core_renderer {
         );
     }
 
+    private function is_dashboard_page() {
+        $pagepath = $this->page->url->get_path();
+        return $pagepath === '/my/index.php';
+    }
+
+    /*** PADPLUS: override dashboard title for consistency and custom heading */
+    public function page_title() {
+        global $SITE;
+        if ($this->is_dashboard_page()) {
+            $strmymoodle = get_string('myhome');
+            return "$SITE->shortname: $strmymoodle";
+        }
+        return $this->page->title;
+    }
+
+    public function context_header($headerinfo = null, $headinglevel = 1) {
+        global $USER;
+        if ($this->is_dashboard_page()) {
+            $this->page->set_heading(get_string('myhome-welcome', 'theme_padplus', $USER->firstname));
+        }
+        return parent::context_header($headerinfo, $headinglevel);
+    }
+    /*** PADPLUS END */
+
 }
