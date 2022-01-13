@@ -59,9 +59,25 @@ $nav = $PAGE->flatnav;
 // We rebuild the side menu by selecting and reordering menu items from the default flat navigation.
 $padnav = new flat_navigation($PAGE);
 
-// Group: global site navigation. Options left out: 'home', 'privatefiles', 'contentbank'.
-fill_nav_from_menu_keys($nav, $padnav, ['myhome', 'calendar']);
-// Always disable divider on myhome since it will always be first.
+/* HERE BE DRAGONS.
+ * "flat navigation" in Moodle is not so flat, since there are multiple navigation elements in sidebar,
+ * one for each "collection" of items in the flat navigation list. But collections have no first-class representation
+ * in the flat navigation list. The flat navigation list contains all menu items, and the first item of each collection
+ * bears special attributes to support the collection.
+ *
+ * Rules are:
+ * For each first item of a collection in the flat navigation list :
+ * - first item should have a collectionlabel which sets the navigation label for this collection.
+ * - first item in every other collection except the first should have the divider attribute set to true
+ *   to separate navigation elements.
+ */
+
+// Group: global site navigation. Options left out: 'privatefiles', 'contentbank'.
+// Set collectionlabel on home since we always want it to come first.
+$home = $nav->get('home');
+$home->set_collectionlabel(get_string('site'));
+fill_nav_from_menu_keys($nav, $padnav, ['home', 'myhome', 'calendar']);
+// Always disable divider on myhome since it should follow home and never comes at top level in another collection.
 $myhome = $padnav->get('myhome');
 if (is_object($myhome)) {
     $myhome->set_showdivider(false);
