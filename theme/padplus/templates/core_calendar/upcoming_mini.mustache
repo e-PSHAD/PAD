@@ -44,6 +44,7 @@
             }} data-eventtype-{{normalisedeventtype}}="1"{{!
             }} data-region="event-item"{{!
         }}>
+            <div class="date" id="upcoming-events-date">{{{formattedtime}}}</div>
             <span>{{#icon}}{{#pix}} {{key}}, {{component}}, {{alttext}} {{/pix}}{{/icon}}</span>
             <a{{!
                 }} data-type="event"{{!
@@ -51,7 +52,6 @@
                 }} data-event-id="{{id}}"{{!
                 }} href="{{viewurl}}"{{!
             }}>{{{name}}}</a>
-            <div class="date">{{{formattedtime}}}</div>
             <hr>
         </div>
     {{/events}}
@@ -98,4 +98,6 @@ require([
         transitionPromise.resolve();
     });
 });
+
+
 {{/js}}

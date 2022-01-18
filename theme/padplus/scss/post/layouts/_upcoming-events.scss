@@ -1,0 +1,30 @@
+#upcoming-events-date {
+    color: $secondary;
+    font-size: 0.75rem;
+    font-weight: 400;
+    margin-bottom: 16px;
+    a {
+        color: $epnak-green !important;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+}
+
+.card-text.content.calendarwrapper {
+    border: 1px #E5E5E5 solid;
+    border-radius: 8px;
+    box-shadow: 0px 8px 8px 0px rgba(56, 69, 76, 0.04);
+    padding: 24px 16px;
+    margin-bottom: 16px;
+    div:last-child hr {
+        display: none;
+    }
+    .icon {
+        color: $secondary;
+    }
+} 
+
+.footer .gotocal {
+    display: flex;
+    justify-content: flex-end;
+}
