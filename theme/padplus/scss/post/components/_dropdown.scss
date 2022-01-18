@@ -1,3 +1,4 @@
+// Copy dropdown rule from moodle/core.scss to fix fa-icon mixin inclusion from Font Awesome 5.
 // Make links in a menu clickable anywhere in the row.
 .dropdown-item {
     a {
@@ -22,10 +23,12 @@
         align-items: center;
         &:before {
             @include fa-icon();
-            content: $fa-var-circle;
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            content: fa-content($fa-var-check);
             position: absolute;
             left: 0.4rem;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
         }
     }
 }
