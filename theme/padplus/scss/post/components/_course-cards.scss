@@ -1,0 +1,162 @@
+.dashboard-card-deck {
+    margin-top: 20px;
+}
+
+.block-recentlyaccessedcourses {
+    .dashboard-card-deck {
+        background-color: $light;
+        border-radius: 8px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+}
+
+.block-myoverview.block-cards {
+    .dropdown-toggle {
+        &:after {
+            margin-left: 10px;
+        }
+    }
+}
+
+// Card view
+.card .dashboard-card {
+    border: 1px solid theme-color("pad-border");
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px 0px rgba(56, 69, 76, 0.04);
+    min-height: 275px;
+    overflow: hidden;
+    a:first-child {
+        padding: 16px 16px 0px 16px;
+    }
+    .course-info-container {
+        a {
+            color: theme-color("pad-link") !important;
+        }
+        padding: 16px;
+        button {
+            &:focus {
+                box-shadow: 0 0 0 0.2rem $gray-200;
+            }
+        }
+        button:last-child {
+            color:  theme-color("primary") !important;
+        }
+        .text-muted {
+            color: $body-color !important;
+            font-size: $font-size-sm;
+        }
+    }
+    // Progress bar
+    .dashboard-card-footer {
+        align-items: center;
+        display: flex;
+        padding: 16px;
+        .progress {
+            background-color:  theme-color("light") !important;
+            border: 0px solid transparent !important;
+            border-radius: 6px;
+            flex-grow: 1;
+            height: 12px !important;
+            .progress-bar {
+                border-radius: 6px;
+            }
+        }
+        .small {
+            font-size: $font-size-sm;
+            margin-left: 6px;
+            strong {
+                font-weight: normal !important;
+            }
+        }
+    }
+}
+
+// List view
+.dashboard-list-course-pad {
+    margin-top: 20px;
+    .list-group-item.course-listitem {
+        border: 1px solid theme-color("pad-border");
+        border-radius: 8px;
+        box-shadow: 0px 4px 4px 0px rgba(56, 69, 76, 0.04);
+        margin-bottom: 16px;
+        a {
+            color: theme-color("pad-link") !important;
+            &:focus {
+                background-color: transparent;
+            }
+        }
+        .text-muted {
+            color: $body-color !important;
+            font-size: $font-size-sm;
+            margin-bottom: 2px;
+        }
+        .badge-info-pad {
+            margin-top: 10px;
+        }
+        // Progress bar
+        .list-course-progress-container {
+            align-items: center;
+            display: flex;
+            margin-top: 10px;
+            width: 45%;
+            .progress {
+                background-color:  theme-color("light") !important;
+                border: 0px solid transparent !important;
+                border-radius: 6px;
+                flex-grow: 1;
+                height: 12px !important;
+                .progress-bar {
+                    border-radius: 6px;
+                }
+            }
+            .small {
+                font-size: $font-size-sm;
+                margin-left: 6px;
+                strong {
+                    font-weight: normal !important;
+                }
+            }
+        }
+        // Favourite icon
+        button {
+            &:focus {
+                box-shadow: 0 0 0 0.2rem $gray-200;
+            }
+        }
+        button:last-child {
+            color:  theme-color("primary") !important;
+        }
+    }
+}
+
+// The next class allows us to force the course title to two lines, however generating issues in the focus (also solved below)
+.dashboard-card-content-pad {
+    a {
+        span {
+            display: -webkit-box;
+            white-space: normal;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        &:focus {
+            box-shadow: none !important;
+            span {
+                box-shadow: inset 0 0 0 .2rem theme-color("primary") !important;
+            }
+        }
+    }
+}
+
+// Dashboard pagination icons
+.block-recentlyaccessedcourses .pagination {
+    li {
+        a {
+            border-radius: 4px;
+            padding: 4px 6px;
+        }
+    }
+    li:last-child {
+        margin-left: 8px;
+    }
+}

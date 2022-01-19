@@ -37,14 +37,14 @@
 <div class="card dashboard-card" role="listitem"
     data-region="course-content"
     data-course-id="{{{id}}}">
-    <a href="{{viewurl}}" tabindex="-1">
+    <a href="{{viewurl}}" title="{{fullname}}" tabindex="-1">
         <div class="card-img dashboard-card-img" style='background-image: url("{{{courseimage}}}");'>
-            <span class="sr-only">{{#str}}aria:courseimage, core_course{{/str}}</span>
+            <span class="sr-only">{{fullname}}</span>
         </div>
     </a>
     <div class="card-body pr-1 course-info-container" id="course-info-container-{{id}}-{{uniqid}}">
         <div class="d-flex align-items-start">
-            <div class="w-100 text-truncate">
+            <div class="w-100 text-truncate dashboard-card-content-pad">
                 <div class="text-muted muted d-flex mb-1 flex-wrap">
                     {{$coursecategory}}{{/coursecategory}}
                     {{#showshortname}}
@@ -58,7 +58,6 @@
                     {{/showshortname}}
                 </div>
                 <a href="{{viewurl}}" class="aalink coursename mr-2">
-                    {{> core_course/favouriteicon }}
                     <span class="sr-only">
                             {{#str}}aria:coursename, core_course{{/str}}
                         </span>
@@ -66,7 +65,7 @@
                 </a>
                 {{^visible}}
                     <div class="d-flex flex-wrap">
-                        <span class="badge badge-info">{{#str}} hiddenfromstudents {{/str}}</span>
+                        <span class="badge badge-info badge-info-pad">{{#str}} hiddenfromstudents {{/str}}</span>
                     </div>
                 {{/visible}}
             </div>
