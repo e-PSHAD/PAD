@@ -30,6 +30,9 @@
                 height: 64px;
                 li {
                     margin: 0px 20px;
+                    .icon {
+                        font-size: 0.90375rem;
+                    }
                 }
             }
         }
@@ -94,6 +97,22 @@
             }
             .page-footer-subgroup-right {
                 margin-top: 0 !important;
+            }
+        }
+    }
+}
+
+// This class is called by the footer JS so that the footer responsive works correctly when the sidebar is open
+.responsive-footer-with-sidebar {
+    nav {
+        height: unset !important;
+        ul {
+            flex-direction: column;
+            .page-footer-subgroup-left, .page-footer-subgroup-right {
+                justify-content: center;
+            }
+            .page-footer-subgroup-right {
+                margin-top: -12px;
             }
         }
     }

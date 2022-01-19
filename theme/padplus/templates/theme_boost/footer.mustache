@@ -83,3 +83,27 @@
         {{{ output.standard_end_of_body_html }}}
     </div>
 </footer>
+
+{{#js}}
+    {{! Since the size of the footer changes when we use the sidebar, this function allows to adapt correctly the footer to its real size and not to the size of the screen }}
+    var burgermenuBtn = document.querySelector(".btn-burgermenu");
+    var footer = document.querySelector("#page-footer");
+    var screenWidth = window.matchMedia("(max-width: 1383px)");
+
+    function addResponsiveFooter(x) {
+        setTimeout(function(){
+            var burgermenuExpanded = document.querySelector(".btn-burgermenu").getAttribute('aria-expanded');
+            if (x.matches && burgermenuExpanded == "true") { // If media query matches
+                footer.classList.add('responsive-footer-with-sidebar');
+            } else {
+                footer.classList.remove('responsive-footer-with-sidebar');
+            }
+        }, 100);
+    }
+
+    addResponsiveFooter(screenWidth);
+    screenWidth.addListener(addResponsiveFooter);
+    burgermenuBtn.addEventListener('click', function() {
+        addResponsiveFooter(screenWidth);
+    })
+{{/js}}
