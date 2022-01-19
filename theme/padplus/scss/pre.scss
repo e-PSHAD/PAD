@@ -39,13 +39,15 @@ $padinvert:     $white; // used as front color when $primary is background color
 $padlink:       $epnak-link;
 $padborder:     $gray-300;
 $padsidebarbg:  $epnak-light-green;
+$padsecondarybg: $epnak-light-blue;
 
 // Initialize theme-colors map with PAD customs
 $theme-colors: (
     padinvert:      $padinvert,
     padlink:        $padlink,
     padborder:      $padborder,
-    padsidebarbg:   $padsidebarbg
+    padsidebarbg:   $padsidebarbg,
+    padsecondarybg: $padsecondarybg
 );
 
 // Body
