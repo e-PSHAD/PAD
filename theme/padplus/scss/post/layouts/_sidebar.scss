@@ -12,7 +12,7 @@
         border: 4px solid transparent;
         color: $body-color;
         display: flex;
-        height: 56px;
+        min-height: 56px;
         line-height: 24px;
         padding-left: 30px;
         transition: all ease 0.1s;
