@@ -1,5 +1,8 @@
 FROM moodlehq/moodle-php-apache:7.4-buster
 
+# install french locale for Moodle date/calendar translation
+RUN echo 'fr_FR.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen
+
 # Add custom PHP ini
 COPY custom-php.ini /usr/local/etc/php/conf.d
 
