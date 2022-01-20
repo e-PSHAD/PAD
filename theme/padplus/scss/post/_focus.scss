@@ -36,3 +36,27 @@ a:focus {
 a:focus-visible {
     outline: none !important;
 }
+
+// Navbar
+.empty-message:focus-visible {
+    box-shadow: inset 0 0 0 0.2rem theme-color("primary");
+    outline: none;
+}
+
+.see-all-link:focus {
+    box-shadow: none !important;
+    .popover-region-footer-container {
+        box-shadow: 0 0 0 0.2rem theme-color("primary") !important;
+        outline: none;
+    }
+}
+
+// Search
+.form-control:focus {
+    border-color: $white;
+}
+
+// Others
+.custom-select:focus {
+    border-color: $white;
+}
