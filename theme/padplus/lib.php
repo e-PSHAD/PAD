@@ -46,13 +46,19 @@ function theme_padplus_get_main_scss_content($theme) {
         $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');
     }
 
+    $whitelabel = '';
+    $whitelabelfile = $CFG->dirroot . '/theme/padplus/scss/marque-blanche.scss';
+    if (file_exists($whitelabelfile)) {
+        $whitelabel = file_get_contents($whitelabelfile);
+    }
+
     // Pre CSS - this is loaded AFTER any prescss from the setting but before the main scss.
     $pre = file_get_contents($CFG->dirroot . '/theme/padplus/scss/pre.scss');
     // Post CSS - this is loaded AFTER the main scss but before the extra scss from the setting.
     $post = file_get_contents($CFG->dirroot . '/theme/padplus/scss/post.scss');
 
     // Combine them together.
-    return $pre . "\n" . $scss . "\n" . $post;
+    return $whitelabel . "\n" . $pre . "\n" . $scss . "\n" . $post;
 }
 
 // Helper function to fill target nav from source nav by selecting given menu keys.

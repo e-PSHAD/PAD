@@ -1,14 +1,14 @@
 #nav-drawer {
     display: flex;
     flex-direction: column;
-    background-color: theme-color("padsidebarbg");
+    background-color: theme-color("sidebar-background");
     padding-right: 0px;
     padding-top: 50px;
     padding-left: 0px;
-    border-right: solid 1px theme-color("padborder");
+    border-right: solid 1px theme-color("pad-border");
 
     .list-group-item {
-        background-color: theme-color("padsidebarbg");
+        background-color: theme-color("sidebar-background");
         border: 4px solid transparent;
         color: $body-color;
         display: flex;
@@ -18,7 +18,7 @@
         transition: all ease 0.1s;
         &:hover {
             background-color: theme-color("primary");
-            color: theme-color("padinvert");
+            color: theme-color("pad-primary-text-hover");
             text-decoration: underline;
         }
         &:focus {
@@ -30,9 +30,9 @@
             align-items: center;
         }
     }
-    
+
     .list-group-item.active {
-        background-color: theme-color("padsidebarbg");
+        background-color: theme-color("sidebar-background");
         border-bottom: 0px solid transparent;
         border-right: solid 4px theme-color("primary");
         border-top: 0px solid transparent;
@@ -51,7 +51,7 @@
     align-items: center;
 
     hr {
-        border: 1px solid theme-color("padborder");
+        border: 1px solid theme-color("pad-border");
         width: 85%;
     }
 }

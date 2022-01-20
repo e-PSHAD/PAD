@@ -1,16 +1,13 @@
-h1 {
+// h2 left out for now
+h1, h3, h4, h5, h6 {
     font-weight: $font-weight-bold;
 }
 
 h3 {
-    font-weight: $font-weight-bold;
-    color: map-get($theme-colors, 'primary');
-}
-
-h5 {
-    font-weight: $font-weight-bold;
+    color: theme-color("primary");
 }
 
 .secondary-text {
+    @include font-size($font-size-sm);
     color: theme-color("secondary");
 }

@@ -1,3 +1,7 @@
+.breadcrumb {
+    @include font-size($font-size-sm);
+}
+
 .current-breadcrumb-item {
     color: $body-color;
 }

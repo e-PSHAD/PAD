@@ -1,4 +1,5 @@
 .pad-footer {
+    @include font-size($font-size-sm);
     color: $body-color;
     background-color: gray("100");
 }
@@ -12,7 +13,7 @@
 }
 
 #page-footer {
-    border-top: 2px solid $epnak-green;
+    border-top: 2px solid theme-color("primary");
     nav {
         height: 64px;
         img {

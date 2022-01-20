@@ -22,38 +22,38 @@
     }
     &:active {
         background-color: theme-color("primary") !important;
-        border-color: theme-color("padborder") !important;
+        border-color: theme-color("pad-border") !important;
     }
 }
 
 .btn.btn-secondary {
     background-color: $white;
-    border: 1px solid theme-color("padlink");
+    border: 1px solid theme-color("pad-link");
     border-radius: 4px;
-    color: theme-color("padlink");
+    color: theme-color("pad-link");
     margin-left: 22px;
     &:hover {
-        background-color: theme-color("padsecondarybg");
+        background-color: theme-color("pad-btn-secondary-bg");
     }
     &:active {
-        background-color: theme-color("padsecondarybg") !important;
-        border-color: theme-color("padlink") !important;
-        color: theme-color("padlink") !important;
+        background-color: theme-color("pad-btn-secondary-bg") !important;
+        border-color: theme-color("pad-link") !important;
+        color: theme-color("pad-link") !important;
     }
 }
 
 .btn.btn-outline-secondary {
     background-color: $white;
-    border: 1px solid theme-color("padlink");
+    border: 1px solid theme-color("pad-link");
     border-radius: 4px;
-    color: theme-color("padlink");
+    color: theme-color("pad-link");
     &:hover {
-        background-color: theme-color("padsecondarybg");
+        background-color: theme-color("pad-btn-secondary-bg");
     }
     &:active {
         background-color: $white !important;
-        border-color: theme-color("padlink") !important;
-        color: theme-color("padlink") !important;
+        border-color: theme-color("pad-link") !important;
+        color: theme-color("pad-link") !important;
     }
     .icon {
         display: none;
@@ -63,17 +63,17 @@
 // Needed to keep right color when button dropdown (course card dashboard) is active
 .show>.btn-outline-secondary.dropdown-toggle {
     background-color: $white;
-    border-color: theme-color("padlink");
-    color: theme-color("padlink");
+    border-color: theme-color("pad-link");
+    color: theme-color("pad-link");
 }
 
 // Style btn "All courses" of calendar page
 .cal_courses_flt {
     background-color: $white;
-    border: 1px solid theme-color("padlink");
+    border: 1px solid theme-color("pad-link");
     border-radius: 4px;
-    color: theme-color("padlink");
+    color: theme-color("pad-link");
     &:hover {
-        background-color: theme-color("padsecondarybg");
+        background-color: theme-color("pad-btn-secondary-bg");
     }
 }
