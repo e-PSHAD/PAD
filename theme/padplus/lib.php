@@ -26,39 +26,27 @@
 function theme_padplus_get_main_scss_content($theme) {
     global $CFG;
 
-    $scss = '';
-    $filename = !empty($theme->settings->preset) ? $theme->settings->preset : null;
-    $fs = get_file_storage();
-
-    $context = context_system::instance();
-    if ($filename == 'default.scss') {
-        // We still load the default preset files directly from the boost theme. No sense in duplicating them.
-        $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');
-    } else if ($filename == 'plain.scss') {
-        // We still load the default preset files directly from the boost theme. No sense in duplicating them.
-        $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/plain.scss');
-
-    } else if ($filename && ($presetfile = $fs->get_file($context->id, 'theme_padplus', 'preset', 0, '/', $filename))) {
-        // This preset file was fetched from the file area for theme_padplus and not theme_boost (see the line above).
-        $scss .= $presetfile->get_content();
-    } else {
-        // Safety fallback - maybe new installs etc.
-        $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');
+    // Map theme settings to SCSS variables.
+    $settingstoscssmap = [
+        'primarycolor' => 'primary',
+        'complementarycolor' => 'complementary',
+        'sidebarcolor' => 'sidebar-background'
+    ];
+    $whitelabelscss = '';
+    foreach ($settingstoscssmap as $settingkey => $scssvariable) {
+        $value = isset($theme->settings->{$settingkey}) ? $theme->settings->{$settingkey} : null;
+        if (empty($value)) {
+            continue;
+        }
+        $whitelabelscss .= "\${$scssvariable}: {$value};\n";
     }
 
-    $whitelabel = '';
-    $whitelabelfile = $CFG->dirroot . '/theme/padplus/scss/marque-blanche.scss';
-    if (file_exists($whitelabelfile)) {
-        $whitelabel = file_get_contents($whitelabelfile);
-    }
+    $prepad = file_get_contents($CFG->dirroot . '/theme/padplus/scss/pre.scss');
+    // PAD+ theme uses default Boost preset.
+    $boostpreset = file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');
+    $postpad = file_get_contents($CFG->dirroot . '/theme/padplus/scss/post.scss');
 
-    // Pre CSS - this is loaded AFTER any prescss from the setting but before the main scss.
-    $pre = file_get_contents($CFG->dirroot . '/theme/padplus/scss/pre.scss');
-    // Post CSS - this is loaded AFTER the main scss but before the extra scss from the setting.
-    $post = file_get_contents($CFG->dirroot . '/theme/padplus/scss/post.scss');
-
-    // Combine them together.
-    return $whitelabel . "\n" . $pre . "\n" . $scss . "\n" . $post;
+    return $whitelabelscss . "\n" . $prepad . "\n" . $boostpreset . "\n" . $postpad;
 }
 
 // Helper function to fill target nav from source nav by selecting given menu keys.

@@ -124,13 +124,14 @@ $templatecontext['flatnavigation'] = $padnav;
 $templatecontext['firstcollectionlabel'] = $padnav->get_collectionlabel();
 
 /*** PADPLUS: footer configuration */
+$themesettings = $PAGE->theme->settings;
 $padfooter = [
-    'helplink' => $CFG->padaide,
-    'supportlink' => $CFG->padsupport,
-    'contactlink' => $CFG->padcontact,
-    'legalnoticeslink' => $CFG->padmentionslegales,
-    'privacylink' => $CFG->padconfidentialite,
-    'copyright' => $CFG->padcopyright
+    'helplink' => $themesettings->helplink,
+    'supportlink' => $themesettings->supportlink,
+    'contactlink' => $themesettings->contactlink,
+    'legalnoticeslink' => $themesettings->legalnoticeslink,
+    'privacylink' => $themesettings->privacylink,
+    'copyright' => $themesettings->copyright
 ];
 $templatecontext['padfooter'] = $padfooter;
 /*** PADPLUS END */

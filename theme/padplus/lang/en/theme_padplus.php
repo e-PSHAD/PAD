@@ -32,3 +32,27 @@ $string['region-side-pre'] = 'Right';
 
 $string['aria-main-nav'] = 'Main navigation';
 $string['allcourses-menu'] = 'All courses';
+
+// Theme settings strings.
+$string['settings-color-title'] = 'Theme colours';
+$string['settings-color-desc'] = 'Colours that define the identity of your site';
+$string['settings-primarycolor'] = 'Primary colour';
+$string['settings-primarycolor-desc'] = 'Colour used for the main items';
+$string['settings-complementary-color'] = 'Complementary colour';
+$string['settings-complementary-color-desc'] = 'Colour used for secondary items';
+$string['settings-sidebarcolor'] = 'Sidebar background colour';
+$string['settings-sidebarcolor-desc'] = 'Colour used for sidebar background';
+$string['settings-footer'] = 'Footer';
+$string['settings-footer-desc'] = 'Configuration of footer items';
+$string['settings-helplink'] = 'Help Link';
+$string['settings-helplink-desc'] = 'URL to external site hosting PAD+ help';
+$string['settings-supportlink'] = 'Support';
+$string['settings-supportlink-desc'] = 'URL to support form PAD+';
+$string['settings-contactlink'] = 'Contact';
+$string['settings-contactlink-desc'] = 'URL to contact form PAD+';
+$string['settings-legalnoticeslink'] = 'Terms';
+$string['settings-legalnoticeslink-desc'] = 'URL to legal notices PAD+';
+$string['settings-privacylink'] = 'Privacy';
+$string['settings-privacylink-desc'] = 'URL to privacy terms PAD+';
+$string['settings-copyright'] = 'Copyright';
+$string['settings-copyright-desc'] = 'Footer information';

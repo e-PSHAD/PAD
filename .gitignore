@@ -52,4 +52,3 @@ moodle-plugin-ci.phar
 .eslintignore
 .stylelintignore
 /jsdoc
-theme/padplus/scss/marque-blanche.scss
