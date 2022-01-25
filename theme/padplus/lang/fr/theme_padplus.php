@@ -32,6 +32,7 @@ $string['region-side-pre'] = 'Droit';
 
 $string['aria-main-nav'] = 'Navigation principale';
 $string['allcourses-menu'] = 'Tous les cours';
+$string['myhome-welcome'] = 'Bienvenue  {$a}';
 
 // Theme settings strings.
 $string['settings-color-title'] = 'Couleurs du thème';

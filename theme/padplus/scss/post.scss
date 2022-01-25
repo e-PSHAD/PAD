@@ -5,8 +5,10 @@
 @import 'post/typography.scss';
 
 // Components
+@import 'post/components/badges.scss';
 @import 'post/components/breadcrumbs.scss';
 @import 'post/components/buttons.scss';
+@import 'post/components/course-cards.scss';
 @import 'post/components/dropdown.scss';
 @import 'post/components/searchbar.scss';
 
@@ -14,3 +16,6 @@
 @import 'post/layouts/footer.scss';
 @import 'post/layouts/navbar.scss';
 @import 'post/layouts/sidebar.scss';
+
+// Pages
+@import 'post/pages/dashboard.scss';

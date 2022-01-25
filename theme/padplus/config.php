@@ -70,3 +70,15 @@ $THEME->addblockposition = BLOCK_ADDBLOCK_POSITION_FLATNAV;
 $THEME->scss = function($theme) {
     return theme_padplus_get_main_scss_content($theme);
 };
+
+
+$THEME->layouts = [
+    // Override mydashboard layout from Boost:
+    // set nocontextheader to false to display page header on dashboard.
+    'mydashboard' => array(
+        'file' => 'columns2.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre',
+        'options' => array('nonavbar' => true, 'langmenu' => true, 'nocontextheader' => false)
+    )
+];

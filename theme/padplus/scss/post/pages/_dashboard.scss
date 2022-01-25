@@ -1,0 +1,53 @@
+// Override dashboard style (/my/index page)
+#page {
+    background-color: $white;
+}
+
+.card {
+    border: none;
+}
+
+#page-my-index {
+    // hide avater and messaging button in My Dashboard header
+    .page-header-image,
+    .header-button-group {
+        display: none;
+    }
+
+    #page-header {
+        .btn-secondary {
+            margin-left: 22px;
+        }
+    }
+
+    #upcoming-events-date {
+        color: $secondary;
+        font-size: $pad-mention-size;
+        font-weight: 400;
+        margin-bottom: 16px;
+        a {
+            color: theme-color("primary") !important;
+            font-size: $pad-mention-size;
+            font-weight: 700;
+        }
+    }
+
+    .card-text.content.calendarwrapper {
+        border: 1px #E5E5E5 solid;
+        border-radius: 8px;
+        box-shadow: 0px 8px 8px 0px rgba(56, 69, 76, 0.04);
+        padding: 24px 16px;
+        margin-bottom: 16px;
+        div:last-child hr {
+            display: none;
+        }
+        .icon {
+            color: $secondary;
+        }
+    }
+
+    .footer .gotocal {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
