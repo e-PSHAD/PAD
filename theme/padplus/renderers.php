@@ -22,6 +22,24 @@ class theme_padplus_core_renderer extends core_renderer {
     }
     /*** PADPLUS END */
 
+    /*** PADPLUS: set custom label for accessibility */
+    public function search_box($id = false) {
+        global $CFG;
+
+        if (empty($CFG->enableglobalsearch) || !has_capability('moodle/search:query', context_system::instance())) {
+            return '';
+        }
+
+        $data = [
+            'action' => new moodle_url('/search/index.php'),
+            'hiddenfields' => (object) ['name' => 'context', 'value' => $this->page->context->id],
+            'inputname' => 'q',
+            'searchstring' => get_string('global-search', 'theme_padplus'),
+            ];
+        return $this->render_from_template('core/search_input_navbar', $data);
+    }
+    /*** PADPLUS END */
+
     public function user_menu($user = null, $withlinks = null) {
         global $USER, $CFG;
         require_once($CFG->dirroot . '/user/lib.php');

@@ -24,9 +24,14 @@
         background-color: theme-color("primary") !important;
         border-color: theme-color("pad-border") !important;
     }
+    &:disabled,&.disabled {
+        background-color: $gray-600;
+        border-color: $gray-600;
+    }
 }
 
-.btn.btn-secondary {
+.btn.btn-secondary,
+.btn.btn-outline-secondary {
     background-color: $white;
     border: 1px solid theme-color("pad-link");
     border-radius: 4px;
@@ -39,24 +44,15 @@
         border-color: theme-color("pad-link") !important;
         color: theme-color("pad-link") !important;
     }
+    &:disabled,&.disabled {
+        background-color: $white;
+        border-color: $gray-600;
+        color: $gray-600;
+    }
 }
 
-.btn.btn-outline-secondary {
-    background-color: $white;
-    border: 1px solid theme-color("pad-link");
-    border-radius: 4px;
-    color: theme-color("pad-link");
-    &:hover {
-        background-color: theme-color("pad-btn-secondary-bg");
-    }
-    &:active {
-        background-color: $white !important;
-        border-color: theme-color("pad-link") !important;
-        color: theme-color("pad-link") !important;
-    }
-    .icon {
-        display: none;
-    }
+.btn.btn-outline-secondary .icon {
+    display: none;
 }
 
 // Needed to keep right color when button dropdown (course card dashboard) is active

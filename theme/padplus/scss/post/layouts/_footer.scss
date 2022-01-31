@@ -1,19 +1,9 @@
-.pad-footer {
-    @include font-size($font-size-sm);
-    color: $body-color;
-    background-color: gray("100");
-}
-
-#page-footer a {
-    color: $body-color;
-    text-decoration: none;
-    &:hover {
-        text-decoration: underline;
-    }
-}
-
 #page-footer {
+    @include font-size($font-size-sm);
+    color: $body-color !important;
+    background-color: gray("100") !important;
     border-top: 2px solid theme-color("primary");
+
     nav {
         height: 64px;
         img {
@@ -36,6 +26,14 @@
                     }
                 }
             }
+        }
+    }
+
+    a {
+        color: $body-color;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
         }
     }
 

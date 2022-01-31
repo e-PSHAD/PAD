@@ -30,6 +30,7 @@ $string['pluginname'] = 'PAD+';
 // We need to include a lang string for each block region.
 $string['region-side-pre'] = 'Right';
 
+$string['global-search'] = 'Search for courses, people...';
 $string['aria-main-nav'] = 'Main navigation';
 $string['allcourses-menu'] = 'All courses';
 $string['myhome-welcome'] = 'Welcome {$a}';
