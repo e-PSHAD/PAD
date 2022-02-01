@@ -1,0 +1,11 @@
+// Customize calendar style (/calendar/ page)
+
+.pad-filter-event-type  {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+
+    .icon {
+        margin: .3rem .5rem 0 .4rem !important;
+    }
+}

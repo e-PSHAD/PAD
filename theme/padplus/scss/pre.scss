@@ -79,3 +79,13 @@ $h5-font-size: 1.125rem;
 $h6-font-size: 1rem;
 
 $headings-line-height: 1.5;
+
+// Calendar
+
+// Override all background colors for events: use light gray to provide accessible contrast.
+$calendarEventCategoryColor: $light;
+$calendarEventCourseColor:   $light;
+$calendarEventGlobalColor:   $light;
+$calendarEventGroupColor:    $light;
+$calendarEventUserColor:     $light;
+$calendarEventOtherColor:    $light;
