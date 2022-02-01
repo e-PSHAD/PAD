@@ -11,6 +11,11 @@
     }
 }
 
+button,
+.btn {
+    white-space: nowrap;
+}
+
 .btn.btn-primary {
     background-color: theme-color("primary");
     border: solid 1px theme-color("primary");

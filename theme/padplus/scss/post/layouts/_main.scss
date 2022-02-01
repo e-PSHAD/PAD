@@ -1,3 +1,19 @@
 #region-main {
     border: 0;
 }
+
+.header-page-container {
+    border-bottom: 3px solid theme-color('primary');
+    .page-context-header {
+        padding: 0;
+    }
+}
+
+.header-page-btns-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    div:first-child {
+        margin-bottom: 8px;
+    }
+}

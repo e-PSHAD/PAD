@@ -5,3 +5,9 @@
 .current-breadcrumb-item {
     color: $body-color;
 }
+
+.breadcrumb-container {
+    border-bottom: 1px solid theme-color('pad-border');
+    padding-bottom: 18px;
+    width: 100%;
+}

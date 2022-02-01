@@ -254,9 +254,9 @@ class theme_padplus_core_renderer extends core_renderer {
         return parent::context_header($headerinfo, $headinglevel);
     }
 
+     /*** PADPLUS: override settings menu on home, course & profile page */
     public function context_header_settings_menu() {
         $context = $this->page->context;
-        $menu = new action_menu();
 
         $items = $this->page->navbar->get_items();
         $currentnode = end($items);
@@ -307,46 +307,43 @@ class theme_padplus_core_renderer extends core_renderer {
             $showusermenu = true;
         }
 
+        $attributes = ['class' => 'btn btn-secondary'];
+
         if ($showfrontpagemenu) {
             $settingsnode = $this->page->settingsnav->find('frontpage', navigation_node::TYPE_SETTING);
             if ($settingsnode) {
-                // Build an action menu based on the visible nodes from this navigation tree.
-                $skipped = $this->build_action_menu_from_navigation($menu, $settingsnode, false, true);
-
-                // We only add a list to the full settings menu if we didn't include every node in the short menu.
-                if ($skipped) {
-                    $text = get_string('morenavigationlinks');
-                    $url = new moodle_url('/course/admin.php', array('courseid' => $this->page->course->id));
-                    $link = new action_link($url, $text, null, null, new pix_icon('t/edit', $text));
-                    $menu->add_secondary_action($link);
-                }
+                // Show parameters link if user has access to settings on front page.
+                $text = get_string('frontpagesettings');
+                $url = new moodle_url('/course/admin.php', array('courseid' => $this->page->course->id));
             }
         } else if ($showcoursemenu) {
             $settingsnode = $this->page->settingsnav->find('courseadmin', navigation_node::TYPE_COURSE);
             if ($settingsnode) {
-                // Build an action menu based on the visible nodes from this navigation tree.
-                $skipped = $this->build_action_menu_from_navigation($menu, $settingsnode, false, true);
-
-                // We only add a list to the full settings menu if we didn't include every node in the short menu.
-                if ($skipped) {
-                    $text = get_string('morenavigationlinks');
+                $unenrolnode = $settingsnode->get('unenrolself');
+                if ($unenrolnode && $settingsnode->children->count() == 1) {
+                    // If user has a unique 'unenrol' node, this is a student: show the unenrol link instead of the parameters link.
+                    $text = get_string('unenrolme', 'theme_padplus');
+                    $attributes = ['class' => 'btn btn-primary'];
+                    $url = $unenrolnode->action;
+                } else {
+                    // Show parameters link if user has access to settings on course page.
+                    $text = get_string('courseadministration');
                     $url = new moodle_url('/course/admin.php', array('courseid' => $this->page->course->id));
-                    $link = new action_link($url, $text, null, null, new pix_icon('t/edit', $text));
-                    $menu->add_secondary_action($link);
                 }
             }
         } else if ($showusermenu) {
-            // Get the course admin node from the settings navigation.
-            $settingsnode = $this->page->settingsnav->find('useraccount', navigation_node::TYPE_CONTAINER);
-            if ($settingsnode) {
-                // Build an action menu based on the visible nodes from this navigation tree.
-                $this->build_action_menu_from_navigation($menu, $settingsnode);
-            }
+            // Always show parameters link on user page.
+            $text = get_string('preferences');
+            $url = new moodle_url('/user/preferences.php');
         }
 
-        return $this->render($menu);
+        if (isset($url)) {
+            $link = new action_link($url, $text, null, $attributes);
+            return $this->render($link);
+        } else {
+            return '';
+        }
     }
-
     /*** PADPLUS END */
 
 }

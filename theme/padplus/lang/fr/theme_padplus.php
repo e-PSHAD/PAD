@@ -30,6 +30,7 @@ $string['pluginname'] = 'PAD+';
 // We need to include a lang string for each block region.
 $string['region-side-pre'] = 'Droit';
 
+// Main strings.
 $string['global-search'] = 'Rechercher des séquences, des personnes...';
 $string['aria-main-nav'] = 'Navigation principale';
 $string['allcourses-menu'] = 'Tous les cours';
@@ -58,3 +59,6 @@ $string['settings-privacylink'] = 'Politique de confidentialité';
 $string['settings-privacylink-desc'] = 'URL vers la politique de confidentialité PAD+';
 $string['settings-copyright'] = 'Copyright';
 $string['settings-copyright-desc'] = 'Information du pied de page';
+
+// Enrolment strings.
+$string['unenrolme'] = 'Me désinscrire';
