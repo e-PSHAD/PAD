@@ -7,9 +7,11 @@ RUN echo 'fr_FR.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen
 COPY custom-php.ini /usr/local/etc/php/conf.d
 
 # Install Moosh
-RUN cd /tmp && curl -O https://moodle.org/plugins/download.php/25295/moosh_moodle311_2021101200.zip
+ARG moosh_archive=moosh_moodle311_2021113000.zip
+ARG moosh_url=https://moodle.org/plugins/download.php/25565/$moosh_archive
+RUN cd /tmp && curl -O $moosh_url
 
-RUN unzip /tmp/moosh_moodle311_2021101200.zip -d /usr/local/
+RUN unzip /tmp/$moosh_archive -d /usr/local/
 
 RUN ln -s /usr/local/moosh/moosh.php /usr/local/bin/moosh
 
