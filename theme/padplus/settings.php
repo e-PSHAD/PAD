@@ -106,4 +106,36 @@ if ($ADMIN->fulltree) {
         'PAD+ 2022',
         PARAM_TEXT
     ));
+
+    // Sidebar menu settings.
+    $settings->add(new admin_setting_heading(
+        'sidebarmenuconfig',
+        get_string('settings-sidebarmenu', 'theme_padplus'),
+        get_string('settings-sidebarmenu-desc', 'theme_padplus')
+    ));
+
+    $topcategories = core_course_category::top()->get_children();
+    $categoryitems = array_map(fn($cat) => $cat->name, $topcategories);
+
+    $settings->add(new admin_setting_configmultiselect(
+        'theme_padplus/sidebarworkshopids',
+        get_string('workshop-menu', 'theme_padplus'),
+        get_string('settings-workshopids-desc', 'theme_padplus'),
+        array(),
+        $categoryitems));
+
+    $nonechoice = [0 => get_string('settings-catalogid-none', 'theme_padplus')];
+    $settings->add(new admin_setting_configselect(
+        'theme_padplus/sidebarcatalogid',
+        get_string('catalog-menu', 'theme_padplus'),
+        get_string('settings-catalogid-desc', 'theme_padplus'),
+        0,
+        array_replace($nonechoice, $categoryitems) // Function array_replace preserves ids as index.
+    ));
+
+    $settings->add(new admin_setting_configcheckbox(
+        'theme_padplus/sidebarallcourses',
+        get_string('allcourses-menu', 'theme_padplus'),
+        get_string('settings-allcourses-desc', 'theme_padplus'),
+        1));
 }

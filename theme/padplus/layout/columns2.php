@@ -90,22 +90,47 @@ if (is_object($myhome)) {
 // fill_nav_from_menu_keys($nav, $padnav, ['courseindexpage']);
 // @codingStandardsIgnoreEnd
 
-// Group: site administration.
-fill_nav_from_menu_keys($nav, $padnav, ['sitesettings']);
-
-// Custom 'all courses' item - only for users with category management capability (admin, manager).
-// Check at system level for now, might need to change with access at healthcare facility (category) level.
+// Only administrator and manager at system level have this capability, so it's a good way to discriminate.
 $context = context_system::instance();
 if (has_capability('moodle/category:manage', $context)) {
+    // Navigation group for administrators / instance manager.
+    // Group: site administration.
+    fill_nav_from_menu_keys($nav, $padnav, ['sitesettings']);
+
+    // Direct 'all categories' access.
     $allcoursesnode = navigation_node::create(
-        get_string('allcourses-menu', 'theme_padplus'),
+        get_string('allcategories-menu', 'theme_padplus'),
         new moodle_url('/course/index.php'),
         navigation_node::TYPE_CUSTOM,
         null,
-        'allcourses',
+        'allcategories',
         new pix_icon('i/course', '')
     );
     $padnav->add(new flat_navigation_node($allcoursesnode, 0));
+} else {
+    // Category group for all other users.
+    $topcategories = select_user_top_categories(core_course_category::top()->get_children(), $PAGE->theme);
+
+    $first = true;
+    foreach ($topcategories as $index => $category) {
+        $categorynode = navigation_node::create(
+            $category->name,
+            new moodle_url('/course/index.php', array('categoryid' => $category->id)),
+            navigation_node::TYPE_CUSTOM,
+            null,
+            "category_{$category->id}",
+            new pix_icon($category->icon ?? 'i/course', '')
+        );
+        $flatnode = new flat_navigation_node($categorynode, 0);
+        if ($first) {
+            $flatnode->set_showdivider(true, get_string('categories-menu-nav', 'theme_padplus'));
+        }
+        if (isset($category->showdivider)) {
+            $flatnode->set_showdivider(true, $category->showdivider);
+        }
+        $padnav->add($flatnode);
+        $first = false;
+    }
 }
 
 // Group: current course and its sections. Options left out: 'badgesview', 'competencies'.

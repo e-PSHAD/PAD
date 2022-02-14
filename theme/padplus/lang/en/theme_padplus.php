@@ -32,9 +32,15 @@ $string['region-side-pre'] = 'Right';
 
 // Main strings.
 $string['global-search'] = 'Search for courses, people...';
-$string['aria-main-nav'] = 'Main navigation';
-$string['allcourses-menu'] = 'All courses';
 $string['myhome-welcome'] = 'Welcome {$a}';
+
+// Sidebar menu strings.
+$string['aria-main-nav'] = 'Main navigation';
+$string['categories-menu-nav'] = 'Categories';
+$string['allcategories-menu'] = 'All categories';
+$string['allcourses-menu'] = 'All courses';
+$string['workshop-menu'] = 'Group workshops';
+$string['catalog-menu'] = 'Shared resources';
 
 // Theme settings strings.
 $string['settings-color-title'] = 'Theme colours';
@@ -59,6 +65,12 @@ $string['settings-privacylink'] = 'Privacy';
 $string['settings-privacylink-desc'] = 'URL to privacy terms PAD+';
 $string['settings-copyright'] = 'Copyright';
 $string['settings-copyright-desc'] = 'Footer information';
+$string['settings-sidebarmenu'] = 'Sidebar Menu';
+$string['settings-sidebarmenu-desc'] = 'Display parameters for sidebar menu.';
+$string['settings-workshopids-desc'] = "If user has access to one of the selected categories, display it with label 'Group workshops' in the sidebar menu.";
+$string['settings-catalogid-desc'] = "If user has access to the selected category, display it with label 'Shared resources' in its own group in the sidebar menu.";
+$string['settings-catalogid-none'] = '[none]';
+$string['settings-allcourses-desc'] = "Display first user-accessible category (not matched by above options) with label 'All sequences' in the sidebar menu.";
 
 // Enrolment strings.
 $string['unenrolme'] = 'Unenrol me';

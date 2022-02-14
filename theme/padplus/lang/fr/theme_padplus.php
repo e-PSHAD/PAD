@@ -32,9 +32,15 @@ $string['region-side-pre'] = 'Droit';
 
 // Main strings.
 $string['global-search'] = 'Rechercher des séquences, des personnes...';
-$string['aria-main-nav'] = 'Navigation principale';
-$string['allcourses-menu'] = 'Tous les cours';
 $string['myhome-welcome'] = 'Bienvenue  {$a}';
+
+// Sidebar menu strings.
+$string['aria-main-nav'] = 'Navigation principale';
+$string['categories-menu-nav'] = 'Catégories';
+$string['allcategories-menu'] = 'Toutes les catégories';
+$string['allcourses-menu'] = 'Tous les cours';
+$string['workshop-menu'] = 'Les ateliers collectifs';
+$string['catalog-menu'] = 'Ressources partagées';
 
 // Theme settings strings.
 $string['settings-color-title'] = 'Couleurs du thème';
@@ -59,6 +65,12 @@ $string['settings-privacylink'] = 'Politique de confidentialité';
 $string['settings-privacylink-desc'] = 'URL vers la politique de confidentialité PAD+';
 $string['settings-copyright'] = 'Copyright';
 $string['settings-copyright-desc'] = 'Information du pied de page';
+$string['settings-sidebarmenu'] = 'Menu de navigation latérale';
+$string['settings-sidebarmenu-desc'] = "Paramètres d'affichage du menu de navigation latérale.";
+$string['settings-workshopids-desc'] = "Si l'utilisateur a accès à une des catégories sélectionnées, alors elle apparaît avec l'intitulé 'Les ateliers collectifs' dans la navigation latérale.";
+$string['settings-catalogid-desc'] = "Si l'utilisateur a accès à la catégorie sélectionnée, alors elle apparaît avec l'intitulé 'Ressources partagées' dans son propre groupe dans la navigation latérale.";
+$string['settings-catalogid-none'] = '[aucune]';
+$string['settings-allcourses-desc'] = "La première catégorie accessible à l'utilisateur (non sélectionnée par les options ci-dessus) apparaît avec l'intitulé 'Toutes les séquences' dans la navigation latérale.";
 
 // Enrolment strings.
 $string['unenrolme'] = 'Me désinscrire';
