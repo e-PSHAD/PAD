@@ -1,0 +1,30 @@
+.course_category_tree {
+    .subcategories {
+        .category-item {
+            align-items: center;
+            border: 1px solid theme-color("pad-border");
+            border-radius: 8px;
+            display: flex;
+            height: 64px;
+            justify-content: space-between;
+            margin: 16px 0px;
+            padding: 0 20px;
+            .category-title {
+                margin-bottom: 0px;
+            }
+            &:after {
+                align-items: center;
+                background-color: #EFF4FD;
+                border-radius: 25px;
+                content: fa-content($fa-var-chevron-right);
+                display: flex !important;
+                @include fa-icon();
+                font-family: 'Font Awesome 5 Free';
+                font-weight: 900;
+                height: 40px;
+                justify-content: center;
+                width: 40px;
+            }
+        }
+    }
+}
