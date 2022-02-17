@@ -367,5 +367,46 @@ class theme_padplus_core_course_renderer extends core_course_renderer {
 
         return $content;
     }
+
+    // Returns HTML to display a tree of subcategories and courses in the given category.
+    protected function coursecat_tree(coursecat_helper $chelper, $coursecat) {
+        // Reset the category expanded flag for this course category tree first.
+        $this->categoryexpandedonload = false;
+        $categorycontent = $this->coursecat_category_content($chelper, $coursecat, 0);
+        if (empty($categorycontent)) {
+            return '';
+        }
+
+        // Start content generation.
+        $content = '';
+        $attributes = $chelper->get_and_erase_attributes('course_category_tree clearfix');
+        $content .= html_writer::start_tag('div', $attributes);
+
+        if ($coursecat->get_children_count()) {
+            $classes = array(
+                'collapseexpand', 'aabtn'
+            );
+
+            // Check if the category content contains subcategories with children's content loaded.
+            if ($this->categoryexpandedonload) {
+                $classes[] = 'collapse-all';
+                $linkname = get_string('collapseall');
+            } else {
+                $linkname = get_string('expandall');
+            }
+
+            // Only show the collapse/expand if there are children to expand.
+            $content .= html_writer::start_tag('div', array('class' => 'collapsible-actions'));
+            $content .= html_writer::link('#', $linkname, array('class' => implode(' ', $classes)));
+            $content .= html_writer::end_tag('div');
+            $this->page->requires->strings_for_js(array('collapseall', 'expandall'), 'moodle');
+        }
+
+        $content .= html_writer::tag('div', $categorycontent, array('class' => 'content'));
+
+        $content .= html_writer::end_tag('div'); // Course_category_tree.
+
+        return $content;
+    }
     /*** PADPLUS END */
 }
