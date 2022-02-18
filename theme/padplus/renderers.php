@@ -382,17 +382,6 @@ class theme_padplus_core_course_renderer extends core_course_renderer {
         } else {
             $strfulllistofcourses = get_string('fulllistofcourses');
             $this->page->set_title("$site->shortname: $strfulllistofcourses");
-
-            // Print the category selector
-            $categorieslist = core_course_category::make_categories_list();
-            if (count($categorieslist) > 1) {
-                $output .= html_writer::start_tag('div', array('class' => 'categorypicker'));
-                $select = new single_select(new moodle_url('/course/index.php'), 'categoryid',
-                        core_course_category::make_categories_list(), $coursecat->id, null, 'switchcategory');
-                $select->set_label(get_string('categories').':');
-                $output .= $this->render($select);
-                $output .= html_writer::end_tag('div'); // .categorypicker
-            }
         }
 
         // Print current category description
@@ -447,7 +436,7 @@ class theme_padplus_core_course_renderer extends core_course_renderer {
         $output .= $this->coursecat_tree($chelper, $coursecat);
 
         // Add action buttons
-        $output .= $this->container_start('buttons');
+        $output .= $this->container_start('buttons category-page-btns-container');
         if ($coursecat->is_uservisible()) {
             $context = get_category_or_system_context($coursecat->id);
             if (has_capability('moodle/course:create', $context)) {
@@ -458,7 +447,10 @@ class theme_padplus_core_course_renderer extends core_course_renderer {
                     $url = new moodle_url('/course/edit.php',
                         array('category' => $CFG->defaultrequestcategory, 'returnto' => 'topcat'));
                 }
-                $output .= $this->single_button($url, get_string('addnewcourse'), 'get');
+                $text = get_string('addnewcourse');
+                $attributes = ['class' => 'btn btn-primary btn-add-course'];
+                $link = new action_link($url, $text, null, $attributes);
+                $output .= $this->render($link);
             }
             ob_start();
             print_course_request_buttons($context);

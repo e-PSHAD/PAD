@@ -1,3 +1,15 @@
+#page-course-index-category {
+    #page {
+        padding: 0 200px;
+    }
+}
+
+// Category description.
+#page-course-index-category .generalbox.info {
+    border: none;
+}
+
+// Category tree.
 .course_category_tree {
     .subcategories {
         .category-item {
@@ -16,6 +28,7 @@
             &:hover {
                 background-color: theme-color("pad-btn-secondary-bg");
                 border: 1px solid theme-color("pad-link");
+                text-decoration: none;
             }
             &:after {
                 align-items: center;

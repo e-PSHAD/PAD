@@ -77,3 +77,20 @@ button,
         background-color: theme-color("pad-btn-secondary-bg");
     }
 }
+
+// Style btn "Add a course" of categories page.
+.category-page-btns-container {
+    margin-top: 38px;
+    padding-top: 26px;
+    border-top: 1px solid theme-color("pad-border");
+    .btn-add-course {
+        margin: 0 10px;
+        &:before {
+            content: fa-content($fa-var-plus);
+            @include fa-icon();
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 8px;
+        }
+    }
+}
