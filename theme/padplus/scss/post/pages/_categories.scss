@@ -9,8 +9,13 @@
             justify-content: space-between;
             margin: 16px 0px;
             padding: 0 20px;
+            transition: all 0.1s ease-in-out;
             .category-title {
                 margin-bottom: 0px;
+            }
+            &:hover {
+                background-color: theme-color("pad-btn-secondary-bg");
+                border: 1px solid theme-color("pad-link");
             }
             &:after {
                 align-items: center;
@@ -25,6 +30,61 @@
                 justify-content: center;
                 width: 40px;
             }
+        }
+    }
+}
+
+// Search bar container.
+.category-page-searchbar-container {
+    align-items: center;
+    background-color: $light;
+    border-radius: 8px;
+    display: flex;
+    height: 88px;
+    justify-content: center;
+}
+
+// Search bar.
+.category-page-searchbar-container {
+    .simplesearchform .input-group {
+        width: 400px;
+        .form-control {
+            border: 1px solid theme-color('pad-border');
+            border-radius: 4px;
+            &:focus {
+                z-index: 1;
+            }
+        }
+        .input-group-append {
+            display: none;
+        }
+        &:before {
+            color: $body-color;
+            content: fa-content($fa-var-search);
+            background-color: $white;
+            @include fa-icon();
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 1.2rem;
+            position: absolute;
+            right: 12px;
+            top: 9px;
+            z-index: 2;
+        }
+    }
+}
+
+// Responsive.
+@media screen and (max-width: 1150px) {
+    .category-page-searchbar-title {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 499px) {
+    .category-page-searchbar-container {
+        .form-inline .input-group {
+            width: 250px;
         }
     }
 }

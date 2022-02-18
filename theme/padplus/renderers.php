@@ -351,7 +351,7 @@ class theme_padplus_core_renderer extends core_renderer {
 require_once($CFG->dirroot . "/course/renderer.php");
 
 class theme_padplus_core_course_renderer extends core_course_renderer {
-    /*** PADPLUS: override category list */
+    /*** PADPLUS: override category page */
     public function course_category($category) {
         global $CFG;
         $usertop = core_course_category::user_top();
@@ -437,8 +437,11 @@ class theme_padplus_core_course_renderer extends core_course_renderer {
             $catdisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'categories', 'page' => 1));
         }
         $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
+
         // Add course search form.
+        $output .= html_writer::start_div('', ['class' => 'category-page-searchbar-container']);
         $output .= $this->course_search_form();
+        $output .= html_writer::end_div();
 
         // Display course category tree.
         $output .= $this->coursecat_tree($chelper, $coursecat);
@@ -467,6 +470,7 @@ class theme_padplus_core_course_renderer extends core_course_renderer {
         return $output;
     }
 
+    // Override category list items
     protected function coursecat_category(coursecat_helper $chelper, $coursecat, $depth) {
         $categoryname = $coursecat->get_formatted_name();
 
