@@ -1,12 +1,27 @@
 #page-course-index-category {
     #page {
         padding: 0 200px;
+        #region-main-settings-menu {
+            .action-menu-trigger { /* This button is now inside the function course_category */
+                display: none;
+            }
+        }
+        #region-main {
+            overflow: visible;
+            padding-top: 0px;
+            .region_main_settings_menu_proxy {
+                display: none;
+            }
+        }
     }
 }
 
 // Category description.
 #page-course-index-category .generalbox.info {
-    border: none;
+    border-color: theme-color("pad-border");
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    padding-bottom: 24px !important;
 }
 
 // Category tree.
@@ -47,20 +62,15 @@
     }
 }
 
-// Search bar container.
+// Search bar & drowpdown container.
 .category-page-searchbar-container {
     align-items: center;
-    background-color: $light;
     border-radius: 8px;
     display: flex;
     height: 88px;
-    justify-content: center;
-}
-
-// Search bar.
-.category-page-searchbar-container {
+    justify-content: space-between;
     .simplesearchform .input-group {
-        width: 400px;
+        min-width: 400px;
         .form-control {
             border: 1px solid theme-color('pad-border');
             border-radius: 4px;
@@ -85,19 +95,103 @@
             z-index: 2;
         }
     }
-}
-
-// Responsive.
-@media screen and (max-width: 1150px) {
-    .category-page-searchbar-title {
-        display: none;
+    .dropdown-toggle {
+        align-items: center;
+        background-color: $white;
+        border: 1px solid theme-color("pad-link");
+        border-radius: 4px;
+        color: theme-color("pad-link");
+        display: flex !important;
+        height: 38px;
+        justify-content: center;
+        padding: 0px 12px;
+        i {
+            display: none;
+        }
+        &:hover {
+            background-color: theme-color("pad-btn-secondary-bg");
+        }
+        &:active {
+            background-color: theme-color("pad-btn-secondary-bg") !important;
+            border-color: theme-color("pad-link") !important;
+            color: theme-color("pad-link") !important;
+        }
+        &:after {
+            margin-left: 8px;
+        }
+    }
+    .dropdown a:focus {
+        box-shadow: none !important;
     }
 }
 
-@media screen and (max-width: 499px) {
+// Responsive for page, search bar, category settings dropdown & bottom buttons.
+@media screen and (max-width: 1389px) {
+    #page-course-index-category {
+        #page {
+            padding: 0 150px;
+        }
+    }
+}
+
+@media screen and (max-width: 1289px) {
+    #page-course-index-category {
+        #page {
+            padding: 0 100px;
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
     .category-page-searchbar-container {
-        .form-inline .input-group {
-            width: 250px;
+        .simplesearchform .input-group {
+            min-width: 250px;
+        }
+    }
+}
+
+@media screen and (max-width: 1042px) {
+    #page-course-index-category {
+        #page {
+            padding: 0 1rem;
+        }
+    }
+}
+
+@media screen and (max-width: 865px) {
+    .category-page-searchbar-container {
+        flex-direction: column;
+        .mform {
+            padding: 0;
+        }
+        .simplesearchform,
+        .form-inline,
+        .input-group,
+        .form-control {
+            width: 100%;
+        }
+        .action-menu {
+            width: 100%;
+            .action-menu-trigger {
+                width: 100%;
+                a {
+                    display: flex !important;
+                    justify-content: space-between;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 525px) {
+    .category-page-btns-container {
+        display: flex;
+        flex-direction: column;
+        .btn-add-course {
+            margin: 0 0 10px 0;
+        }
+        .singlebutton .btn {
+            width: 100%;
         }
     }
 }

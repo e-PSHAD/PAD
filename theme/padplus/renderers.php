@@ -236,6 +236,14 @@ class theme_padplus_core_renderer extends core_renderer {
         return $pagepath === '/my/index.php';
     }
 
+    private function is_categories_page() {
+        $pagepath = $this->page->url->get_path();
+        $querystring = http_build_query($_GET);
+        if ($pagepath === '/course/index.php' && empty($querystring)) {
+            return true;
+        }
+    }
+
     /*** PADPLUS: override dashboard title for consistency and custom heading */
     public function page_title() {
         global $SITE;
@@ -250,6 +258,8 @@ class theme_padplus_core_renderer extends core_renderer {
         global $USER;
         if ($this->is_dashboard_page()) {
             $this->page->set_heading(get_string('myhome-welcome', 'theme_padplus', $USER->firstname));
+        } else if ($this->is_categories_page()) {
+            $this->page->set_heading(get_string('allcourses-page', 'theme_padplus'));
         }
         return parent::context_header($headerinfo, $headinglevel);
     }
@@ -344,13 +354,32 @@ class theme_padplus_core_renderer extends core_renderer {
             return '';
         }
     }
+
+    /*** PADPLUS: override categories settings menu on categories page to allow us to include text in the dropdown button */
+    public function region_main_settings_menu_coursecat_padplus() {
+        $context = $this->page->context;
+        $menu = new action_menu();
+
+        if ($context->contextlevel == CONTEXT_COURSECAT) {
+            // For course category context, show category settings menu, if we're on the course category page.
+            if ($this->page->pagetype === 'course-index-category') {
+                $node = $this->page->settingsnav->find('categorysettings', navigation_node::TYPE_CONTAINER);
+                if ($node) {
+                    // Build an action menu based on the visible nodes from this navigation tree.
+                    $this->build_action_menu_from_navigation($menu, $node);
+                    $menu->actiontext = get_string('settings-category', 'theme_padplus');
+                }
+            }
+        }
+        return $this->render($menu);
+    }
     /*** PADPLUS END */
 }
-
 
 require_once($CFG->dirroot . "/course/renderer.php");
 
 class theme_padplus_core_course_renderer extends core_course_renderer {
+
     /*** PADPLUS: override category page */
     public function course_category($category) {
         global $CFG;
@@ -427,9 +456,10 @@ class theme_padplus_core_course_renderer extends core_course_renderer {
         }
         $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
 
-        // Add course search form.
+        // Add course search form & category management button
         $output .= html_writer::start_div('', ['class' => 'category-page-searchbar-container']);
         $output .= $this->course_search_form();
+        $output .= $this->region_main_settings_menu_coursecat_padplus();
         $output .= html_writer::end_div();
 
         // Display course category tree.
@@ -461,8 +491,9 @@ class theme_padplus_core_course_renderer extends core_course_renderer {
 
         return $output;
     }
+    /*** PADPLUS END */
 
-    // Override category list items
+    /*** PADPLUS:  Override category list items */
     protected function coursecat_category(coursecat_helper $chelper, $coursecat, $depth) {
         $categoryname = $coursecat->get_formatted_name();
 
@@ -478,8 +509,9 @@ class theme_padplus_core_course_renderer extends core_course_renderer {
 
         return $content;
     }
+    /*** PADPLUS END */
 
-    // Returns HTML to display a tree of subcategories and courses in the given category.
+    /*** PADPLUS:  Returns HTML to display a tree of subcategories and courses in the given category */
     protected function coursecat_tree(coursecat_helper $chelper, $coursecat) {
         // Reset the category expanded flag for this course category tree first.
         $this->categoryexpandedonload = false;

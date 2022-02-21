@@ -34,6 +34,7 @@ $string['region-side-pre'] = 'Droit';
 $string['global-search'] = 'Rechercher des séquences, des personnes...';
 $string['aria-main-nav'] = 'Navigation principale';
 $string['allcourses-menu'] = 'Tous les cours';
+$string['allcourses-page'] = 'Toutes les séquences';
 $string['myhome-welcome'] = 'Bienvenue  {$a}';
 
 // Theme settings strings.
@@ -62,3 +63,6 @@ $string['settings-copyright-desc'] = 'Information du pied de page';
 
 // Enrolment strings.
 $string['unenrolme'] = 'Me désinscrire';
+
+// Categories page strings.
+$string['settings-category'] = 'Gestion de cette catégorie';

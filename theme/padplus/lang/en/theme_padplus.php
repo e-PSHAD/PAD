@@ -34,6 +34,7 @@ $string['region-side-pre'] = 'Right';
 $string['global-search'] = 'Search for courses, people...';
 $string['aria-main-nav'] = 'Main navigation';
 $string['allcourses-menu'] = 'All courses';
+$string['allcourses-page'] = 'All courses';
 $string['myhome-welcome'] = 'Welcome {$a}';
 
 // Theme settings strings.
@@ -62,3 +63,6 @@ $string['settings-copyright-desc'] = 'Footer information';
 
 // Enrolment strings.
 $string['unenrolme'] = 'Unenrol me';
+
+// Categories page strings.
+$string['settings-category'] = 'Management of this category';
