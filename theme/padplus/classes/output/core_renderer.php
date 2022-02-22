@@ -14,7 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-class theme_padplus_core_renderer extends core_renderer {
+namespace theme_padplus\output;
+
+use action_link,
+    action_menu,
+    action_menu_filler,
+    action_menu_link_secondary,
+    core_text,
+    context_system,
+    html_writer,
+    moodle_url,
+    navigation_node,
+    pix_icon;
+
+class core_renderer extends \core_renderer {
 
     /*** PADPLUS: set main region for accessibility */
     public function main_content() {
