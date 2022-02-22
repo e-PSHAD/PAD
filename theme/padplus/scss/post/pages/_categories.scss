@@ -142,6 +142,25 @@
     }
 }
 
+// Pagination for categories page.
+.category-browse {
+    .pagination  {
+        margin-top: 40px;
+        .page-link {
+            border: none !important;
+            border-radius: 4px;
+            margin: 0 4px !important;
+            padding: 0.4rem 0.75rem;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    nav:first-child.pagination { // Hide top pagination.
+        display: none;
+    }
+}
+
 // Responsive for page, search bar, category settings dropdown & bottom buttons.
 @media screen and (max-width: 1389px) {
     #page-course-index-category {
@@ -178,6 +197,7 @@
 @media screen and (max-width: 865px) {
     .category-page-searchbar-container {
         flex-direction: column;
+        margin-bottom: 40px;
         .mform {
             padding: 0;
         }

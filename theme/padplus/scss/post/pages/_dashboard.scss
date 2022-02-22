@@ -20,6 +20,14 @@
         }
     }
 
+    #region-main-box {
+        padding: 0 1.25rem;
+    }
+
+    #user-notifications {
+        padding: 0 14px;
+    }
+
     #upcoming-events-date {
         color: $secondary;
         font-size: $pad-mention-size;

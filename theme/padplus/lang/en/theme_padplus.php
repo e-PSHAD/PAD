@@ -75,5 +75,10 @@ $string['settings-allcourses-desc'] = "Display first user-accessible category (n
 // Enrolment strings.
 $string['unenrolme'] = 'Unenrol me';
 
-// Categories page strings.
+// Categories & cours page strings.
+$string['btn-coursebox'] = 'View this cours';
+$string['btn-workshopbox'] = 'More information';
+$string['no-participants-enrolled'] = 'no students enrolled';
+$string['participants-enrolled'] = 'Enrolled students';
 $string['settings-category'] = 'Management of this category';
+$string['workshop-teacher'] = 'Organizer';

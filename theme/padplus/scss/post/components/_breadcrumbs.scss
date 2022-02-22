@@ -11,3 +11,9 @@
     padding-bottom: 18px;
     width: 100%;
 }
+
+@media screen and (max-width: 768px) {
+    .breadcrumb {
+        border: none !important;
+    }
+}

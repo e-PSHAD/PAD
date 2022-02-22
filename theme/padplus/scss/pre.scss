@@ -54,6 +54,11 @@ $theme-colors: (
     pad-border:             $gray-300
 );
 
+$badge-colors: (
+    hidden:         $gray-300,
+    info:           $info,
+);
+
 // Body
 
 $body-bg:    $white;

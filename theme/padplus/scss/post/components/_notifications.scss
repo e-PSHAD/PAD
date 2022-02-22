@@ -1,0 +1,31 @@
+.alert-success {
+    align-items: center;
+    background-color: $light;
+    border-radius: 8px;
+    border-color: $light;
+    color: $body-color;
+    display: flex;
+    min-height: 100px;
+    .alert-message {
+        margin-left: 76px;
+    }
+    .close {
+        color: $secondary;
+        font-size: 2rem;
+        position: absolute;
+        right: 20px;
+        top: 12px;
+    }
+    &:before {
+        color: theme-color('primary');
+        @include fa-icon();
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        content: fa-content($fa-var-check-circle);
+        position: absolute;
+        left: 30px;
+        font-size: 2.8rem;
+    }
+}
+
+// <i class="fas fa-check-circle"></i>

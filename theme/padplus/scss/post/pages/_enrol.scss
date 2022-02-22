@@ -1,0 +1,126 @@
+#page-enrol-index {
+    #page {
+        padding: 0 200px;
+        main h2 {
+            display: none;
+        }
+        #region-main {
+            overflow: visible;
+            padding-top: 0;
+            .generalbox.info {
+                border-top: none !important;
+                padding-top: 0 !important;
+                .summary {
+                    margin: 20px 0 20px 0;
+                }
+                .teachers {
+                    color: $dark;
+                    font-weight: bold;
+                    list-style: none;
+                    margin: 20px 0 20px 0;
+                    padding: 0;
+                    a,
+                    span {
+                        font-weight: normal;
+                    }
+                }
+            }
+            // Registration form.
+            #id_selfheader {
+                border-bottom: none;
+                margin: 0;
+                legend a.fheader {
+                    background: none;
+                    color: $body-color;
+                    cursor: context-menu;
+                    font-size: $h5-font-size;
+                    font-weight: bold;
+                    text-decoration: none;
+                    &:focus {
+                        box-shadow: none !important;
+                    }
+                }
+                .fcontainer .row {
+                    flex-direction: column;
+                }
+                #fitem_id_nokey {
+                    display: none;
+                }
+                input {
+                    border: 1px solid theme-color('pad-border');
+                    border-radius: 4px;
+                    margin-top: 9px;
+                }
+                #fitem_id_info {
+                    margin-left: 0;
+                    margin-right: 0;
+                    .felement {
+                        align-items: center !important;
+                        background-color: $light;
+                        border-radius: 8px;
+                        display: flex;
+                        justify-content: center;
+                        min-height: 108px;
+                        min-width: 100%;
+                        &:before {
+                            color: #C45517;
+                            @include fa-icon();
+                            font-family: 'Font Awesome 5 Free';
+                            font-weight: 900;
+                            content: fa-content($fa-var-exclamation-triangle);
+                            position: absolute;
+                            left: 43px;
+                            top: 33px;
+                            font-size: 2.4rem;
+                        }
+                        div:first-child {
+                            margin: 0 12px 0 100px;
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+            #fitem_id_submitbutton {
+                flex-direction: column;
+                margin-left: 0;
+                .felement {
+                    padding-left: 0;
+                }
+            }
+            // Cancel collapse JS.
+            .generalbox {
+                border-top: 1px solid theme-color('pad-border');
+                .mform {
+                    padding: 0 !important;
+                }
+                .mform .collapsed .fcontainer {
+                    display: block !important;
+                }
+            }
+        }
+    }
+}
+
+// Responsive
+@media screen and (max-width: 1389px) {
+    #page-enrol-index {
+        #page {
+            padding: 0 150px;
+        }
+    }
+}
+
+@media screen and (max-width: 1289px) {
+    #page-enrol-index {
+        #page {
+            padding: 0 100px;
+        }
+    }
+}
+@media screen and (max-width: 1042px) {
+    #page-enrol-index {
+        #page {
+            padding: 0 1rem;
+        }
+    }
+}

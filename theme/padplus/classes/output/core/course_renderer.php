@@ -17,8 +17,10 @@
 namespace theme_padplus\output\core;
 
 use action_link,
+    context_course,
     core_course_category,
     core_course_list_element,
+    core_tag_tag,
     coursecat_helper,
     html_writer,
     lang_string,
@@ -28,14 +30,30 @@ use action_link,
 /*** PADPLUS
  * We override various render methods to customize HTML structure.
  *
- * As a reminder, here if the overall render hierarchy for category page. Methods with a * are overridden in this renderer:
+ * As a reminder, here if the overall render hierarchy for category page:
+ * (starred *methods are overridden in this renderer.)
+ * (plussed +methods are new in this renderer.)
+ *
  * - *course_category: display particular course category, either top one or a subcategory
  *   - *coursecat_tree: display a tree of subcategories and courses in the given category
  *     - coursecat_category_content: display the subcategories and courses in the given category
  *       - coursecat_subcategories: renders the list of subcategories in a category
  *         - *coursecat_category: display a course category as a part of a tree
  *       - coursecat_courses: renders the list of courses
- *         - coursecat_coursebox: displays one course in the list of courses.
+ *         - *coursecat_coursebox: displays one course in the list of courses
+ *           - +coursebox_image: displays course image for the coursebox
+ *           - +coursecat_coursebox_details: display all course details
+ *             - +course_tags: display course tags
+ *             - course_name
+ *             - course_summary
+ *             - *course_contacts: display organizers
+ *             - +coursebox_enrolled_students: return the number of students enrolled in the course
+ *
+ * Render hierarchy on workshop self-registration page:
+ * - *course_info_box
+ *   - +course_tags
+ *   - course_summary
+ *   - *course_contacts
  */
 class course_renderer extends \core_course_renderer {
 
@@ -217,7 +235,15 @@ class course_renderer extends \core_course_renderer {
     }
     /*** PADPLUS END */
 
-    /*** PADPLUS:  Override coursebox for categories page */
+    /**
+     * Displays one course in the list of courses.
+     *
+     * @param coursecat_helper $chelper various display options
+     * @param core_course_list_element|stdClass $course
+     * @param string $additionalclasses additional classes to add to the main <div> tag (usually
+     *    depend on the course position in list - first/last/even/odd)
+     * @return string
+     */
     protected function coursecat_coursebox(coursecat_helper $chelper, $course, $additionalclasses = '') {
         if (!isset($this->strings->summary)) {
             $this->strings->summary = get_string('summary');
@@ -241,19 +267,100 @@ class course_renderer extends \core_course_renderer {
             'data-type' => self::COURSECAT_TYPE_COURSE,
         ));
 
-        $content .= html_writer::start_tag('div', array('class' => 'info'));
-        $content .= $this->course_name($chelper, $course);
-        $content .= $this->course_enrolment_icons($course);
+        /*** PADPLUS: course image & course/workshop info. */
+        $content .= html_writer::start_tag('div', array('class' => 'coursecat-image'));
+        $content .= $this->coursebox_image($course);
         $content .= html_writer::end_tag('div');
 
-        $content .= html_writer::start_tag('div', array('class' => 'content'));
-        $content .= $this->coursecat_coursebox_content($chelper, $course);
+        // The content of the coursebox changes depending on whether it is a course or a workshop.
+        if (course_is_workshop($course)) {
+            $rolelabel = get_string('workshop-teacher', 'theme_padplus');
+            $contactbox = $this->course_contacts($course, $rolelabel); // Changed wording for teacher role when it's a workshop.
+            $studentsbox = ''; // Do not show enrolled student number for workshop.
+            $buttonlabel = get_string('btn-workshopbox', 'theme_padplus');
+            $boxclassname = 'workshopbox';
+        } else {
+            $contactbox = $this->course_contacts($course);
+            $studentsbox = $this->coursebox_enrolled_students($course);
+            $buttonlabel = get_string('btn-coursebox', 'theme_padplus');
+            $boxclassname = '';
+        }
+        $content .= $this->coursecat_coursebox_details($course, $chelper, $contactbox, $studentsbox, $buttonlabel, $boxclassname);
+        /*** PADPLUS END */
+
         $content .= html_writer::end_tag('div');
 
         $content .= html_writer::end_tag('div'); // Coursebox.
         return $content;
     }
-    /*** PADPLUS END */
+
+
+    /*** PADPLUS private
+     * Display all coursebox info (either a sequence or workshop) in category page.
+     */
+    private function coursecat_coursebox_details($course, $chelper, $contactbox, $studentsbox, $buttonlabel, $boxclassname) {
+        $output = html_writer::start_tag('div', array('class' => "info $boxclassname"));
+        $output .= html_writer::start_tag('div');
+        $output .= $this->course_tags($course);
+        $output .= $this->course_name($chelper, $course);
+        $output .= $this->course_summary($chelper, $course);
+        $output .= $contactbox;
+        $output .= $studentsbox;
+        $output .= html_writer::end_tag('div');
+        $output .= html_writer::link(
+            new moodle_url('/course/view.php', ['id' => $course->id]),
+            $buttonlabel,
+            array('class' => $course->visible ? 'btn btn-secondary' : 'btn btn-secondary disabled'));
+        return $output;
+    }
+
+    /*** PADPLUS private
+     * Display course image or default one.
+     */
+    private function coursebox_image($course) {
+        $image = \cache::make('core', 'course_image')->get($course->id);
+        if (is_null($image)) {
+            $image = $this->get_generated_image_for_id($course->id);
+        }
+        return html_writer::tag('div',
+               html_writer::empty_tag('img', ['src' => $image]),
+               ['class' => 'courseimage']);
+    }
+
+    /*** PADPLUS private
+     * Display number of students enrolled in the course.
+     */
+    private function coursebox_enrolled_students($course) {
+        $context = context_course::instance($course->id);
+        $output = html_writer::start_tag('div', array('class' => 'participants'));
+        $output .= get_string('participants-enrolled', 'theme_padplus') . ' : ';
+        $output .= html_writer::start_tag('span');
+        $enrolledstudents = count_enrolled_users($context, 'mod/assign:submit');
+        if ($enrolledstudents > 0) {
+            $output .= $enrolledstudents;
+        } else {
+            $output .= get_string('no-participants-enrolled', 'theme_padplus') . '.';
+        }
+        $output .= html_writer::end_tag('span');
+        $output .= html_writer::end_tag('div');
+        return $output;
+    }
+
+    /*** PADPLUS private
+     * Display course tags.
+     */
+    private function course_tags($course) {
+        $tags = core_tag_tag::get_item_tags('core', 'course', $course->id);
+        if (empty($tags)) {
+            return '';
+        }
+        $output = html_writer::start_tag('div', array('class' => 'd-flex flex-wrap coursetags'));
+        foreach ($tags as $tag) {
+            $output .= html_writer::tag('div', $tag->rawname, array('class' => 'badge badge-pad badge-pad-info'));
+        }
+        $output .= html_writer::end_tag('div');
+        return $output;
+    }
 
     /**
      * Returns HTML to display course contacts.
@@ -261,19 +368,25 @@ class course_renderer extends \core_course_renderer {
      * @param core_course_list_element $course
      * @return string
      */
-    protected function course_contacts(core_course_list_element $course) {
+    protected function course_contacts(core_course_list_element $course, string $rolelabel = null) {
         $content = '';
         if ($course->has_course_contacts()) {
             $content .= html_writer::start_tag('ul', ['class' => 'teachers']);
             foreach ($course->get_course_contacts() as $coursecontact) {
-                $rolenames = array_map(function ($role) {
-                    return $role->displayname;
-                }, $coursecontact['roles']);
-                $name = implode(", ", $rolenames).': '.
+                /*** PADPLUS: get default role label or override with given one. */
+                if (is_null($rolelabel)) {
+                    $rolenames = array_map(function ($role) {
+                        return $role->displayname;
+                    }, $coursecontact['roles']);
+                } else {
+                    $rolenames = array($rolelabel);
+                }
+                $name = implode(", ", $rolenames).' : '.
                     html_writer::link(new moodle_url('/user/view.php',
                         ['id' => $coursecontact['user']->id, 'course' => SITEID]),
                         $coursecontact['username']);
                 $content .= html_writer::tag('li', $name);
+                /*** PADPLUS END */
             }
             $content .= html_writer::end_tag('ul');
         }
@@ -281,7 +394,7 @@ class course_renderer extends \core_course_renderer {
     }
 
     /**
-     * Renders course info box.
+     * Display workshop info on the self-enrolment page.
      *
      * @param stdClass $course
      * @return string
@@ -290,8 +403,17 @@ class course_renderer extends \core_course_renderer {
         $content = '';
         $content .= $this->output->box_start('generalbox info');
         $chelper = new coursecat_helper();
-        $chelper->set_show_courses(self::COURSECAT_SHOW_COURSES_EXPANDED);
-        $content .= $this->coursecat_coursebox($chelper, $course);
+
+        /*** PADPLUS: returns tags, summary & organizers */
+        $rolelabel = get_string('workshop-teacher', 'theme_padplus');
+        if ($course instanceof stdClass) {
+            $course = new core_course_list_element($course);
+        }
+        $content .= $this->course_tags($course);
+        $content .= $this->course_summary($chelper, $course);
+        $content .= $this->course_contacts($course, $rolelabel);
+        /*** PADPLUS END */
+
         $content .= $this->output->box_end();
         return $content;
     }

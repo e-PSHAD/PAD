@@ -1,0 +1,13 @@
+#modal-content {
+    border: 1px solid theme-color('pad-border');
+    border-radius: 8px;
+    padding: 6px 12px !important;
+    #modal-header {
+        border-bottom: none;
+    }
+    #modal-footer {
+        border-top: none;
+        justify-content: flex-start;
+        padding-top: 0 !important;
+    }
+}

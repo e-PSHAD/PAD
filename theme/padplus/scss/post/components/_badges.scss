@@ -1,11 +1,16 @@
-.badge-info-pad {
-    align-items: center;
-    background-color: $gray-300;
-    border-radius: 4px;
-    color: $body-color;
-    display: flex;
+.badge-pad {
+    color: $white;
     font-size: $pad-mention-size;
-    font-weight: 400;
+    font-weight: bold;
     height: 26px;
-    padding: 4px 8px;
+    padding: 6px 10px;
+    border-radius: 16px;
+
+    &.badge-pad-hidden {
+        color: $body-color;
+        background-color: map-get($badge-colors, "hidden");
+    }
+    &.badge-pad-info {
+        background-color: map-get($badge-colors, "info");
+    }
 }
