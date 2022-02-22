@@ -10,7 +10,7 @@ Since this is an extension of Moodle, we do not touch the `master` branch or any
 
 Deployment can be automated using the Github workflow `upgrade-pad.yml`. By default, it is configured to run on `pad-eig` push with `eig-preprod` environment.
 
-Local Installation for Developer with Docker
+Quick Start - Local Installation for Developer with Docker
 --------------------------------------------
 
 Prerequisites: you should have Docker up and running. The development environment runs with `Docker compose` (heavily inspired by [Moodle Docker](https://github.com/moodlehq/moodle-docker/)). The PHP image used by the configuration has a custom `upload_max_filesize/post_max_size` of 100MB to enable plugin/backup/etc upload through Moodle web UI.
@@ -28,5 +28,6 @@ For example, allow anyone write access on theme folder to enable theme upload th
 chmod a+w theme
 ```
 
-To stop containers, run `docker-compose stop`. To restart, run `docker-compose stop`. If there is a configuration change, run `docker-compose up -d` so that Docker updates the environment.
-To destroy the developer environment, run `docker-compose down`
+To stop containers, run `docker compose stop`. To restart, run `docker compose start`. If there is a configuration change, run `docker compose up -d` so that Docker updates the environment. To destroy the developer environment, run `docker compose down`.
+
+A more complete [setup guide for PAD+ development](https://e-pshad.github.io/pad-doc/developpement/setup-local) is available.

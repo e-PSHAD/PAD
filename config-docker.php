@@ -44,4 +44,8 @@ $CFG->passwordpolicy = 0;
 $CFG->cronclionly = 0;
 $CFG->pathtophp = '/usr/local/bin/php';
 
+$CFG->phpunit_dataroot  = '/var/www/phpunitdata';
+$CFG->phpunit_prefix = 't_';
+define('PHPUNIT_LONGTEST', true);
+
 require_once(__DIR__ . '/lib/setup.php');
