@@ -17,13 +17,13 @@
 namespace theme_padplus\output\core;
 
 use action_link,
-    action_menu,
     core_course_category,
+    core_course_list_element,
     coursecat_helper,
     html_writer,
     lang_string,
     moodle_url,
-    navigation_node;
+    stdClass;
 
 /*** PADPLUS
  * We override various render methods to customize HTML structure.
@@ -215,5 +215,84 @@ class course_renderer extends \core_course_renderer {
                 array('class' => 'category-item'));
         return $content;
     }
+    /*** PADPLUS END */
 
+    /*** PADPLUS:  Override coursebox for categories page */
+    protected function coursecat_coursebox(coursecat_helper $chelper, $course, $additionalclasses = '') {
+        if (!isset($this->strings->summary)) {
+            $this->strings->summary = get_string('summary');
+        }
+        if ($chelper->get_show_courses() <= self::COURSECAT_SHOW_COURSES_COUNT) {
+            return '';
+        }
+        if ($course instanceof stdClass) {
+            $course = new core_course_list_element($course);
+        }
+        $content = '';
+        $classes = trim('coursebox clearfix '. $additionalclasses);
+        if ($chelper->get_show_courses() < self::COURSECAT_SHOW_COURSES_EXPANDED) {
+            $classes .= ' collapsed';
+        }
+
+        // Coursebox.
+        $content .= html_writer::start_tag('div', array(
+            'class' => $classes,
+            'data-courseid' => $course->id,
+            'data-type' => self::COURSECAT_TYPE_COURSE,
+        ));
+
+        $content .= html_writer::start_tag('div', array('class' => 'info'));
+        $content .= $this->course_name($chelper, $course);
+        $content .= $this->course_enrolment_icons($course);
+        $content .= html_writer::end_tag('div');
+
+        $content .= html_writer::start_tag('div', array('class' => 'content'));
+        $content .= $this->coursecat_coursebox_content($chelper, $course);
+        $content .= html_writer::end_tag('div');
+
+        $content .= html_writer::end_tag('div'); // Coursebox.
+        return $content;
+    }
+    /*** PADPLUS END */
+
+    /**
+     * Returns HTML to display course contacts.
+     *
+     * @param core_course_list_element $course
+     * @return string
+     */
+    protected function course_contacts(core_course_list_element $course) {
+        $content = '';
+        if ($course->has_course_contacts()) {
+            $content .= html_writer::start_tag('ul', ['class' => 'teachers']);
+            foreach ($course->get_course_contacts() as $coursecontact) {
+                $rolenames = array_map(function ($role) {
+                    return $role->displayname;
+                }, $coursecontact['roles']);
+                $name = implode(", ", $rolenames).': '.
+                    html_writer::link(new moodle_url('/user/view.php',
+                        ['id' => $coursecontact['user']->id, 'course' => SITEID]),
+                        $coursecontact['username']);
+                $content .= html_writer::tag('li', $name);
+            }
+            $content .= html_writer::end_tag('ul');
+        }
+        return $content;
+    }
+
+    /**
+     * Renders course info box.
+     *
+     * @param stdClass $course
+     * @return string
+     */
+    public function course_info_box(stdClass $course) {
+        $content = '';
+        $content .= $this->output->box_start('generalbox info');
+        $chelper = new coursecat_helper();
+        $chelper->set_show_courses(self::COURSECAT_SHOW_COURSES_EXPANDED);
+        $content .= $this->coursecat_coursebox($chelper, $course);
+        $content .= $this->output->box_end();
+        return $content;
+    }
 }
