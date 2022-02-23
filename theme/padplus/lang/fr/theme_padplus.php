@@ -62,3 +62,6 @@ $string['settings-copyright-desc'] = 'Information du pied de page';
 
 // Enrolment strings.
 $string['unenrolme'] = 'Me désinscrire';
+
+// Categories page strings.
+$string['settings-category'] = 'Gestion de cette catégorie';

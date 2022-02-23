@@ -62,3 +62,6 @@ $string['settings-copyright-desc'] = 'Footer information';
 
 // Enrolment strings.
 $string['unenrolme'] = 'Unenrol me';
+
+// Categories page strings.
+$string['settings-category'] = 'Management of this category';

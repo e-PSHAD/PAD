@@ -16,13 +16,27 @@
 
 namespace theme_padplus\output\core;
 
-use core_course_category,
+use action_link,
+    action_menu,
+    core_course_category,
     coursecat_helper,
     html_writer,
     lang_string,
     moodle_url,
-    single_select;
+    navigation_node;
 
+/*** PADPLUS
+ * We override various render methods to customize HTML structure.
+ *
+ * As a reminder, here if the overall render hierarchy for category page. Methods with a * are overridden in this renderer:
+ * - *course_category: display particular course category, either top one or a subcategory
+ *   - *coursecat_tree: display a tree of subcategories and courses in the given category
+ *     - coursecat_category_content: display the subcategories and courses in the given category
+ *       - coursecat_subcategories: renders the list of subcategories in a category
+ *         - *coursecat_category: display a course category as a part of a tree
+ *       - coursecat_courses: renders the list of courses
+ *         - coursecat_coursebox: displays one course in the list of courses.
+ */
 class course_renderer extends \core_course_renderer {
 
     /**
@@ -63,16 +77,7 @@ class course_renderer extends \core_course_renderer {
             $strfulllistofcourses = get_string('fulllistofcourses');
             $this->page->set_title("$site->shortname: $strfulllistofcourses");
 
-            // Print the category selector.
-            $categorieslist = core_course_category::make_categories_list();
-            if (count($categorieslist) > 1) {
-                $output .= html_writer::start_tag('div', array('class' => 'categorypicker'));
-                $select = new single_select(new moodle_url('/course/index.php'), 'categoryid',
-                        core_course_category::make_categories_list(), $coursecat->id, null, 'switchcategory');
-                $select->set_label(get_string('categories').':');
-                $output .= $this->render($select);
-                $output .= html_writer::end_tag('div');
-            }
+            /*** PADPLUS: remove category selector */
         }
 
         // Print current category description.
@@ -117,14 +122,19 @@ class course_renderer extends \core_course_renderer {
             $catdisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'categories', 'page' => 1));
         }
         $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
-        // Add course search form.
+
+        /*** PADPLUS: course search form & category management button. */
+        $output .= html_writer::start_div('', ['class' => 'category-page-searchbar-container']);
         $output .= $this->course_search_form();
+        $output .= $this->coursecat_settings_menu_padplus();
+        $output .= html_writer::end_div();
+        /*** PADPLUS END */
 
         // Display course category tree.
         $output .= $this->coursecat_tree($chelper, $coursecat);
 
         // Add action buttons.
-        $output .= $this->container_start('buttons');
+        $output .= $this->container_start('buttons category-page-btns-container');
         if ($coursecat->is_uservisible()) {
             $context = get_category_or_system_context($coursecat->id);
             if (has_capability('moodle/course:create', $context)) {
@@ -135,7 +145,12 @@ class course_renderer extends \core_course_renderer {
                     $url = new moodle_url('/course/edit.php',
                         array('category' => $CFG->defaultrequestcategory, 'returnto' => 'topcat'));
                 }
-                $output .= $this->single_button($url, get_string('addnewcourse'), 'get');
+                /*** PADPLUS: restyle 'add course' button. */
+                $text = get_string('addnewcourse');
+                $attributes = ['class' => 'btn btn-primary btn-add-course'];
+                $link = new action_link($url, $text, null, $attributes);
+                $output .= $this->render($link);
+                /*** PADPLUS END */
             }
             ob_start();
             print_course_request_buttons($context);
@@ -167,25 +182,7 @@ class course_renderer extends \core_course_renderer {
         $attributes = $chelper->get_and_erase_attributes('course_category_tree clearfix');
         $content .= html_writer::start_tag('div', $attributes);
 
-        if ($coursecat->get_children_count()) {
-            $classes = array(
-                'collapseexpand', 'aabtn'
-            );
-
-            // Check if the category content contains subcategories with children's content loaded.
-            if ($this->categoryexpandedonload) {
-                $classes[] = 'collapse-all';
-                $linkname = get_string('collapseall');
-            } else {
-                $linkname = get_string('expandall');
-            }
-
-            // Only show the collapse/expand if there are children to expand.
-            $content .= html_writer::start_tag('div', array('class' => 'collapsible-actions'));
-            $content .= html_writer::link('#', $linkname, array('class' => implode(' ', $classes)));
-            $content .= html_writer::end_tag('div');
-            $this->page->requires->strings_for_js(array('collapseall', 'expandall'), 'moodle');
-        }
+        /*** PADPLUS: remove collapsible button. */
 
         $content .= html_writer::tag('div', $categorycontent, array('class' => 'content'));
 
@@ -194,11 +191,10 @@ class course_renderer extends \core_course_renderer {
         return $content;
     }
 
-    /**
+    /*** PADPLUS
      * Returns HTML to display a course category as a part of a tree
      *
-     * This is an internal function, to display a particular category and all its contents
-     * use {@link core_course_renderer::course_category()}
+     * This is a trimmed down version of the original coursecat_category function, since we do not display subcategories here.
      *
      * @param coursecat_helper $chelper various display options
      * @param core_course_category $coursecat
@@ -206,63 +202,17 @@ class course_renderer extends \core_course_renderer {
      * @return string
      */
     protected function coursecat_category(coursecat_helper $chelper, $coursecat, $depth) {
-        // Open category tag.
-        $classes = array('category');
-        if (empty($coursecat->visible)) {
-            $classes[] = 'dimmed_category';
-        }
-        if ($chelper->get_subcat_depth() > 0 && $depth >= $chelper->get_subcat_depth()) {
-            // Do not load content.
-            $categorycontent = '';
-            $classes[] = 'notloaded';
-            if ($coursecat->get_children_count() ||
-                    ($chelper->get_show_courses() >= self::COURSECAT_SHOW_COURSES_COLLAPSED && $coursecat->get_courses_count())) {
-                $classes[] = 'with_children';
-                $classes[] = 'collapsed';
-            }
-        } else {
-            // Load category content.
-            $categorycontent = $this->coursecat_category_content($chelper, $coursecat, $depth);
-            $classes[] = 'loaded';
-            if (!empty($categorycontent)) {
-                $classes[] = 'with_children';
-                // Category content loaded with children.
-                $this->categoryexpandedonload = true;
-            }
-        }
-
-        // Make sure JS file to expand category content is included.
-        $this->coursecat_include_js();
-
-        $content = html_writer::start_tag('div', array(
-            'class' => join(' ', $classes),
-            'data-categoryid' => $coursecat->id,
-            'data-depth' => $depth,
-            'data-showcourses' => $chelper->get_show_courses(),
-            'data-type' => self::COURSECAT_TYPE_CATEGORY,
-        ));
-
-        // Category name.
         $categoryname = $coursecat->get_formatted_name();
-        $categoryname = html_writer::link(new moodle_url('/course/index.php',
+
+        $categoryblock = '';
+        $categoryblock .= html_writer::start_tag('h5', array('class' => 'category-title'));
+        $categoryblock .= $categoryname;
+        $categoryblock .= html_writer::end_tag('h5');
+
+        $content = html_writer::link(new moodle_url('/course/index.php',
                 array('categoryid' => $coursecat->id)),
-                $categoryname);
-        if ($chelper->get_show_courses() == self::COURSECAT_SHOW_COURSES_COUNT
-                && ($coursescount = $coursecat->get_courses_count())) {
-            $categoryname .= html_writer::tag('span', ' ('. $coursescount.')',
-                    array('title' => get_string('numberofcourses'), 'class' => 'numberofcourse'));
-        }
-        $content .= html_writer::start_tag('div', array('class' => 'info'));
-
-        $content .= html_writer::tag(($depth > 1) ? 'h4' : 'h3', $categoryname, array('class' => 'categoryname aabtn'));
-        $content .= html_writer::end_tag('div');
-
-        // Add category content to the output.
-        $content .= html_writer::tag('div', $categorycontent, array('class' => 'content'));
-
-        $content .= html_writer::end_tag('div');
-
-        // Return the course category tree HTML.
+                $categoryblock,
+                array('class' => 'category-item'));
         return $content;
     }
 

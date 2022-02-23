@@ -1,0 +1,214 @@
+#page-course-index-category {
+    #page {
+        padding: 0 200px;
+        #region-main-settings-menu {
+            .action-menu-trigger { /* This button is now inside the function course_category */
+                display: none;
+            }
+        }
+        #region-main {
+            overflow: visible;
+            padding-top: 0px;
+            .region_main_settings_menu_proxy {
+                display: none;
+            }
+        }
+    }
+
+    // Category description.
+    .generalbox.info {
+        border-color: theme-color("pad-border");
+        border-style: solid;
+        border-width: 0 0 1px 0;
+        padding-bottom: 24px !important;
+    }
+}
+
+// Category tree.
+.course_category_tree {
+    .subcategories {
+        .category-item {
+            align-items: center;
+            border: 1px solid theme-color("pad-border");
+            border-radius: 8px;
+            display: flex;
+            height: 64px;
+            justify-content: space-between;
+            margin: 16px 0px;
+            padding: 0 20px;
+            transition: all 0.1s ease-in-out;
+            .category-title {
+                margin-bottom: 0px;
+            }
+            &:hover {
+                background-color: theme-color("pad-btn-secondary-bg");
+                border: 1px solid theme-color("pad-link");
+                text-decoration: none;
+            }
+            &:after {
+                align-items: center;
+                background-color: #EFF4FD;
+                border-radius: 25px;
+                content: fa-content($fa-var-chevron-right);
+                display: flex !important;
+                @include fa-icon();
+                font-family: 'Font Awesome 5 Free';
+                font-weight: 900;
+                height: 40px;
+                justify-content: center;
+                width: 40px;
+            }
+        }
+    }
+}
+
+// Search bar & drowpdown container.
+.category-page-searchbar-container {
+    align-items: center;
+    border-radius: 8px;
+    display: flex;
+    height: 88px;
+    justify-content: space-between;
+    .simplesearchform .input-group {
+        min-width: 400px;
+        .form-control {
+            border: 1px solid theme-color('pad-border');
+            border-radius: 4px;
+            &:focus {
+                z-index: 1;
+            }
+        }
+        .input-group-append {
+            display: none;
+        }
+        &:before {
+            color: $body-color;
+            content: fa-content($fa-var-search);
+            background-color: $white;
+            @include fa-icon();
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 1.2rem;
+            position: absolute;
+            right: 12px;
+            top: 9px;
+            z-index: 2;
+        }
+    }
+    .dropdown-toggle {
+        align-items: center;
+        background-color: $white;
+        border: 1px solid theme-color("pad-link");
+        border-radius: 4px;
+        color: theme-color("pad-link");
+        display: flex !important;
+        height: 38px;
+        justify-content: center;
+        padding: 0px 12px;
+        i {
+            display: none;
+        }
+        &:hover {
+            background-color: theme-color("pad-btn-secondary-bg");
+        }
+        &:active {
+            background-color: theme-color("pad-btn-secondary-bg") !important;
+            border-color: theme-color("pad-link") !important;
+            color: theme-color("pad-link") !important;
+        }
+        &:after {
+            margin-left: 8px;
+        }
+    }
+    .dropdown a:focus {
+        box-shadow: none !important;
+    }
+}
+
+// Button "Add a course".
+.category-page-btns-container {
+    margin-top: 38px;
+    padding-top: 26px;
+    border-top: 1px solid theme-color("pad-border");
+    .btn-add-course {
+        margin: 0 10px;
+        &:before {
+            content: fa-content($fa-var-plus);
+            @include fa-icon();
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 8px;
+        }
+    }
+}
+
+// Responsive for page, search bar, category settings dropdown & bottom buttons.
+@media screen and (max-width: 1389px) {
+    #page-course-index-category {
+        #page {
+            padding: 0 150px;
+        }
+    }
+}
+
+@media screen and (max-width: 1289px) {
+    #page-course-index-category {
+        #page {
+            padding: 0 100px;
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .category-page-searchbar-container {
+        .simplesearchform .input-group {
+            min-width: 250px;
+        }
+    }
+}
+
+@media screen and (max-width: 1042px) {
+    #page-course-index-category {
+        #page {
+            padding: 0 1rem;
+        }
+    }
+}
+
+@media screen and (max-width: 865px) {
+    .category-page-searchbar-container {
+        flex-direction: column;
+        .mform {
+            padding: 0;
+        }
+        .simplesearchform,
+        .form-inline,
+        .input-group,
+        .form-control {
+            width: 100%;
+        }
+        .action-menu {
+            width: 100%;
+            .action-menu-trigger {
+                width: 100%;
+                a {
+                    display: flex !important;
+                    justify-content: space-between;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 525px) {
+    .category-page-btns-container {
+        display: flex;
+        flex-direction: column;
+        .btn-add-course {
+            margin: 0 0 10px 0;
+        }
+        .singlebutton .btn {
+            width: 100%;
+        }
+    }
+}
