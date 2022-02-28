@@ -76,7 +76,7 @@ $padnav = new flat_navigation($PAGE);
 // Set collectionlabel on home since we always want it to come first.
 $home = $nav->get('home');
 $home->set_collectionlabel(get_string('aria-main-nav', 'theme_padplus'));
-fill_nav_from_menu_keys($nav, $padnav, ['home', 'myhome', 'calendar']);
+fill_nav_from_menu_keys($nav, $padnav, ['home', 'myhome', 'mycoursespage', 'calendar']);
 // Always disable divider on myhome since it should follow home and never comes at top level in another collection.
 $myhome = $padnav->get('myhome');
 if (is_object($myhome)) {

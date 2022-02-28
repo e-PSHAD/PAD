@@ -14,15 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace theme_padplus\output;
+namespace local_padplusextensions\output;
 
-class icon_system_fontawesome extends \core\output\icon_system_fontawesome {
-    public function get_core_icon_map() {
-        $iconmap = parent::get_core_icon_map();
+use plugin_renderer_base;
 
-        $iconmap['core:i/dashboard'] = 'fa-th-large'; // Override Moodle default fa-tachometer.
-        $iconmap['core:i/mycourses'] = 'fa-layer-group';
+/**
+ * PAD+ custom renderer for My Courses page.
+ */
+class mycourses_renderer extends plugin_renderer_base {
 
-        return $iconmap;
+    /**
+     * Render 'My courses' main content.
+     */
+    public function render_main() {
+        $bmo = block_instance('myoverview');
+        $bmo->page = $this->page;
+        $blockcontent = $bmo->get_content()->text;
+
+        return "<div>$blockcontent</div>";
     }
 }

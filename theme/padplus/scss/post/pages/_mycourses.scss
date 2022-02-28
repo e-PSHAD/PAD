@@ -1,0 +1,11 @@
+#page-my-courses {
+    // hide avater and messaging button in My Courses header
+    .page-header-image,
+    .header-button-group {
+        display: none;
+    }
+
+    .empty-placeholder-image-lg {
+        height: 5rem;
+    }
+}

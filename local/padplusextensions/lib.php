@@ -22,6 +22,20 @@
 function local_padplusextensions_extend_navigation(global_navigation $nav) {
     $syscontext = context_system::instance();
 
+    // Check for any authenticated user.
+    if (has_capability('moodle/user:changeownpassword', $syscontext)) {
+        $mycoursesnode = navigation_node::create(
+            get_string('mycourses-page', 'theme_padplus'),
+            new moodle_url('/my/courses.php'),
+            navigation_node::TYPE_ROOTNODE,
+            null,
+            'mycoursespage',
+            new pix_icon('i/mycourses', '')
+        );
+        $mycoursesnode->showinflatnavigation = true;
+        $nav->add_node($mycoursesnode);
+    }
+
     // Check for admin/instance manager.
     if (has_capability('moodle/category:manage', $syscontext)) {
         $allcategoriesnode = navigation_node::create(

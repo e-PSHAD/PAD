@@ -43,6 +43,8 @@ $string['workshop-menu'] = 'Les ateliers collectifs';
 $string['catalog-menu'] = 'Ressources partagées';
 
 // My Courses page strings.
+$string['mycourses-page'] = 'Mes séquences';
+$string['eventmycoursesviewed'] = 'Page mes séquences consultée';
 $string['mycatalog-courses'] = 'Mes ressources partagées';
 $string['aria:mycatalog-courses'] = 'Afficher mes ressources partagées';
 $string['catalog-course'] = 'Ressource partagée';
