@@ -93,22 +93,10 @@ if (is_object($myhome)) {
 // Only administrator and manager at system level have this capability, so it's a good way to discriminate.
 $context = context_system::instance();
 if (has_capability('moodle/category:manage', $context)) {
-    // Navigation group for administrators / instance manager.
-    // Group: site administration.
-    fill_nav_from_menu_keys($nav, $padnav, ['sitesettings']);
-
-    // Direct 'all categories' access.
-    $allcoursesnode = navigation_node::create(
-        get_string('allcategories-menu', 'theme_padplus'),
-        new moodle_url('/course/index.php'),
-        navigation_node::TYPE_CUSTOM,
-        null,
-        'allcategories',
-        new pix_icon('i/course', '')
-    );
-    $padnav->add(new flat_navigation_node($allcoursesnode, 0));
+    // Group: site administration for administrators / instance manager.
+    fill_nav_from_menu_keys($nav, $padnav, ['sitesettings', 'allcategories']);
 } else {
-    // Category group for all other users.
+    // Group: subcategories for all other users.
     $topcategories = select_user_top_categories(core_course_category::top()->get_children(), $PAGE->theme);
 
     $first = true;
