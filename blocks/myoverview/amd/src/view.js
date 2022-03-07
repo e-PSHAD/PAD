@@ -549,7 +549,9 @@ function(
         var config = $.extend({}, DEFAULT_PAGED_CONTENT_CONFIG);
         config.eventNamespace = namespace;
 
-        var pagedContentPromise = PagedContentFactory.createWithLimit(
+        /*** PADPLUS: use pagination with computed page numbers. */
+        var pagedContentPromise = PagedContentFactory.createWithTotalAndLimit(
+            totalCourseCount,
             itemsPerPage,
             function(pagesData, actions) {
                 var promises = [];
