@@ -3869,14 +3869,16 @@ class core_course_external extends external_api {
         }
 
         $renderer = $PAGE->get_renderer('core');
-        $formattedcourses = array_map(function($course) use ($renderer, $favouritecourseids) {
+        $theme = $PAGE->theme;
+        $formattedcourses = array_map(function($course) use ($renderer, $favouritecourseids, $theme) {
             context_helper::preload_from_record($course);
             $context = context_course::instance($course->id);
             $isfavourite = false;
             if (in_array($course->id, $favouritecourseids)) {
                 $isfavourite = true;
             }
-            $exporter = new course_summary_exporter($course, ['context' => $context, 'isfavourite' => $isfavourite]);
+            /*** PADPLUS: pass theme as parameter to access category settings in course exporter. */
+            $exporter = new course_summary_exporter($course, ['context' => $context, 'isfavourite' => $isfavourite, 'theme' => $theme]);
             return $exporter->export($renderer);
         }, $filteredcourses);
 

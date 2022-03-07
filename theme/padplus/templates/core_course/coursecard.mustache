@@ -63,11 +63,17 @@
                         </span>
                     {{$coursename}}{{/coursename}}
                 </a>
-                {{^visible}}
-                    <div class="d-flex flex-wrap">
-                        <span class="badge badge-pad badge-pad-hidden">{{#str}} hiddenfromstudents {{/str}}</span>
-                    </div>
-                {{/visible}}
+                <div class="d-flex flex-wrap">
+                    {{^visible}}
+                    <span class="badge badge-pad badge-pad-hidden">{{#str}} hiddenfromstudents {{/str}}</span>
+                    {{/visible}}
+                    {{#workshop}}
+                        <span class="badge badge-pad badge-pad-workshop">{{#str}} workshop-course, theme_padplus {{/str}}</span>
+                    {{/workshop}}
+                    {{#incatalog}}
+                        <span class="badge badge-pad badge-pad-catalog">{{#str}} catalog-course, theme_padplus {{/str}}</span>
+                    {{/incatalog}}
+                </div>
             </div>
             {{$menu}}{{/menu}}
         </div>

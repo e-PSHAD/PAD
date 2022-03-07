@@ -24,6 +24,8 @@
 namespace core_course\external;
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot .'/local/padplusextensions/lib.php');
+
 use renderer_base;
 use moodle_url;
 
@@ -50,7 +52,7 @@ class course_summary_exporter extends \core\external\exporter {
 
     protected static function define_related() {
         // We cache the context so it does not need to be retrieved from the course.
-        return array('context' => '\\context', 'isfavourite' => 'bool?');
+        return array('context' => '\\context', 'isfavourite' => 'bool?', 'theme' => '\\theme_config?');
     }
 
     protected function get_other_values(renderer_base $output) {
@@ -75,7 +77,10 @@ class course_summary_exporter extends \core\external\exporter {
             'isfavourite' => $this->related['isfavourite'],
             'hidden' => boolval(get_user_preferences('block_myoverview_hidden_course_' . $this->data->id, 0)),
             'showshortname' => $CFG->courselistshortnames ? true : false,
-            'coursecategory' => $coursecategory->name
+            'coursecategory' => $coursecategory->name,
+            /*** PADPLUS: inject incatalog and workshop boolean attributes in course summary payload. */
+            'incatalog' => \category_belongs_to_catalog($coursecategory, $this->related['theme']),
+            'workshop' => \category_belongs_to_workshop($coursecategory, $this->related['theme'])
         );
     }
 
@@ -165,6 +170,12 @@ class course_summary_exporter extends \core\external\exporter {
             ),
             'coursecategory' => array(
                 'type' => PARAM_TEXT
+            ),
+            'incatalog' => array(
+                'type' => PARAM_BOOL
+            ),
+            'workshop' => array(
+                'type' => PARAM_BOOL
             )
         );
     }

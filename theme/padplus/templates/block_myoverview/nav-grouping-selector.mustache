@@ -42,7 +42,7 @@
 <div class="dropdown mb-1 mr-auto">
     <button id="groupingdropdown" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="{{#str}} aria:groupingdropdown, block_myoverview {{/str}}">
         <span class="d-sm-inline-block" data-active-item-text>
-            {{#allincludinghidden}}{{#str}} allincludinghidden, block_myoverview {{/str}}{{/allincludinghidden}}
+            {{#allincludinghidden}}{{#str}} allincludinghidden, block_myoverview, {{totalcoursecount}} {{/str}}{{/allincludinghidden}}
             {{#all}}{{#str}} all, block_myoverview {{/str}}{{/all}}
             {{#inprogress}}{{#str}} inprogress, block_myoverview {{/str}}{{/inprogress}}
             {{#future}}{{#str}} future, block_myoverview {{/str}}{{/future}}
@@ -56,7 +56,7 @@
         {{#displaygroupingallincludinghidden}}
         <li>
             <a class="dropdown-item" href="#" data-filter="grouping" data-value="allincludinghidden" data-pref="allincludinghidden" aria-label="{{#str}} aria:allcoursesincludinghidden, block_myoverview {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#allincludinghidden}}aria-current="true"{{/allincludinghidden}}>
-                {{#str}} allincludinghidden, block_myoverview {{/str}}
+                {{#str}} allincludinghidden, block_myoverview, {{totalcoursecount}} {{/str}}
             </a>
         </li>
         {{/displaygroupingallincludinghidden}}

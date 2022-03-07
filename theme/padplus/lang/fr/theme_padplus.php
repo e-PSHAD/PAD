@@ -42,6 +42,10 @@ $string['allcourses-menu'] = 'Tous les cours';
 $string['workshop-menu'] = 'Les ateliers collectifs';
 $string['catalog-menu'] = 'Ressources partagées';
 
+// My Courses page strings.
+$string['catalog-course'] = 'Ressource partagée';
+$string['workshop-course'] = 'Atelier collectif';
+
 // Theme settings strings.
 $string['settings-color-title'] = 'Couleurs du thème';
 $string['settings-color-desc'] = "Couleurs qui définissent l'identité de votre site";

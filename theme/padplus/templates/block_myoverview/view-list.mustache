@@ -69,11 +69,17 @@
                         </span>
                         {{{fullname}}}
                     </a>
-                    {{^visible}}
-                        <div class="d-flex flex-wrap">
+                    <div class="d-flex flex-wrap">
+                        {{^visible}}
                             <span class="badge badge-pad badge-pad-hidden">{{#str}} hiddenfromstudents {{/str}}</span>
-                        </div>
-                    {{/visible}}
+                        {{/visible}}
+                        {{#workshop}}
+                            <span class="badge badge-pad badge-pad-workshop">{{#str}} workshop-course, theme_padplus {{/str}}</span>
+                        {{/workshop}}
+                        {{#incatalog}}
+                            <span class="badge badge-pad badge-pad-catalog">{{#str}} catalog-course, theme_padplus {{/str}}</span>
+                        {{/incatalog}}
+                    </div>
                 </div>
             </div>
             <div class="col-md-1 p-0 d-flex">
