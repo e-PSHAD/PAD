@@ -75,7 +75,8 @@ $string['settings-allcourses-desc'] = "La première catégorie accessible à l'u
 // Enrolment strings.
 $string['unenrolme'] = 'Me désinscrire';
 
-// Categories & cours page strings.
+// Categories & course page strings.
+$string['addnewworkshop'] = 'Ajouter un atelier';
 $string['btn-coursebox'] = 'Consulter cette séquence';
 $string['btn-workshopbox'] = 'En savoir plus';
 $string['no-participants-enrolled'] = 'aucun stagiaire inscrit';

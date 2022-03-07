@@ -155,7 +155,9 @@ class course_renderer extends \core_course_renderer {
         $output .= $this->container_start('buttons category-page-btns-container');
         if ($coursecat->is_uservisible()) {
             $context = get_category_or_system_context($coursecat->id);
-            if (has_capability('moodle/course:create', $context)) {
+            /*** PADPLUS: only display 'add course' button when there is no subcategory. */
+            $categoryisleaf = $coursecat->get_children_count() === 0;
+            if ($categoryisleaf && has_capability('moodle/course:create', $context)) {
                 // Print link to create a new course, for the 1st available category.
                 if ($coursecat->id) {
                     $url = new moodle_url('/course/edit.php', array('category' => $coursecat->id, 'returnto' => 'category'));
@@ -163,8 +165,9 @@ class course_renderer extends \core_course_renderer {
                     $url = new moodle_url('/course/edit.php',
                         array('category' => $CFG->defaultrequestcategory, 'returnto' => 'topcat'));
                 }
-                /*** PADPLUS: restyle 'add course' button. */
-                $text = get_string('addnewcourse');
+                /*** PADPLUS: customize 'add course' button. */
+                $text = category_belongs_to_workshop($coursecat, $this->page->theme) ?
+                    get_string('addnewworkshop', 'theme_padplus') : get_string('addnewcourse');
                 $attributes = ['class' => 'btn btn-primary btn-add-course'];
                 $link = new action_link($url, $text, null, $attributes);
                 $output .= $this->render($link);
