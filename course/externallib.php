@@ -3810,6 +3810,8 @@ class core_course_external extends external_api {
                 break;
             case COURSE_CUSTOMFIELD:
                 break;
+            case COURSE_CATALOG_PADPLUS: /*** PADPLUS: accept catalog value as classification parameter. */
+                break;
             default:
                 throw new invalid_parameter_exception('Invalid classification');
         }
@@ -3860,11 +3862,18 @@ class core_course_external extends external_api {
                 $customfieldvalue,
                 $limit
             );
+        } else if ($classification == COURSE_CATALOG_PADPLUS) { /*** PADPLUS: filter courses only in catalog. */
+            list($filteredcourses, $processedcount) = course_filter_courses_in_catalog(
+                $courses,
+                $limit,
+                $PAGE->theme
+            );
         } else {
             list($filteredcourses, $processedcount) = course_filter_courses_by_timeline_classification(
                 $courses,
                 $classification,
-                $limit
+                $limit,
+                $PAGE->theme /*** PADPLUS: pass theme to retrieve catalog settings. */
             );
         }
 

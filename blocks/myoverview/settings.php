@@ -86,6 +86,17 @@ if ($ADMIN->fulltree) {
             '',
             1));
 
+    /*** PADPLUS
+     * Provide catalog setting only so that main can properly restore user pref.
+     * Notice it is on by default and we do not take this into account for display.
+     * Rather we check for user access to catalog category.
+     */
+    $settings->add(new admin_setting_configcheckbox(
+            'block_myoverview/displaygroupingcatalog',
+            get_string('mycatalog-courses', 'theme_padplus'),
+            '',
+            1));
+
     $settings->add(new admin_setting_configcheckbox(
             'block_myoverview/displaygroupingcustomfield',
             get_string('customfield', 'block_myoverview'),

@@ -406,7 +406,7 @@ class main implements renderable, templatable {
      *
      */
     public function export_for_template(renderer_base $output) {
-        global $CFG, $USER;
+        global $CFG, $USER, $PAGE;
 
         $nocoursesurl = $output->image_url('courses', 'block_myoverview')->out();
 
@@ -460,6 +460,8 @@ class main implements renderable, templatable {
             'displaygroupingpast' => $this->displaygroupingpast,
             'displaygroupingfavourites' => $this->displaygroupingfavourites,
             'displaygroupinghidden' => $this->displaygroupinghidden,
+            /*** PADPLUS: display catalog filter only if user has access to catalog */
+            'displaygroupingcatalog' => current_user_has_access_to_catalog($PAGE->theme),
             'displaygroupingselector' => $this->displaygroupingselector,
             'displaygroupingcustomfield' => $this->displaygroupingcustomfield && $customfieldvalues,
             'customfieldname' => $this->customfiltergrouping,

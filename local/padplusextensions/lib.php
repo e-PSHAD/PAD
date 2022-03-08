@@ -67,3 +67,66 @@ function category_belongs_to_catalog(core_course_category $category, ?theme_conf
     list($root, $topcategoryid) = explode('/', $category->path);
     return $topcategoryid === $theme->settings->sidebarcatalogid;
 }
+
+/**
+ * Tell whether current user has access to catalog by looking through its top categories.
+ *
+ * @param theme_config  $theme  PAD+ theme for settings
+ * @return bool         true if user has access to catalog, false otherwise
+ */
+function current_user_has_access_to_catalog(theme_config $theme) {
+    $usercategories = \core_course_category::top()->get_children();
+    foreach ($usercategories as $cat) {
+        if (category_belongs_to_catalog($cat, $theme)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Search the given $courses for any that match the given $classification up to the specified
+ * $limit.
+ *
+ * This function will return the subset of courses that belong to the catalog category as well as the
+ * number of courses it had to process to build that subset.
+ *
+ * It is recommended that for larger sets of courses this function is given a Generator that loads
+ * the courses from the database in chunks.
+ *
+ * @see course/lib.php Heavily inspired by similar course_filter_courses_* functions.
+ * @param array|Traversable $courses List of courses to process
+ * @param int $limit Limit the number of results to this amount
+ * @param theme_config $theme Theme which contains settings for catalog.
+ * @return array First value is the filtered courses, second value is the number of courses processed
+ */
+function course_filter_courses_in_catalog(
+    $courses,
+    int $limit = 0,
+    $theme = null
+) : array {
+
+    $filteredcourses = [];
+    $numberofcoursesprocessed = 0;
+    $filtermatches = 0;
+
+    foreach ($courses as $course) {
+        $numberofcoursesprocessed++;
+
+        $coursecategory = \core_course_category::get($course->category, MUST_EXIST, true);
+        if (category_belongs_to_catalog($coursecategory, $theme)) {
+            $filteredcourses[] = $course;
+            $filtermatches++;
+        }
+
+        if ($limit && $filtermatches >= $limit) {
+            // We've found the number of requested courses. No need to continue searching.
+            break;
+        }
+    }
+
+    // Return the number of filtered courses as well as the number of courses that were searched
+    // in order to find the matching courses. This allows the calling code to do some kind of
+    // pagination.
+    return [$filteredcourses, $numberofcoursesprocessed];
+}

@@ -35,6 +35,7 @@ define('BLOCK_MYOVERVIEW_GROUPING_PAST', 'past');
 define('BLOCK_MYOVERVIEW_GROUPING_FAVOURITES', 'favourites');
 define('BLOCK_MYOVERVIEW_GROUPING_HIDDEN', 'hidden');
 define('BLOCK_MYOVERVIEW_GROUPING_CUSTOMFIELD', 'customfield');
+define('BLOCK_MYOVERVIEW_GROUPING_CATALOG_PADPLUS', 'catalog');
 
 /**
  * Allows selection of all courses without a value for the custom field.
@@ -90,6 +91,8 @@ function block_myoverview_user_preferences() {
             BLOCK_MYOVERVIEW_GROUPING_FAVOURITES,
             BLOCK_MYOVERVIEW_GROUPING_HIDDEN,
             BLOCK_MYOVERVIEW_GROUPING_CUSTOMFIELD,
+            /*** PADPLUS: whitelist catalog value in user prefs. */
+            BLOCK_MYOVERVIEW_GROUPING_CATALOG_PADPLUS,
         )
     );
 

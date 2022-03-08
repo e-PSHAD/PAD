@@ -43,6 +43,8 @@ $string['workshop-menu'] = 'Group workshops';
 $string['catalog-menu'] = 'Shared resources';
 
 // My Courses page strings.
+$string['mycatalog-courses'] = 'My shared resources';
+$string['aria:mycatalog-courses'] = 'Show my shared resources';
 $string['catalog-course'] = 'Shared resource';
 $string['workshop-course'] = 'Group workshop';
 

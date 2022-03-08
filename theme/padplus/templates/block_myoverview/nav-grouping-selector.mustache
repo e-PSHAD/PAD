@@ -47,6 +47,7 @@
             {{#inprogress}}{{#str}} inprogress, block_myoverview {{/str}}{{/inprogress}}
             {{#future}}{{#str}} future, block_myoverview {{/str}}{{/future}}
             {{#past}}{{#str}} past, block_myoverview {{/str}}{{/past}}
+            {{#catalog}}{{#str}} mycatalog-courses, theme_padplus {{/str}}{{/catalog}}
             {{#favourites}}{{#str}} favourites, block_myoverview {{/str}}{{/favourites}}
             {{#hidden}}{{#str}} hiddencourses, block_myoverview {{/str}}{{/hidden}}
             {{selectedcustomfield}}
@@ -106,6 +107,19 @@
             </a>
         </li>
         {{/displaygroupingpast}}
+
+        {{#displaygroupingcatalog}}
+            <li class="dropdown-divider" role="presentation">
+                <span class="filler">&nbsp;</span>
+            </li>
+
+            <li>
+                <a class="dropdown-item" href="#" data-filter="grouping" data-value="catalog" data-pref="catalog" aria-label="{{#str}} aria:mycatalog-courses, theme_padplus {{/str}}" aria-controls="courses-view-{{uniqid}}" role="menuitem" {{#catalog}}aria-current="true"{{/catalog}}>
+                    {{#str}} mycatalog-courses, theme_padplus {{/str}}
+                </a>
+            </li>
+        {{/displaygroupingcatalog}}
+
         {{#displaygroupingcustomfield}}
             <li class="dropdown-divider" role="presentation">
                 <span class="filler">&nbsp;</span>
