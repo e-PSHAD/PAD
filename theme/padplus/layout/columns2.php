@@ -121,13 +121,25 @@ if (has_capability('moodle/category:manage', $context)) {
     }
 }
 
-// Group: current course and its sections. Options left out: 'badgesview', 'competencies'.
+// Group: current course. Options left out: 'badgesview', 'competencies'.
 fill_nav_from_menu_keys($nav, $padnav, ['coursehome', 'participants', 'grades']);
-fill_nav_from_menu_type($nav, $padnav, navigation_node::TYPE_SECTION);
-// Enable divider on coursehome since it comes after the main menu now.
+
+// Enable divider on coursehome since it comes after the main menu now & set a common text.
 $coursehome = $padnav->get('coursehome');
 if (is_object($coursehome)) {
+    $nav->get('coursehome')->text = get_string('course-description', 'theme_padplus');
     $coursehome->set_showdivider(true, $coursehome->text);
+}
+
+// Unlink icons for grades & participants.
+$grades = $nav->get('grades');
+$participants = $nav->get('participants');
+if (is_object($participants)) {
+    $participants->icon->pix = null;
+}
+
+if (is_object($participants)) {
+    $grades->icon->pix = null;
 }
 
 // Group: add block.

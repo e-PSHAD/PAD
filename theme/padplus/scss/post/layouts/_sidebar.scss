@@ -44,6 +44,12 @@
             box-shadow: none !important;
         }
     }
+    [data-key = 'participants'],
+    [data-key = 'grades'] {
+        span {
+            margin-left: 29px;
+        }
+    }
 }
 
 .flat-menu-divider {
@@ -58,4 +64,13 @@
 
 .media-body {
     margin-left: 6px;
+}
+
+// Icons
+.fa.fa-tachometer:before {
+    content: "\f009" !important; // icon fa-th-large fontawesome
+}
+
+.fa.fa-graduation-cap:before {
+    content: '\f07c' !important; // icon folder-open fontawesome
 }
