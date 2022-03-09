@@ -2,6 +2,10 @@
     border: 0;
 }
 
+#page-header .card {
+    border: none;
+}
+
 .header-page-container {
     border-bottom: 3px solid theme-color('primary');
     .page-context-header {

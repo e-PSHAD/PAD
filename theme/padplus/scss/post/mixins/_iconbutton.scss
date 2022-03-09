@@ -1,0 +1,16 @@
+@mixin iconbutton-padplus() {
+    .btn.btn-icon {
+        color:  theme-color("primary") !important;
+        margin-top: -.5rem;
+        padding-right: 0.1rem;
+        padding-bottom: 0.1rem;
+
+        &:focus {
+            box-shadow: 0 0 0 0.2rem $gray-200;
+        }
+
+        .icon {
+            margin-right: 0;
+        }
+    }
+}

@@ -1,13 +1,7 @@
-// Override dashboard style (/my/index page)
-#page {
-    background-color: $white;
-}
-
-.card {
-    border: none;
-}
-
 #page-my-index {
+    // override dashboard background
+    background-color: $white;
+
     // hide avater and messaging button in My Dashboard header
     .page-header-image,
     .header-button-group {
@@ -17,6 +11,32 @@
     #page-header {
         .btn-secondary {
             margin-left: 22px;
+        }
+    }
+
+    .block.card {
+        border: none;
+    }
+
+    .block-recentlyaccessedcourses {
+        .dashboard-card-deck {
+            background-color: $light;
+            border-radius: 8px;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        // pagination icons
+        .pagination {
+            li {
+                a {
+                    border-radius: 4px;
+                    padding: 4px 6px;
+                }
+            }
+            li:last-child {
+                margin-left: 8px;
+            }
         }
     }
 

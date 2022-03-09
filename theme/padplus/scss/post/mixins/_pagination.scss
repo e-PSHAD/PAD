@@ -1,0 +1,14 @@
+@mixin pagination-padplus() {
+    .pagination {
+        margin-top: 40px;
+        .page-link {
+            border: none !important;
+            border-radius: 4px;
+            margin: 0 4px !important;
+            padding: 0.4rem 0.75rem;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
