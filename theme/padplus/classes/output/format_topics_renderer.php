@@ -16,8 +16,11 @@
 
 namespace theme_padplus\output;
 
-use completion_info,
+use action_link,
+    completion_info,
+    context_course,
     html_writer,
+    moodle_url,
     stdClass;
 
 /**
@@ -182,9 +185,7 @@ class format_topics_renderer extends \format_topics_renderer {
         /*** PADPLUS: Returns the subtitle 'In this cours' at the top of the cours page. */
         $url = $this->page->url->__toString();
         if (strpos($url, 'section') == false) {
-            $output .= html_writer::start_tag('div', ['class' => 'course-description-container']);
             $output .= html_writer::tag('h3', get_string('course-description', 'theme_padplus'));
-            $output .= html_writer::end_tag('div');
         }
         /*** PADPLUS END */
         return $output;
@@ -230,22 +231,8 @@ class format_topics_renderer extends \format_topics_renderer {
         // The requested section page.
         $thissection = $modinfo->get_section_info($displaysection);
 
-        // Title with section navigation links.
         $sectionnavlinks = $this->get_nav_links($course, $modinfo->get_section_info_all(), $displaysection);
-        $sectiontitle = '';
-        $sectiontitle .= html_writer::start_tag('div', array('class' => 'section-navigation navigationtitle'));
-        $sectiontitle .= html_writer::tag('span', $sectionnavlinks['previous'], array('class' => 'mdl-left'));
-        $sectiontitle .= html_writer::tag('span', $sectionnavlinks['next'], array('class' => 'mdl-right'));
-        // Title attributes.
-        $classes = 'sectionname';
-        if (!$thissection->visible) {
-            $classes .= ' dimmed_text';
-        }
-        $sectionname = html_writer::tag('span', $this->section_title_without_link($thissection, $course));
-        $sectiontitle .= $this->output->heading($sectionname, 3, $classes);
-
-        $sectiontitle .= html_writer::end_tag('div');
-        echo $sectiontitle;
+        /*** PADPLUS: Deleted title with section navigation links */
 
         // Now the list of sections..
         echo $this->start_section_list();
@@ -257,15 +244,21 @@ class format_topics_renderer extends \format_topics_renderer {
         echo $this->section_footer();
         echo $this->end_section_list();
 
+        /*** PADPLUS: Display course url in section navigation links */
+        // Get course url.
+        $text = get_string('course-homepage', 'theme_padplus');
+        $url = new moodle_url('/course/view.php', [ 'id' => $course->id ]);
+        $courselink = new action_link($url, $text, null, null);
+
         // Display section bottom navigation.
         $sectionbottomnav = '';
         $sectionbottomnav .= html_writer::start_tag('div', array('class' => 'section-navigation mdl-bottom'));
-        $sectionbottomnav .= html_writer::tag('span', $sectionnavlinks['previous'], array('class' => 'mdl-left'));
-        $sectionbottomnav .= html_writer::tag('span', $sectionnavlinks['next'], array('class' => 'mdl-right'));
-        $sectionbottomnav .= html_writer::tag('div', $this->section_nav_selection($course, $sections, $displaysection),
-            array('class' => 'mdl-align'));
+        $sectionbottomnav .= html_writer::tag('span', $sectionnavlinks['previous'], array('class' => 'navigation-left'));
+        $sectionbottomnav .= html_writer::tag('div',  $this->render($courselink), array('class' => 'navigation-center'));
+        $sectionbottomnav .= html_writer::tag('span', $sectionnavlinks['next'], array('class' => 'navigation-right'));
         $sectionbottomnav .= html_writer::end_tag('div');
         echo $sectionbottomnav;
+        /*** PADPLUS END */
 
         // Close single-section div.
         echo html_writer::end_tag('div');
@@ -294,7 +287,9 @@ class format_topics_renderer extends \format_topics_renderer {
                     $params = array('class' => 'dimmed_text');
                 }
                 $previouslink = html_writer::tag('span', $this->output->larrow(), array('class' => 'larrow'));
-                $previouslink .= get_section_name($course, $sections[$back]);
+                /*** PADPLUS: Return generic wording for navigation links */
+                $previouslink .= get_string('previous-session', 'theme_padplus');
+                /*** PADPLUS END */
                 $links['previous'] = html_writer::link(course_get_url($course, $back), $previouslink, $params);
             }
             $back--;
@@ -308,7 +303,9 @@ class format_topics_renderer extends \format_topics_renderer {
                 if (!$sections[$forward]->visible) {
                     $params = array('class' => 'dimmed_text');
                 }
-                $nextlink = get_section_name($course, $sections[$forward]);
+                /*** PADPLUS: Return generic wording for navigation links */
+                $nextlink = get_string('next-session', 'theme_padplus');
+                /*** PADPLUS END */
                 $nextlink .= html_writer::tag('span', $this->output->rarrow(), array('class' => 'rarrow'));
                 $links['next'] = html_writer::link(course_get_url($course, $forward), $nextlink, $params);
             }

@@ -249,7 +249,13 @@ class core_renderer extends \core_renderer {
         return $pagepath === '/my/index.php';
     }
 
-    /*** PADPLUS: override dashboard title for consistency and custom heading */
+    private function is_section_page() {
+        $pagepath = $this->page->url->get_path();
+        $pageurl = $this->page->url->__toString();
+        return ($pagepath === '/course/view.php' && (strpos($pageurl, 'section') == true));
+    }
+
+    /*** PADPLUS: override dashboard title for consistency and custom heading for dashboard & section page */
     public function page_title() {
         global $SITE;
         if ($this->is_dashboard_page()) {
@@ -263,6 +269,10 @@ class core_renderer extends \core_renderer {
         global $USER;
         if ($this->is_dashboard_page()) {
             $this->page->set_heading(get_string('myhome-welcome', 'theme_padplus', $USER->firstname));
+        } else if ($this->is_section_page()) {
+            $sectionno = optional_param('section', 0, PARAM_INT);
+            $section = course_get_format($this->page->course)->get_section($sectionno);
+            $this->page->set_heading($section->name);
         }
         return parent::context_header($headerinfo, $headinglevel);
     }

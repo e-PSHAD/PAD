@@ -1,0 +1,144 @@
+#page-course-view-topics {
+    #page {
+        .topics {
+            li:not(#section-0) { // Allows us not to apply changes to activities SCSS of section-0 present on the course main page.
+                .activity {
+                    border: 1px solid theme-color("pad-border");
+                    border-radius: 8px;
+                    box-shadow: 0px 4px 4px 0px rgba(56, 69, 76, 0.04);
+                    margin-bottom: 24px;
+                    padding: 24px;
+                    .instancename {
+                        font-weight: 700;
+                    }
+                    .activity-information {
+                        margin-top: 16px;
+                    }
+                    .contentafterlink {
+                        margin-left: 0;
+                    }
+                }
+            }
+        }
+        #section-0 {
+            .left.side {
+                padding: 0;
+            }
+            .summary {
+                margin-left: 0;
+            }
+        }
+        #section-0,
+        .single-section {
+            .section {
+                margin: 0;
+                padding-left: 0;
+                .content .summary {
+                    margin-left: 0;
+                }
+            }
+        }
+        .card-body {
+            padding-bottom: 0;
+        }
+
+        // Navigation links.
+        .section-navigation {
+            border-top: 1px solid theme-color('primary');
+            padding: 16px 0 0 0;
+            display: flex;
+            justify-content: space-between;
+            .larrow,
+            .rarrow {
+                display: none;
+            }
+            .navigation-left {
+                display: flex;
+                justify-content: flex-start;
+                margin: 5px 0;
+                min-width: 150px;
+                a {
+                    &:before {
+                        color: $pad-link;
+                        content: fa-content($fa-var-chevron-left);
+                        @include fa-icon();
+                        font-family: 'Font Awesome 5 Free';
+                        font-weight: 900;
+                        margin-right: 8px;
+                    }
+                }
+            }
+            .navigation-center {
+                display: flex;
+                justify-content: center;
+                margin: 5px 0;
+            }
+            .navigation-right {
+                display: flex;
+                justify-content: flex-end;
+                margin: 5px 0;
+                min-width: 150px;
+                a {
+                    &:after {
+                        color: $pad-link;
+                        content: fa-content($fa-var-chevron-right);
+                        @include fa-icon();
+                        font-family: 'Font Awesome 5 Free';
+                        font-weight: 900;
+                        margin-left: 8px;
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+// Folder icon for page title on section page | Called by sectionpage.js.
+.section-title-icon {
+    h1 {
+        &:before {
+            content: fa-content($fa-var-folder-open);
+            @include fa-icon();
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 8px;
+        }
+    }
+}
+
+// Responsive
+@media screen and (max-width: 775px) {
+    #page-course-view-topics {
+        #page {
+            .section-navigation {
+                flex-direction: column;
+                .navigation-left,
+                .navigation-right {
+                    justify-content: center;
+                }
+                .navigation-center {
+                    margin: 16px 0;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 525px) {
+    #page-course-view-topics {
+        #page {
+            .topics {
+                .automatic-completion-conditions { // Tags container.
+                    display: flex;
+                    flex-direction: column;
+                    .badge-pad {
+                        align-items: center;
+                        display: flex;
+                        width: fit-content;
+                    }
+                }
+            }
+        }
+    }
+}

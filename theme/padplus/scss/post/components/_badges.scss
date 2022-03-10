@@ -5,6 +5,7 @@
     height: 26px;
     padding: 6px 10px;
     border-radius: 16px;
+    margin-right: 8px;
 
     &.badge-pad-catalog {
         background-color: map-get($badge-colors, "catalog");
@@ -16,7 +17,24 @@
     }
 
     &.badge-pad-info {
+        align-items: center;
         background-color: map-get($badge-colors, "info");
+        display: flex;
+        width: fit-content;
+    }
+}
+
+.badge-success {
+    background-color: $white;
+    border: solid 1px theme-color("pad-border");
+    color: $black;
+    &:before {
+        color: map-get($badge-colors, "success");
+        content: fa-content($fa-var-check-circle);
+        @include fa-icon();
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        margin-right: 4px;
     }
 
     &.badge-pad-workshop {

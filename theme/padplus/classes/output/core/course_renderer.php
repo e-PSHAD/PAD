@@ -529,6 +529,12 @@ class course_renderer extends \core_course_renderer {
             $activitydates = \core\activity_dates::get_dates_for_module($mod, $USER->id);
         }
 
+        // If there is content AND a link, then display the content here
+        // (AFTER any icons). Otherwise it was displayed before
+        if (!empty($url)) {
+            $output .= $contentpart;
+        }
+
         // Show the activity information if:
         // - The course's showcompletionconditions setting is enabled; or
         // - The activity tracks completion manually; or
@@ -540,11 +546,6 @@ class course_renderer extends \core_course_renderer {
         // Show availability info (if module is not available).
         $output .= $this->course_section_cm_availability($mod, $displayoptions);
 
-        // If there is content AND a link, then display the content here
-        // (AFTER any icons). Otherwise it was displayed before
-        if (!empty($url)) {
-            $output .= $contentpart;
-        }
 
         $output .= html_writer::end_tag('div'); // $indentclasses
 
