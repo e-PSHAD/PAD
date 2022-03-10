@@ -61,6 +61,64 @@ button,
     display: none;
 }
 
+// Style btns "Mark as complete" & "Done" for course/section page.
+.btn-mark-as-complete {
+    align-items: center;
+    border: solid 1px $pad-link;
+    border-radius: 16px;
+    color: $pad-link;
+    display: flex;
+    font-size: $pad-mention-size;
+    font-weight: 700;
+    height: 26px;
+    &:before {
+        align-items: center;
+        content: fa-content($fa-var-check-circle);
+        display: flex !important;
+        @include fa-icon();
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        margin-right: 8px;
+    }
+    &:hover {
+        background-color: theme-color("pad-btn-secondary-bg");
+        color: $pad-link;
+    }
+    &:disabled {
+        color: $gray-500;
+        background-color: $white;
+        border-color: $gray-500;
+    }
+}
+
+.btn-outline-success {
+    align-items: center;
+    border: solid 1px theme-color("pad-border");
+    border-radius: 16px;
+    color: $black;
+    display: flex;
+    font-size: $pad-mention-size;
+    font-weight: 700;
+    height: 26px;
+    i {
+        &:before {
+            align-items: center;
+            color: map-get($badge-colors, "success");
+            content: fa-content($fa-var-check-circle);
+            display: flex !important;
+            @include fa-icon();
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 8px;
+        }
+    }
+    &:hover {
+        background-color: theme-color("pad-btn-secondary-bg");
+        border: solid 1px theme-color("pad-border");
+        color: $black;
+    }
+}
+
 // Needed to keep right color when button dropdown (course card dashboard) is active
 .show>.btn-outline-secondary.dropdown-toggle {
     background-color: $white;

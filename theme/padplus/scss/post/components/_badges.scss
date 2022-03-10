@@ -1,10 +1,14 @@
 .badge-pad {
+    align-items: center;;
+    border-radius: 16px;
     color: $white;
+    display: flex;
     font-size: $pad-mention-size;
     font-weight: bold;
     height: 26px;
+    margin: 5px 8px 5px 0;
     padding: 6px 10px;
-    border-radius: 16px;
+    width: fit-content;
 
     &.badge-pad-catalog {
         background-color: map-get($badge-colors, "catalog");
@@ -21,5 +25,24 @@
 
     &.badge-pad-workshop {
         background-color: map-get($badge-colors, "workshop");
+    }
+}
+
+.badge-success {
+    align-items: center;
+    background-color: $white;
+    border: solid 1px theme-color("pad-border");
+    color: $black;
+    display: flex;
+    strong {
+        margin-right: 4px;
+    }
+    &:before {
+        color: map-get($badge-colors, "success");
+        content: fa-content($fa-var-check-circle);
+        @include fa-icon();
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        margin-right: 4px;
     }
 }

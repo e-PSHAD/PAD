@@ -249,6 +249,12 @@ class core_renderer extends \core_renderer {
         return $pagepath === '/my/index.php';
     }
 
+    private function is_section_page() {
+        $pagepath = $this->page->url->get_path();
+        $hassectionparam = $this->page->url->get_param('section') != null;
+        return $pagepath === '/course/view.php' && $hassectionparam;
+    }
+
     /*** PADPLUS: override dashboard title for consistency and custom heading */
     public function page_title() {
         global $SITE;
@@ -259,11 +265,22 @@ class core_renderer extends \core_renderer {
         return $this->page->title;
     }
 
+    /*** PADPLUS: override context header so that we can customize main page header before proceeding */
     public function context_header($headerinfo = null, $headinglevel = 1) {
         global $USER;
         if ($this->is_dashboard_page()) {
             $this->page->set_heading(get_string('myhome-welcome', 'theme_padplus', $USER->firstname));
+
+        } else if ($this->is_section_page()) {
+            // Use section name as page header on section page, IFF it has a name.
+            $sectionno = optional_param('section', 0, PARAM_INT);
+            $section = course_get_format($this->page->course)->get_section($sectionno);
+            if ($section->name != null) {
+                $this->page->set_heading($section->name);
+            }
+
         }
+
         return parent::context_header($headerinfo, $headinglevel);
     }
 

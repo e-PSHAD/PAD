@@ -29,7 +29,7 @@
 }}
 {{#istrackeduser}}
     {{#statuscomplete}}
-    <span class="badge badge-success rounded mb-1" role="listitem" {{!
+    <span class="badge-pad badge-success mb-1" role="listitem" {{!
         }}{{#accessibledescription}}{{!
             }}title="{{.}}" {{!
             }}aria-label="{{.}}" {{!
@@ -47,17 +47,17 @@
     </span>
     {{/statuscompletefail}}
     {{#statusincomplete}}
-    <span class="badge badge-secondary rounded mb-1" role="listitem" {{!
+    <span class="badge-pad badge-pad-info mb-1" role="listitem" {{!
         }}{{#accessibledescription}}{{!
             }}title="{{.}}" {{!
             }}aria-label="{{.}}" {{!
         }}{{/accessibledescription}}>
-        <strong>{{#str}}completion_automatic:todo, core_course{{/str}}</strong> <span class="font-weight-normal">{{description}}</span>
+        {{description}}
     </span>
     {{/statusincomplete}}
 {{/istrackeduser}}
 {{^istrackeduser}}
-    <span class="badge badge-secondary rounded mb-1" role="listitem">
-        <span class="font-weight-normal">{{description}}</span>
+    <span class="badge-pad badge-pad-info mb-1" role="listitem">
+        {{description}}
     </span>
 {{/istrackeduser}}

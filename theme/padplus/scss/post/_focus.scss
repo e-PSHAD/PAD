@@ -63,3 +63,8 @@ a:focus-visible {
 .custom-select:focus {
     border-color: $white;
 }
+
+.aalink:focus {
+    background-color: transparent !important;
+    color: $pad-link !important;
+}
