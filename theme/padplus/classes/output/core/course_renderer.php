@@ -16,6 +16,10 @@
 
 namespace theme_padplus\output\core;
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->dirroot .'/local/padplusextensions/lib.php');
+
 use action_link,
     context_course,
     core_course_category,
@@ -77,7 +81,8 @@ class course_renderer extends \core_course_renderer {
         $site = get_site();
         $output = '';
 
-        if ($coursecat->can_create_course() || $coursecat->has_manage_capability()) {
+        /*** PADPLUS: only display category management button for admins/managers, not course creators. */
+        if ($coursecat->has_manage_capability()) {
             // Add 'Manage' button if user has permissions to edit this category.
             $managebutton = $this->single_button(new moodle_url('/course/management.php',
                 array('categoryid' => $coursecat->id)), get_string('managecourses'), 'get');
@@ -144,7 +149,9 @@ class course_renderer extends \core_course_renderer {
         /*** PADPLUS: course search form & category management button. */
         $output .= html_writer::start_div('', ['class' => 'category-page-searchbar-container']);
         $output .= $this->course_search_form();
-        $output .= $this->coursecat_settings_menu_padplus();
+        if ($coursecat->has_manage_capability()) {
+            $output .= $this->coursecat_settings_menu_padplus();
+        }
         $output .= html_writer::end_div();
         /*** PADPLUS END */
 
