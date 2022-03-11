@@ -42,6 +42,10 @@ $string['allcourses-menu'] = 'All courses';
 $string['workshop-menu'] = 'Group workshops';
 $string['catalog-menu'] = 'Shared resources';
 
+// Login page strings.
+$string['show-password'] = 'Show password';
+$string['hide-password'] = 'Hide password';
+
 // My Courses page strings.
 $string['mycourses-page'] = 'My sequences';
 $string['eventmycoursesviewed'] = 'My courses viewed';

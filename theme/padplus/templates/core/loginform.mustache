@@ -144,12 +144,15 @@
                                 placeholder="{{^canloginbyemail}}{{#cleanstr}}username{{/cleanstr}}{{/canloginbyemail}}{{#canloginbyemail}}{{#cleanstr}}usernameemail{{/cleanstr}}{{/canloginbyemail}}"
                                 autocomplete="username">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group login-password-group">
                             <label for="password" class="sr-only">{{#str}} password {{/str}}</label>
                             <input type="password" name="password" id="password" value=""
                                 class="form-control"
                                 placeholder="{{#cleanstr}}password{{/cleanstr}}"
                                 autocomplete="current-password">
+                            <button type="button" class="btn" aria-label="{{#str}} show-password, theme_padplus {{/str}}" data-show-label="{{#str}} show-password, theme_padplus {{/str}}" data-hide-label="{{#str}} hide-password, theme_padplus {{/str}}" id="togglePasswordVisibility">
+                                <i class="icon fas fa-eye-slash" aria-hidden="true"></i>
+                            </button>
                         </div>
                         {{#rememberusername}}
                             <div class="rememberpass mt-3">
@@ -246,6 +249,26 @@
     </div>
 {{/maintenance}}
 {{#js}}
+    const password = document.querySelector('#password');
+    const togglePassword = document.querySelector('#togglePasswordVisibility');
+    const toggleIcon = togglePassword.querySelector('i');
+    togglePassword.addEventListener('click', function (e) {
+        let type, label;
+        if (password.getAttribute('type') === 'password') {
+            type = 'text';
+            label = this.getAttribute('data-hide-label');
+        } else {
+            type = 'password';
+            label = this.getAttribute('data-show-label');
+        }
+        password.setAttribute('type', type);
+        this.setAttribute('aria-label', label);
+
+        toggleIcon.classList.toggle('fa-eye-slash');
+        toggleIcon.classList.toggle('fa-eye');
+
+    });
+
     {{#error}}
         require(['jquery'], function($) {
             $('#loginerrormessage').focus();

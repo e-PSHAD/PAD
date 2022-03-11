@@ -42,6 +42,10 @@ $string['allcourses-menu'] = 'Tous les cours';
 $string['workshop-menu'] = 'Les ateliers collectifs';
 $string['catalog-menu'] = 'Ressources partagées';
 
+// Login page strings.
+$string['show-password'] = 'Montrer le mot de passe';
+$string['hide-password'] = 'Cacher le mot de passe';
+
 // My Courses page strings.
 $string['mycourses-page'] = 'Mes séquences';
 $string['eventmycoursesviewed'] = 'Page mes séquences consultée';
