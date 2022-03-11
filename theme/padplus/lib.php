@@ -71,18 +71,15 @@ function fill_nav_from_menu_type(flat_navigation $source, flat_navigation $targe
  * Build a list of category entries for sidemenu, with custom rules to highlight main categories, workshops, catalog.
  *
  * @param core_course_category[]    $topcategories  Array of user-top categories
- * @param theme                     $theme          PAD+ theme for settings
+ * @param theme_config              $theme          PAD+ theme for settings
  * @return array                                    List of sidemenu entries
  */
-function select_user_top_categories(array $topcategories, $theme) {
+function select_user_top_categories(array $topcategories, theme_config $theme) {
     if (count($topcategories) > 3) {
         return $topcategories;
     }
 
     $enableallcourses = $theme->settings->sidebarallcourses;
-    $workshopids = explode(',', $theme->settings->sidebarworkshopids);
-    $catalogid = $theme->settings->sidebarcatalogid;
-
     $allcourses = $catalog = $workshop = false;
     $othernodes = [];
 
@@ -90,11 +87,11 @@ function select_user_top_categories(array $topcategories, $theme) {
         $categoryentry = new stdClass();
         $categoryentry->id = $category->id;
 
-        if (in_array($category->id, $workshopids) && !$workshop) {
+        if (category_belongs_to_workshop($category, $theme) && !$workshop) {
             $categoryentry->name = get_string('workshop-menu', 'theme_padplus');
             $categoryentry->icon = 'i/group';
             $workshop = $categoryentry;
-        } else if ($category->id == $catalogid && !$catalog) {
+        } else if (category_belongs_to_catalog($category, $theme) && !$catalog) {
             $categoryentry->name = get_string('catalog-menu', 'theme_padplus');
             $categoryentry->showdivider = get_string('catalog-menu', 'theme_padplus');
             $categoryentry->icon = 'i/open';

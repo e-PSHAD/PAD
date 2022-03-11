@@ -28,8 +28,7 @@ class lib_test extends \advanced_testcase {
         $workshops = $this->create_test_category('Ateliers collectifs');
         $catalog = $this->create_test_category('Catalogue');
 
-        $theme = new \stdClass();
-        $theme->settings = new \stdClass();
+        $theme = \theme_config::load('padplus');
         // Enable standard PAD+ options in settings.
         $theme->settings->sidebarallcourses = 1;
         $theme->settings->sidebarworkshopids = "1,2,{$workshops->id}";

@@ -3810,6 +3810,8 @@ class core_course_external extends external_api {
                 break;
             case COURSE_CUSTOMFIELD:
                 break;
+            case COURSE_CATALOG_PADPLUS: /*** PADPLUS: accept catalog value as classification parameter. */
+                break;
             default:
                 throw new invalid_parameter_exception('Invalid classification');
         }
@@ -3860,23 +3862,32 @@ class core_course_external extends external_api {
                 $customfieldvalue,
                 $limit
             );
+        } else if ($classification == COURSE_CATALOG_PADPLUS) { /*** PADPLUS: filter courses only in catalog. */
+            list($filteredcourses, $processedcount) = course_filter_courses_in_catalog(
+                $courses,
+                $limit,
+                $PAGE->theme
+            );
         } else {
             list($filteredcourses, $processedcount) = course_filter_courses_by_timeline_classification(
                 $courses,
                 $classification,
-                $limit
+                $limit,
+                $PAGE->theme /*** PADPLUS: pass theme to retrieve catalog settings. */
             );
         }
 
         $renderer = $PAGE->get_renderer('core');
-        $formattedcourses = array_map(function($course) use ($renderer, $favouritecourseids) {
+        $theme = $PAGE->theme;
+        $formattedcourses = array_map(function($course) use ($renderer, $favouritecourseids, $theme) {
             context_helper::preload_from_record($course);
             $context = context_course::instance($course->id);
             $isfavourite = false;
             if (in_array($course->id, $favouritecourseids)) {
                 $isfavourite = true;
             }
-            $exporter = new course_summary_exporter($course, ['context' => $context, 'isfavourite' => $isfavourite]);
+            /*** PADPLUS: pass theme as parameter to access category settings in course exporter. */
+            $exporter = new course_summary_exporter($course, ['context' => $context, 'isfavourite' => $isfavourite, 'theme' => $theme]);
             return $exporter->export($renderer);
         }, $filteredcourses);
 

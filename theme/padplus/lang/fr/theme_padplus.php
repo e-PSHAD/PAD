@@ -42,6 +42,14 @@ $string['allcourses-menu'] = 'Tous les cours';
 $string['workshop-menu'] = 'Les ateliers collectifs';
 $string['catalog-menu'] = 'Ressources partagées';
 
+// My Courses page strings.
+$string['mycourses-page'] = 'Mes séquences';
+$string['eventmycoursesviewed'] = 'Page mes séquences consultée';
+$string['mycatalog-courses'] = 'Mes ressources partagées';
+$string['aria:mycatalog-courses'] = 'Afficher mes ressources partagées';
+$string['catalog-course'] = 'Ressource partagée';
+$string['workshop-course'] = 'Atelier collectif';
+
 // Theme settings strings.
 $string['settings-color-title'] = 'Couleurs du thème';
 $string['settings-color-desc'] = "Couleurs qui définissent l'identité de votre site";
@@ -75,7 +83,8 @@ $string['settings-allcourses-desc'] = "La première catégorie accessible à l'u
 // Enrolment strings.
 $string['unenrolme'] = 'Me désinscrire';
 
-// Categories & cours page strings.
+// Categories & course page strings.
+$string['addnewworkshop'] = 'Ajouter un atelier';
 $string['btn-coursebox'] = 'Consulter cette séquence';
 $string['btn-workshopbox'] = 'En savoir plus';
 $string['no-participants-enrolled'] = 'aucun stagiaire inscrit';

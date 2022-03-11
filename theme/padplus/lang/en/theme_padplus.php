@@ -42,6 +42,14 @@ $string['allcourses-menu'] = 'All courses';
 $string['workshop-menu'] = 'Group workshops';
 $string['catalog-menu'] = 'Shared resources';
 
+// My Courses page strings.
+$string['mycourses-page'] = 'My sequences';
+$string['eventmycoursesviewed'] = 'My courses viewed';
+$string['mycatalog-courses'] = 'My shared resources';
+$string['aria:mycatalog-courses'] = 'Show my shared resources';
+$string['catalog-course'] = 'Shared resource';
+$string['workshop-course'] = 'Group workshop';
+
 // Theme settings strings.
 $string['settings-color-title'] = 'Theme colours';
 $string['settings-color-desc'] = 'Colours that define the identity of your site';
@@ -75,8 +83,9 @@ $string['settings-allcourses-desc'] = "Display first user-accessible category (n
 // Enrolment strings.
 $string['unenrolme'] = 'Unenrol me';
 
-// Categories & cours page strings.
-$string['btn-coursebox'] = 'View this cours';
+// Categories & course page strings.
+$string['addnewworkshop'] = 'Add new workshop';
+$string['btn-coursebox'] = 'View this course';
 $string['btn-workshopbox'] = 'More information';
 $string['no-participants-enrolled'] = 'no students enrolled';
 $string['participants-enrolled'] = 'Enrolled students';

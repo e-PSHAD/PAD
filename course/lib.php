@@ -64,6 +64,7 @@ define('COURSE_TIMELINE_FUTURE', 'future');
 define('COURSE_FAVOURITES', 'favourites');
 define('COURSE_TIMELINE_HIDDEN', 'hidden');
 define('COURSE_CUSTOMFIELD', 'customfield');
+define('COURSE_CATALOG_PADPLUS', 'catalog');
 define('COURSE_DB_QUERY_LIMIT', 1000);
 /** Searching for all courses that have no value for the specified custom field. */
 define('COURSE_CUSTOMFIELD_EMPTY', -1);
@@ -4330,12 +4331,14 @@ function course_get_enrolled_courses_for_logged_in_user(
  * @param array|Traversable $courses List of courses to process
  * @param string $classification One of the COURSE_TIMELINE_* constants
  * @param int $limit Limit the number of results to this amount
+ * @param theme_config $theme Theme which contains settings for catalog (PADPLUS).
  * @return array First value is the filtered courses, second value is the number of courses processed
  */
 function course_filter_courses_by_timeline_classification(
     $courses,
     string $classification,
-    int $limit = 0
+    int $limit = 0,
+    $theme = null
 ) : array {
 
     if (!in_array($classification,
@@ -4354,9 +4357,13 @@ function course_filter_courses_by_timeline_classification(
         $numberofcoursesprocessed++;
         $pref = get_user_preferences('block_myoverview_hidden_course_' . $course->id, 0);
 
+        /*** PADPLUS: use category to remove catalog courses. */
+        $coursecategory = \core_course_category::get($course->category, MUST_EXIST, true);
+
         // Added as of MDL-63457 toggle viewability for each user.
         if ($classification == COURSE_TIMELINE_ALLINCLUDINGHIDDEN || ($classification == COURSE_TIMELINE_HIDDEN && $pref) ||
-            (($classification == COURSE_TIMELINE_ALL || $classification == course_classify_for_timeline($course)) && !$pref)) {
+            (($classification == COURSE_TIMELINE_ALL || $classification == course_classify_for_timeline($course))
+                && !$pref && !category_belongs_to_catalog($coursecategory, $theme))) {
             $filteredcourses[] = $course;
             $filtermatches++;
         }

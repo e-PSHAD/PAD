@@ -82,3 +82,5 @@ $THEME->layouts = [
         'options' => array('nonavbar' => true, 'langmenu' => true, 'nocontextheader' => false)
     )
 ];
+
+$THEME->iconsystem = '\\theme_padplus\\output\\icon_system_fontawesome';

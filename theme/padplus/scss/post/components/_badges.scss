@@ -6,11 +6,20 @@
     padding: 6px 10px;
     border-radius: 16px;
 
+    &.badge-pad-catalog {
+        background-color: map-get($badge-colors, "catalog");
+    }
+
     &.badge-pad-hidden {
         color: $body-color;
         background-color: map-get($badge-colors, "hidden");
     }
+
     &.badge-pad-info {
         background-color: map-get($badge-colors, "info");
+    }
+
+    &.badge-pad-workshop {
+        background-color: map-get($badge-colors, "workshop");
     }
 }
