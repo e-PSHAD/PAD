@@ -1,0 +1,43 @@
+#page-mod-page-view.format-singleactivity {
+    #page {
+        padding: 0 200px;
+        #region-main {
+            h2:first-of-type { // Optional title.
+                border-bottom: 1px solid theme-color('pad-border');
+                color: theme-color('primary');
+                font-size: $h2-font-size;
+                font-weight: 400;
+                padding-bottom: 8px;
+                a {
+                    margin-left: 10px;
+                }
+            }
+            #pageintro { // Optional description.
+                padding: 0;
+            }
+        }
+    }
+}
+
+// Responsive.
+@media screen and (max-width: 1389px) {
+    #page-mod-page-view.format-singleactivity {
+        #page {
+            padding: 0 150px;
+        }
+    }
+}
+@media screen and (max-width: 1289px) {
+    #page-mod-page-view.format-singleactivity {
+        #page {
+            padding: 0 100px;
+        }
+    }
+}
+@media screen and (max-width: 1042px) {
+    #page-mod-page-view.format-singleactivity {
+        #page {
+            padding: 0 1rem;
+        }
+    }
+}
