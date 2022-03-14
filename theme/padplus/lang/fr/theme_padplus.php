@@ -83,7 +83,7 @@ $string['settings-allcourses-desc'] = "La première catégorie accessible à l'u
 // Enrolment strings.
 $string['unenrolme'] = 'Me désinscrire';
 
-// Categories & cours page strings.
+// Categories, course, section & activity page strings.
 $string['addnewworkshop'] = 'Ajouter un atelier';
 $string['activity-session'] = '{$a->total} activité dans cette séance :';
 $string['activities-session'] = '{$a->total} activités dans cette séance :';
@@ -92,9 +92,12 @@ $string['btn-workshopbox'] = 'En savoir plus';
 $string['course-description'] = 'Dans cette séquence';
 $string['course-homepage'] = 'Accueil de la séquence';
 $string['next-session'] = 'Séance suivante';
+$string['next-activity'] = 'Activité suivante';
 $string['no-participants-enrolled'] = 'aucun stagiaire inscrit';
 $string['participants-enrolled'] = 'Stagiaires inscrits';
 $string['previous-session'] = 'Séance précédente';
+$string['previous-activity'] = 'Activité précédente';
 $string['progress-session'] = 'Progression :';
 $string['settings-category'] = 'Gestion de cette catégorie';
+$string['settings-activity'] = "Paramètres de l'activité";
 $string['workshop-teacher'] = 'Organisateur';

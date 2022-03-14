@@ -255,6 +255,12 @@ class core_renderer extends \core_renderer {
         return ($pagepath === '/course/view.php' && (strpos($pageurl, 'section') == true));
     }
 
+    private function is_activity_page() {
+        $course = $this->page->course;
+        $pageurl = $this->page->url->__toString();
+        return ((strpos($pageurl, '/mod/') == true) && (course_is_workshop($course) == false)); // We don't change the title on the workshop page.
+    }
+
     /*** PADPLUS: override dashboard title for consistency and custom heading for dashboard & section page */
     public function page_title() {
         global $SITE;
@@ -272,7 +278,17 @@ class core_renderer extends \core_renderer {
         } else if ($this->is_section_page()) {
             $sectionno = optional_param('section', 0, PARAM_INT);
             $section = course_get_format($this->page->course)->get_section($sectionno);
-            $this->page->set_heading($section->name);
+            if ($section->name != null) {
+                $this->page->set_heading($section->name);
+            }
+        } else if ($this->is_activity_page()) {
+            $modinfo = get_fast_modinfo($this->page->course->id); // Returns information about the current course.
+            $cminfo = $modinfo->get_cm($this->page->cm->id);
+            $sectionno = $cminfo->sectionnum;
+            $section = course_get_format($this->page->course)->get_section($sectionno);
+            if ($section->name != null) {
+                $this->page->set_heading($section->name);
+            }
         }
         return parent::context_header($headerinfo, $headinglevel);
     }
@@ -402,8 +418,13 @@ class core_renderer extends \core_renderer {
                 // Get the course admin node from the settings navigation.
                 $node = $this->page->settingsnav->find('modulesettings', navigation_node::TYPE_SETTING);
                 if ($node) {
-                    // Build an action menu based on the visible nodes from this navigation tree.
-                    $this->build_action_menu_from_navigation($menu, $node);
+                    /*** PADPLUS: override activity dropdown by settings activity button on activity page */
+                    $attributes = ['class' => 'btn btn-secondary'];
+                    $text = get_string('settings-activity', 'theme_padplus');
+                    $url = $node->children->find('modedit')->action;
+                    $link = new action_link($url, $text, null, $attributes);
+                    return $this->render($link);
+                    /* PADPLUS END */
                 }
             }
 

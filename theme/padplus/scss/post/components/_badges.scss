@@ -25,9 +25,14 @@
 }
 
 .badge-success {
+    align-items: center;
     background-color: $white;
     border: solid 1px theme-color("pad-border");
     color: $black;
+    display: flex;
+    strong {
+        margin-right: 4px;
+    }
     &:before {
         color: map-get($badge-colors, "success");
         content: fa-content($fa-var-check-circle);

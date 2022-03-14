@@ -86,4 +86,4 @@ $THEME->layouts = [
 $THEME->iconsystem = '\\theme_padplus\\output\\icon_system_fontawesome';
 
 // Load padplus JS.
-$THEME->javascripts = array('sectionpage');
+$THEME->javascripts = array('add-folder-icon');

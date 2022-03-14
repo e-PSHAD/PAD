@@ -1,0 +1,123 @@
+.format-topics {
+    #page {
+        padding: 0 200px;
+        .header-page-btns-container {
+            padding-left: 10px;
+        }
+        #region-main-settings-menu div { // Activity settings button.
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+            margin-top: 0;
+        }
+        #region-main {
+            padding-top: 0;
+            h2 {
+                color: theme-color('primary');
+                font-size: $h3-font-size;
+                font-weight: bold;
+                a {
+                    margin-left: 10px;
+                }
+            }
+            .activity .mod-indent-outer {
+                padding-left: 0;
+            }
+            .activity-information .automatic-completion-conditions {
+                display: flex;
+                .badge-pad {
+                    margin-top: 4px;
+                }
+            }
+        }
+    }
+}
+
+// Navigation links.
+.activity-navigation {
+    border-top: 1px solid theme-color('primary');
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+        .col-md-4 {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+    .float-left {
+        display: flex;
+        justify-content: flex-start;
+        margin: 5px 0;
+        min-width: 150px;
+        a {
+            padding-left: 0;
+            &:before {
+                color: $pad-link;
+                content: fa-content($fa-var-chevron-left);
+                @include fa-icon();
+                font-family: 'Font Awesome 5 Free';
+                font-weight: 900;
+                margin-right: 8px;
+            }
+        }
+    }
+    .float-right {
+        display: flex;
+        justify-content: flex-end;
+        margin: 5px 0;
+        min-width: 150px;
+        a {
+            padding-right: 0;
+            &:after {
+                color: $pad-link;
+                content: fa-content($fa-var-chevron-right);
+                @include fa-icon();
+                font-family: 'Font Awesome 5 Free';
+                font-weight: 900;
+                margin-left: 8px;
+            }
+        }
+
+    }
+}
+
+// Responsive.
+@media screen and (max-width: 1389px) {
+    .format-topics {
+        #page {
+            padding: 0 150px;
+        }
+    }
+}
+@media screen and (max-width: 1289px) {
+    .format-topics {
+        #page {
+            padding: 0 100px;
+        }
+    }
+}
+@media screen and (max-width: 1042px) {
+    .format-topics {
+        #page {
+            padding: 0 1rem;
+        }
+    }
+}
+
+@media screen and (max-width: 775px) {
+    .format-topics {
+        #page {
+            .activity-navigation {
+                flex-direction: column;
+                .col-md-4 {
+                    display: flex;
+                    justify-content: center;
+                    .mdl-align {
+                        margin: 8px 0;
+                    }
+                }
+            }
+        }
+    }
+}
