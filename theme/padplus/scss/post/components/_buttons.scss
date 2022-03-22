@@ -78,3 +78,10 @@ button,
         background-color: theme-color("pad-btn-secondary-bg");
     }
 }
+
+// Style btn 'Turn editing off'.
+.turneditingoff .btn-secondary{
+    border-color: $danger;
+    color: $danger;
+    font-weight: bold;
+}

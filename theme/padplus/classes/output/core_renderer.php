@@ -398,11 +398,13 @@ class core_renderer extends \core_renderer {
         if ($this->page->user_is_editing()) {
             $url->param('edit', 'off');
             $editstring = get_string('turneditingoff');
+            $options = ['class' => 'turneditingoff'];
         } else {
             $url->param('edit', 'on');
             $editstring = get_string('turneditingon');
+            $options = ['class' => 'turneditingon'];
         }
 
-        return $this->single_button($url, $editstring);
+        return $this->single_button($url, $editstring, 'post', $options);
     }
 }
