@@ -94,4 +94,6 @@ $string['btn-workshopbox'] = 'En savoir plus';
 $string['no-participants-enrolled'] = 'aucun stagiaire inscrit';
 $string['participants-enrolled'] = 'Stagiaires inscrits';
 $string['settings-category'] = 'Gestion de cette catégorie';
+$string['sidebar-summary-course'] = 'Dans cette séquence';
+$string['sidebar-summary-workshop'] = 'Dans cet atelier';
 $string['workshop-teacher'] = 'Organisateur';

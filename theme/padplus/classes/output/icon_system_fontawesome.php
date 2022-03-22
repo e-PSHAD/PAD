@@ -20,6 +20,7 @@ class icon_system_fontawesome extends \core\output\icon_system_fontawesome {
     public function get_core_icon_map() {
         $iconmap = parent::get_core_icon_map();
 
+        $iconmap['core:i/course'] = 'fa-folder-open'; // Override Moodle default fa-graduation-cap.
         $iconmap['core:i/dashboard'] = 'fa-th-large'; // Override Moodle default fa-tachometer.
         $iconmap['core:i/mycourses'] = 'fa-layer-group';
 

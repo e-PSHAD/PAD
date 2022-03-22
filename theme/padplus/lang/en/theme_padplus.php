@@ -94,4 +94,6 @@ $string['btn-workshopbox'] = 'More information';
 $string['no-participants-enrolled'] = 'no students enrolled';
 $string['participants-enrolled'] = 'Enrolled students';
 $string['settings-category'] = 'Management of this category';
+$string['sidebar-summary-course'] = 'In this course';
+$string['sidebar-summary-workshop'] = 'In this workshop';
 $string['workshop-teacher'] = 'Organizer';
