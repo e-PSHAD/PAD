@@ -63,8 +63,24 @@ function category_belongs_to_workshop(core_course_category $category, ?theme_con
         return false;
     }
     list($root, $topcategoryid) = explode('/', $category->path);
+    return categoryid_is_workshop($topcategoryid, $theme);
+}
+
+/**
+ * Tell whether given course belongs directly to a workshop category as set in theme settings.
+ * WARNING! This does not handle course in workshop subcategories.
+ *
+ * @param               $course   course to test (stdClass or other course representation)
+ * @param theme_config  $theme    PAD+ theme for settings
+ * @return bool         true if course is a workshop, false otherwise
+ */
+function course_is_workshop($course, theme_config $theme) {
+    return categoryid_is_workshop($course->category, $theme);
+}
+
+function categoryid_is_workshop($categoryid, theme_config $theme) {
     $workshopids = explode(',', $theme->settings->sidebarworkshopids);
-    return in_array($topcategoryid, $workshopids);
+    return in_array($categoryid, $workshopids);
 }
 
 /**

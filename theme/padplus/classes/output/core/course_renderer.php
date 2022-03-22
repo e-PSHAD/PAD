@@ -283,7 +283,7 @@ class course_renderer extends \core_course_renderer {
         $content .= html_writer::end_tag('div');
 
         // The content of the coursebox changes depending on whether it is a course or a workshop.
-        if (course_is_workshop($course)) {
+        if (course_is_workshop($course, $this->page->theme)) {
             $rolelabel = get_string('workshop-teacher', 'theme_padplus');
             $contactbox = $this->course_contacts($course, $rolelabel); // Changed wording for teacher role when it's a workshop.
             $studentsbox = ''; // Do not show enrolled student number for workshop.

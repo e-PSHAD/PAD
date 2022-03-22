@@ -108,20 +108,3 @@ function select_user_top_categories(array $topcategories, theme_config $theme) {
     $categories = array($allcourses, $workshop, ...$othernodes, $catalog);
     return array_values(array_filter($categories));
 }
-
-/**
- * Tell whether given course is a workshop (self-enrolment is enabled) or a regular sequence.
- *
- * We look for the registration mode self-enrolment | $value->enrol == 'self',
- * and check if the self-enrolment is authorised | $value->status == '0'.
- * Otherwise, $value->status = 1.
- */
-function course_is_workshop($course) {
-    $enrolinstances = enrol_get_instances($course->id, false);
-    foreach ($enrolinstances as $key => $value) {
-        if ($value->enrol == 'self' && $value->status == '0') {
-            return true;
-        }
-    }
-    return false;
-}
