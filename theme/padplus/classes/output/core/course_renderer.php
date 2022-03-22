@@ -564,4 +564,17 @@ class course_renderer extends \core_course_renderer {
         $output .= html_writer::end_tag('div');
         return $output;
     }
+
+    /**
+     * Renders the activity navigation.
+     *
+     * Defer to template.
+     *
+     * @param \core_course\output\activity_navigation $page
+     * @return string html for the page
+     */
+    public function render_activity_navigation(\core_course\output\activity_navigation $page) {
+        $data = $page->export_for_template($this->output);
+        return $this->output->render_from_template('core_course/activity_navigation', $data);
+    }
 }
