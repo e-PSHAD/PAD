@@ -89,10 +89,13 @@ $string['unenrolme'] = 'Unenrol me';
 
 // Categories & course page strings.
 $string['addnewworkshop'] = 'Add new workshop';
+$string['activity-session'] = '{$a->total} activity in this session:';
+$string['activities-session'] = '{$a->total} activities in this session:';
 $string['btn-coursebox'] = 'View this course';
 $string['btn-workshopbox'] = 'More information';
 $string['no-participants-enrolled'] = 'no students enrolled';
 $string['participants-enrolled'] = 'Enrolled students';
+$string['progress-session'] = 'Progress:';
 $string['settings-category'] = 'Management of this category';
 $string['sidebar-summary-course'] = 'In this course';
 $string['sidebar-summary-workshop'] = 'In this workshop';

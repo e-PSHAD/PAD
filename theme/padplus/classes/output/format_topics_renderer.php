@@ -16,7 +16,10 @@
 
 namespace theme_padplus\output;
 
-use html_writer;
+use completion_info,
+    html_writer,
+    stdClass;
+
 /**
  * Basic renderer for topics format.
  *
@@ -52,8 +55,7 @@ class format_topics_renderer extends \format_topics_renderer {
             'data-sectionid' => $section->section
         ]);
 
-        $o .= html_writer::tag('div', '', array('class' => 'left side'));
-        $o .= html_writer::tag('div', '', array('class' => 'right side'));
+        /*** PADPLUS: Deleted containers to fix page style */
         $o .= html_writer::start_tag('div', array('class' => 'content'));
 
         if ($section->uservisible) {
@@ -67,13 +69,17 @@ class format_topics_renderer extends \format_topics_renderer {
 
         if ($section->uservisible || $section->visible) {
             // Show summary if section is available or has availability restriction information.
-            // Do not show summary if section is hidden but we still display it because of course setting
+            // Do not show summary if section is hidden but we still display it because of course setting.
             // "Hidden sections are shown in collapsed form".
             $o .= $this->format_summary_text($section);
         }
         $o .= html_writer::end_tag('div');
-        $o .= $this->section_activity_summary($section, $course, null);
 
+        /*** PADPLUS: Container added to be able to set the section progression style */
+        $o .= html_writer::start_tag('div', array('class' => 'summary-card-bottom'));
+        $o .= $this->section_activity_summary($section, $course, null);
+        $o .= html_writer::end_tag('div');
+        /*** PADPLUS END */
         $o .= html_writer::end_tag('div');
         $o .= html_writer::end_tag('li');
 
@@ -127,26 +133,35 @@ class format_topics_renderer extends \format_topics_renderer {
             return '';
         }
 
+        /*** PADPLUS: Return section activities summary & session progress. */
+        $a = new stdClass;
+        $a->complete = $complete;
+        $a->total = $total;
+
         // Output section activities summary.
         $o = '';
         $o .= html_writer::start_tag('div', array('class' => 'section-summary-activities pr-2 mdl-right'));
+        $label = ($total == 1) ? 'activity-session' : 'activities-session';
+        $o .= html_writer::tag('span',
+            get_string($label, 'theme_padplus', $a),
+            array('class' => 'activity-count'));
+
         foreach ($sectionmods as $mod) {
             $o .= html_writer::start_tag('span', array('class' => 'activity-count'));
-            $o .= $mod['name'].': '.$mod['count'];
+            $o .= $mod['count'] . ' ' . $mod['name'];
+            if ($mod != end($sectionmods)) {
+                $o .= ', ';
+            }
             $o .= html_writer::end_tag('span');
         }
         $o .= html_writer::end_tag('div');
 
         // Output section completion data.
-        if ($total > 0) {
-            $a = new stdClass;
-            $a->complete = $complete;
-            $a->total = $total;
-
-            $o .= html_writer::start_tag('div', array('class' => 'section-summary-activities pr-2 mdl-right'));
-            $o .= html_writer::tag('span', get_string('progresstotal', 'completion', $a), array('class' => 'activity-count'));
-            $o .= html_writer::end_tag('div');
-        }
+        $o .= html_writer::start_tag('div', array('class' => 'section-summary-activities pr-2 mdl-right'));
+        $o .= html_writer::tag('div', get_string('progress-session', 'theme_padplus') . ' ', array('class' => 'activity-count'));
+        $o .= html_writer::tag('span', $a->complete . ' / ' . $a->total, array('class' => 'activity-count'));
+        $o .= html_writer::end_tag('div');
+        /*** PADPLUS END */
 
         return $o;
     }
