@@ -575,6 +575,22 @@ class course_renderer extends \core_course_renderer {
      */
     public function render_activity_navigation(\core_course\output\activity_navigation $page) {
         $data = $page->export_for_template($this->output);
+
+        /*** PADPLUS: custom activity navigation. */
+        if (isset($data->prevlink)) {
+            $data->prevlink->text = get_string('previous-activity', 'theme_padplus');
+        }
+
+        if (isset($data->nextlink)) {
+            $data->nextlink->text = get_string('next-activity', 'theme_padplus');
+        }
+
+        $text = get_string('course-homepage', 'theme_padplus');
+        $url = new moodle_url('/course/view.php', [ 'id' => $this->page->course->id ]);
+        $courselink = new action_link($url, $text, null, null);
+        $data->activitylist = $courselink;
+        /*** PADPLUS END */
+
         return $this->output->render_from_template('core_course/activity_navigation', $data);
     }
 }

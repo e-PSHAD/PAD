@@ -255,6 +255,11 @@ class core_renderer extends \core_renderer {
         return $pagepath === '/course/view.php' && $hassectionparam;
     }
 
+    private function is_activity_page() {
+        $pagepath = $this->page->url->get_path();
+        return strpos($pagepath, '/mod/') === 0;
+    }
+
     /*** PADPLUS: override dashboard title for consistency and custom heading */
     public function page_title() {
         global $SITE;
@@ -279,6 +284,16 @@ class core_renderer extends \core_renderer {
                 $this->page->set_heading($section->name);
             }
 
+        } else if ($this->is_activity_page()) {
+            // Also use section name as page header on activity page, IFF it has a name.
+            // Some section (such as initial section in single activity course) may not have a name,
+            // in this case we should resort to default course name, which is ok.
+            $modinfo = get_fast_modinfo($this->page->course->id);
+            $cminfo = $modinfo->get_cm($this->page->cm->id);
+            $section = course_get_format($this->page->course)->get_section($cminfo->sectionnum);
+            if ($section->name != null) {
+                $this->page->set_heading($section->name);
+            }
         }
 
         return parent::context_header($headerinfo, $headinglevel);
