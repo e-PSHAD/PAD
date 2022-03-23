@@ -9,3 +9,17 @@
         margin: .3rem .5rem 0 .4rem !important;
     }
 }
+
+#page-calendar-view {
+    .header { // Top buttons.
+        #calendarviewdropdown {
+            margin: 5px 10px 5px 0;
+        }
+        .cal_courses_flt {
+            margin: 5px auto 5px 0 !important;
+        }
+        .btn-secondary {
+            margin: 5px 0;
+        }
+    }
+}
