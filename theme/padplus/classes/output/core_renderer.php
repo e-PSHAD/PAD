@@ -249,6 +249,17 @@ class core_renderer extends \core_renderer {
         return $pagepath === '/my/index.php';
     }
 
+    private function is_section_page() {
+        $pagepath = $this->page->url->get_path();
+        $hassectionparam = $this->page->url->get_param('section') != null;
+        return $pagepath === '/course/view.php' && $hassectionparam;
+    }
+
+    private function is_activity_page() {
+        $pagepath = $this->page->url->get_path();
+        return strpos($pagepath, '/mod/') === 0;
+    }
+
     /*** PADPLUS: override dashboard title for consistency and custom heading */
     public function page_title() {
         global $SITE;
@@ -259,11 +270,32 @@ class core_renderer extends \core_renderer {
         return $this->page->title;
     }
 
+    /*** PADPLUS: override context header so that we can customize main page header before proceeding */
     public function context_header($headerinfo = null, $headinglevel = 1) {
         global $USER;
         if ($this->is_dashboard_page()) {
             $this->page->set_heading(get_string('myhome-welcome', 'theme_padplus', $USER->firstname));
+
+        } else if ($this->is_section_page()) {
+            // Use section name as page header on section page, IFF it has a name.
+            $sectionno = optional_param('section', 0, PARAM_INT);
+            $section = course_get_format($this->page->course)->get_section($sectionno);
+            if ($section->name != null) {
+                $this->page->set_heading($section->name);
+            }
+
+        } else if ($this->is_activity_page()) {
+            // Also use section name as page header on activity page, IFF it has a name.
+            // Some section (such as initial section in single activity course) may not have a name,
+            // in this case we should resort to default course name, which is ok.
+            $modinfo = get_fast_modinfo($this->page->course->id);
+            $cminfo = $modinfo->get_cm($this->page->cm->id);
+            $section = course_get_format($this->page->course)->get_section($cminfo->sectionnum);
+            if ($section->name != null) {
+                $this->page->set_heading($section->name);
+            }
         }
+
         return parent::context_header($headerinfo, $headinglevel);
     }
 
@@ -359,31 +391,91 @@ class core_renderer extends \core_renderer {
     }
     /*** PADPLUS END */
 
-    /*** PADPLUS
-     * Display category settings dropdown.
-     * This is a highly edited/specific version of the more generic core_renderer#region_main_settings_menu function.
+    /**
+     * This is an optional menu that can be added to a layout by a theme. It contains the
+     * menu for the most specific thing from the settings block. E.g. Module administration.
      *
-     * HERE BE DRAGONS
-     * This method should reside in course_renderer but then cannot access protected method build_action_menu_from_navigation
-     * from core_renderer through call_user_func_array. Probably due to Moodle inheritance/overriding renderer peculiarities.
-     * So we put it here even if it violates a basic modularity principle.
+     * @return string
      */
-    public function coursecat_settings_menu_padplus() {
+    public function region_main_settings_menu() {
         $context = $this->page->context;
         $menu = new action_menu();
 
-        if ($context->contextlevel == CONTEXT_COURSECAT) {
+        if ($context->contextlevel == CONTEXT_MODULE) {
+
+            $this->page->navigation->initialise();
+            $node = $this->page->navigation->find_active_node();
+            $buildmenu = false;
+            // If the settings menu has been forced then show the menu.
+            if ($this->page->is_settings_menu_forced()) {
+                $buildmenu = true;
+            } else if (!empty($node) && ($node->type == navigation_node::TYPE_ACTIVITY ||
+                            $node->type == navigation_node::TYPE_RESOURCE)) {
+
+                $items = $this->page->navbar->get_items();
+                $navbarnode = end($items);
+                // We only want to show the menu on the first page of the activity. This means
+                // the breadcrumb has no additional nodes.
+                if ($navbarnode && ($navbarnode->key === $node->key && $navbarnode->type == $node->type)) {
+                    $buildmenu = true;
+                }
+            }
+            if ($buildmenu) {
+                // Get the course admin node from the settings navigation.
+                $node = $this->page->settingsnav->find('modulesettings', navigation_node::TYPE_SETTING);
+                if ($node) {
+                    // Build an action menu based on the visible nodes from this navigation tree.
+                    $this->build_action_menu_from_navigation($menu, $node);
+                }
+            }
+
+        } else if ($context->contextlevel == CONTEXT_COURSECAT) {
             // For course category context, show category settings menu, if we're on the course category page.
             if ($this->page->pagetype === 'course-index-category') {
                 $node = $this->page->settingsnav->find('categorysettings', navigation_node::TYPE_CONTAINER);
                 if ($node) {
                     // Build an action menu based on the visible nodes from this navigation tree.
                     $this->build_action_menu_from_navigation($menu, $node);
-                    $menu->actiontext = get_string('settings-category', 'theme_padplus');
                 }
             }
+
+        } else {
+            $items = $this->page->navbar->get_items();
+            $navbarnode = end($items);
+
+            if ($navbarnode && ($navbarnode->key === 'participants')) {
+                $node = $this->page->settingsnav->find('users', navigation_node::TYPE_CONTAINER);
+                if ($node) {
+                    // Build an action menu based on the visible nodes from this navigation tree.
+                    $this->build_action_menu_from_navigation($menu, $node);
+                }
+
+            }
         }
+        /*** PADPLUS: set generic but explicit label for dropdown trigger, to replace the cogwheel icon. */
+        $menu->menutrigger = get_string('actions-dropdown', 'theme_padplus');
         return $this->render($menu);
     }
 
+    /**
+     * Returns HTML to display a "Turn editing on/off" button in a form.
+     *
+     * @param moodle_url $url The URL + params to send through when clicking the button
+     * @return string HTML the button
+     */
+    public function edit_button(moodle_url $url) {
+
+        $url->param('sesskey', sesskey());
+        if ($this->page->user_is_editing()) {
+            $url->param('edit', 'off');
+            $editstring = get_string('turneditingoff');
+            $options = ['class' => 'turneditingoff'];
+        } else {
+            $url->param('edit', 'on');
+            $editstring = get_string('turneditingon');
+            $options = ['class' => 'turneditingon'];
+        }
+
+        return $this->single_button($url, $editstring, 'post', $options);
+    }
 }

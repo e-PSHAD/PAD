@@ -41,7 +41,7 @@
 }
 
 .dropdown-toggle {
-    display: flex;
+    display: flex !important;
     align-items: center;
     &:after {
         border: none;
@@ -52,10 +52,15 @@
     }
 }
 
-// Navbar dropdown
-.nav.usernav .usermenu .dropdown-toggle {
-    display: flex !important;
-    &:after {
-        color: $black;
+// Actions dropdown for participants, activities
+#region-main-settings-menu {
+    @include dropdown-padplus();
+
+    > div {
+        margin: 0 1rem;
     }
+}
+
+.region_main_settings_menu_proxy {
+    width: 6rem; // enlarge proxy to fit dropdown label
 }

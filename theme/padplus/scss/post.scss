@@ -5,6 +5,7 @@
 @import 'post/typography.scss';
 
 // Mixins
+@import 'post/mixins/dropdown.scss';
 @import 'post/mixins/iconbutton.scss';
 @import 'post/mixins/pagination.scss';
 
@@ -27,9 +28,13 @@
 @import 'post/layouts/sidebar.scss';
 
 // Pages
+@import 'post/pages/activity.scss';
 @import 'post/pages/calendar.scss';
 @import 'post/pages/categories.scss';
+@import 'post/pages/course.scss';
 @import 'post/pages/dashboard.scss';
 @import 'post/pages/enrol.scss';
 @import 'post/pages/login.scss';
 @import 'post/pages/mycourses.scss';
+@import 'post/pages/section.scss';
+@import 'post/pages/workshop.scss';

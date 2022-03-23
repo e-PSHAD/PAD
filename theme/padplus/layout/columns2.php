@@ -121,13 +121,24 @@ if (has_capability('moodle/category:manage', $context)) {
     }
 }
 
-// Group: current course and its sections. Options left out: 'badgesview', 'competencies'.
+// Group: current course. Options left out: 'badgesview', 'competencies'.
 fill_nav_from_menu_keys($nav, $padnav, ['coursehome', 'participants', 'grades']);
-fill_nav_from_menu_type($nav, $padnav, navigation_node::TYPE_SECTION);
-// Enable divider on coursehome since it comes after the main menu now.
+// Leaving out section items: fill_nav_from_menu_type($nav, $padnav, navigation_node::TYPE_SECTION);
+// Enable divider on coursehome since it comes after the main menu now & change nav label.
 $coursehome = $padnav->get('coursehome');
 if (is_object($coursehome)) {
+    $labelkey = course_is_workshop($PAGE->course, $PAGE->theme) ? 'sidebar-summary-workshop' : 'sidebar-summary-course';
+    $coursehome->text = get_string($labelkey, 'theme_padplus');
     $coursehome->set_showdivider(true, $coursehome->text);
+}
+
+// Replace icon by an indentation for these course subitems.
+foreach (['participants', 'grades'] as $navkey) {
+    $navitem = $padnav->get($navkey);
+    if (is_object($navitem)) {
+        $navitem->icon->pix = null;
+        $navitem->set_indent(4);
+    }
 }
 
 // Group: add block.

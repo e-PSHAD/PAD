@@ -1,0 +1,83 @@
+#page-course-view-topics {
+    #page {
+        padding: 0 200px;
+        #region-main {
+            padding-top: 0;
+        }
+        #section-0 {
+            border-bottom: none;
+        }
+        .section-summary {
+            border: 1px solid theme-color("pad-border");
+            border-radius: 8px;
+            padding: 24px;
+            .section-title {
+                font-size: $h5-font-size;
+                a {
+                    display: flex;
+                    &:before {
+                        align-items: flex-start;
+                        content: fa-content($fa-var-folder-open);
+                        display: flex !important;
+                        @include fa-icon();
+                        font-family: 'Font Awesome 5 Free';
+                        font-weight: 900;
+                        margin-right: 8px;
+                        margin-top: 5px;
+                    }
+
+                }
+            }
+            .summarytext {
+                margin-bottom: 16px;
+                margin-top: 16px;
+            }
+            .summary-card-bottom {
+                align-items: flex-start;
+                border-top: 1px solid theme-color("pad-border");
+                display: flex;
+                flex-direction: column;
+                font-size: $h6-font-size !important;
+                padding-top: 16px;
+                .section-summary-activities {
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+                .activity-count {
+                    color: $body-color;
+                    font-size: $h6-font-size;
+                    &:first-child {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+        .section .activity .editing_move {
+            left: -20px;
+            top: -23px;
+        }
+    }
+}
+
+// Responsive
+@media screen and (max-width: 1389px) {
+    #page-course-view-topics {
+        #page {
+            padding: 0 150px;
+        }
+    }
+}
+@media screen and (max-width: 1289px) {
+    #page-course-view-topics {
+        #page {
+            padding: 0 100px;
+        }
+    }
+}
+@media screen and (max-width: 1042px) {
+    #page-course-view-topics {
+        #page {
+            padding: 0 1rem;
+        }
+    }
+}
