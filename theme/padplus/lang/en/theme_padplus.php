@@ -88,6 +88,7 @@ $string['settings-allcourses-desc'] = "Display first user-accessible category (n
 $string['unenrolme'] = 'Unenrol me';
 
 // Categories, course, section & activity page strings.
+$string['actions-dropdown'] = 'Actions';
 $string['addnewworkshop'] = 'Add new workshop';
 $string['activity-session'] = '{$a->total} activity in this session:';
 $string['activities-session'] = '{$a->total} activities in this session:';
@@ -101,7 +102,6 @@ $string['participants-enrolled'] = 'Enrolled students';
 $string['previous-session'] = 'Previous session';
 $string['previous-activity'] = 'Previous activity';
 $string['progress-session'] = 'Progress:';
-$string['settings-category'] = 'Management of this category';
 $string['sidebar-summary-course'] = 'In this course';
 $string['sidebar-summary-workshop'] = 'In this workshop';
 $string['workshop-teacher'] = 'Organizer';

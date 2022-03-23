@@ -151,7 +151,7 @@ class course_renderer extends \core_course_renderer {
         $output .= html_writer::start_div('', ['class' => 'category-page-searchbar-container']);
         $output .= $this->course_search_form();
         if ($coursecat->has_manage_capability()) {
-            $output .= $this->coursecat_settings_menu_padplus();
+            $output .= $this->region_main_settings_menu();
         }
         $output .= html_writer::end_div();
         /*** PADPLUS END */

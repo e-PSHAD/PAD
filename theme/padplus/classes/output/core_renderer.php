@@ -452,33 +452,8 @@ class core_renderer extends \core_renderer {
 
             }
         }
-        return $this->render($menu);
-    }
-
-    /*** PADPLUS
-     * Display category settings dropdown.
-     * This is a highly edited/specific version of the more generic core_renderer#region_main_settings_menu function.
-     *
-     * HERE BE DRAGONS
-     * This method should reside in course_renderer but then cannot access protected method build_action_menu_from_navigation
-     * from core_renderer through call_user_func_array. Probably due to Moodle inheritance/overriding renderer peculiarities.
-     * So we put it here even if it violates a basic modularity principle.
-     */
-    public function coursecat_settings_menu_padplus() {
-        $context = $this->page->context;
-        $menu = new action_menu();
-
-        if ($context->contextlevel == CONTEXT_COURSECAT) {
-            // For course category context, show category settings menu, if we're on the course category page.
-            if ($this->page->pagetype === 'course-index-category') {
-                $node = $this->page->settingsnav->find('categorysettings', navigation_node::TYPE_CONTAINER);
-                if ($node) {
-                    // Build an action menu based on the visible nodes from this navigation tree.
-                    $this->build_action_menu_from_navigation($menu, $node);
-                    $menu->actiontext = get_string('settings-category', 'theme_padplus');
-                }
-            }
-        }
+        /*** PADPLUS: set generic but explicit label for dropdown trigger, to replace the cogwheel icon. */
+        $menu->menutrigger = get_string('actions-dropdown', 'theme_padplus');
         return $this->render($menu);
     }
 

@@ -1,0 +1,31 @@
+@mixin dropdown-padplus() {
+    .dropdown-toggle {
+        // align-items: center;
+        background-color: $white;
+        border: 1px solid theme-color("pad-link");
+        border-radius: 4px;
+        color: theme-color("pad-link");
+        // display: flex !important;
+        height: 38px;
+        justify-content: center;
+        padding: 0px 12px;
+
+        &:hover {
+            background-color: theme-color("pad-btn-secondary-bg");
+        }
+
+        &:active {
+            background-color: theme-color("pad-btn-secondary-bg") !important;
+            border-color: theme-color("pad-link") !important;
+            color: theme-color("pad-link") !important;
+        }
+
+        &:after {
+            margin-left: 8px;
+        }
+    }
+
+    .dropdown a:focus {
+        box-shadow: none !important;
+    }
+}
