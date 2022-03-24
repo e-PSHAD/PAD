@@ -81,6 +81,12 @@ fill_nav_from_menu_keys($nav, $padnav, ['home', 'myhome', 'mycoursespage', 'cale
 $myhome = $padnav->get('myhome');
 if (is_object($myhome)) {
     $myhome->set_showdivider(false);
+
+    // BUG FIX: force active check for dashboard item to activate it for all users if need be.
+    // Indeed, when user has ten or so courses, Moodle adds 'morenavigationlinks' item to the navigation hierarchy, which tends to
+    // inactivate parents such as myhome in the hierarchy.
+    // This is a weird bug due to Moodle complicated build stage for navigation and flat navigation.
+    $myhome->check_if_active();
 }
 
 // @codingStandardsIgnoreStart
