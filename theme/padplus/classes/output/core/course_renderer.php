@@ -232,10 +232,12 @@ class course_renderer extends \core_course_renderer {
      */
     protected function coursecat_category(coursecat_helper $chelper, $coursecat, $depth) {
         $categoryname = $coursecat->get_formatted_name();
+        $childrencount = $coursecat->get_courses_count() + $coursecat->get_children_count();
 
         $categoryblock = '';
         $categoryblock .= html_writer::start_tag('h5', array('class' => 'category-title'));
         $categoryblock .= $categoryname;
+        $categoryblock .= ' (' . $childrencount . ')';
         $categoryblock .= html_writer::end_tag('h5');
 
         $content = html_writer::link(new moodle_url('/course/index.php',
