@@ -77,7 +77,7 @@
 
 {{#js}}
     var breadcrumbs = document.querySelector(".breadcrumb");
-    if (breadcrumbs) {
+    if (breadcrumbs && breadcrumbs.lastElementChild) {
         var lastBreadcrumb = breadcrumbs.lastElementChild.querySelector("a");
         lastBreadcrumb.classList.add("current-breadcrumb-item");
     };
