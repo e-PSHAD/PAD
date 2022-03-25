@@ -1,5 +1,15 @@
 .breadcrumb {
     @include font-size($font-size-sm);
+    display: inline;
+    padding: 0 !important;
+}
+
+.breadcrumb-item {
+    display: inline !important;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    float: none;
 }
 
 .current-breadcrumb-item {
