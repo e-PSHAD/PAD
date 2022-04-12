@@ -1,0 +1,130 @@
+.block_padplusvideocall {
+    .card-text.content {
+        border: 1px #e5e5e5 solid;
+        border-radius: 8px;
+        box-shadow: 0 8px 8px 0 rgba(56, 69, 76, 0.04);
+        padding: 24px 16px;
+    }
+
+    .blockintro {
+        font-size: $font-size-sm;
+    }
+
+    // Override default form-group attributes to place label on top of input.
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-left: 0;
+
+        // Input label
+        .col-md-3.col-form-label {
+            max-width: 100%;
+            padding-left: 0;
+
+            label {
+                color: theme-color('primary');
+                font-size: $h6-font-size;
+                font-weight: bold;
+            }
+        }
+
+        // Input field
+        .felement {
+            padding-left: 0px;
+            min-width: 100%;
+
+            input.form-control {
+                border: 1px solid theme-color('pad-border');
+                border-radius: 4px;
+                width: 100%;
+            }
+
+            // Search input field
+            .d-md-inline-block {
+                width: 90%; // Leave some space for loading icon
+                .form-autocomplete-downarrow {
+                    color: $white;
+                    &:after {
+                        border: none;
+                        color: theme-color('complementary');
+                        content: fa-content($fa-var-chevron-down);
+                        @include fa-icon();
+                        font-family: 'Font Awesome 5 Free';
+                        font-weight: 900;
+                    }
+                }
+            }
+        }
+
+        // Viewers nametags
+        .form-autocomplete-selection {
+            font-size: $font-size-sm;
+
+            .badge {
+                background-color: map-get($badge-colors, "user");
+                border-radius: 4px;
+                color: $black;
+                font-weight: 400;
+                padding: 7px 34px 7px 12px;
+                position: relative;
+                width: 75%;
+
+                > span:first-child { // hide cross symbol
+                    display: none;
+                }
+                small { // hide email field
+                    display: none;
+                }
+                &:after {
+                    color: theme-color('pad-link');
+                    @include fa-icon();
+                    font-family: 'Font Awesome 5 Free';
+                    font-size: 1rem;
+                    font-weight: 900;
+                    content: fa-content($fa-var-times);
+                    position: absolute;
+                    right: 12px;
+                    top: 11px;
+                }
+            }
+
+            &:focus {
+                .badge[data-active-selection=true] {
+                    font-weight: 700;
+                }
+            }
+        }
+
+        // Viewers selection dropdown
+        .form-autocomplete-suggestions {
+            border: 1px solid theme-color("pad-border");
+            border-radius: 4px;
+            box-shadow: 0px 4px 4px 0px rgba(56, 69, 76, 0.04);
+
+            li {
+                span {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                &:before {
+                    display: none;
+                }
+
+                &[aria-selected='true'],
+                &:hover,
+                &:focus {
+                    background-color: theme-color("pad-link");
+                    box-shadow: none;
+                    color: $dropdown-link-active-color;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .mform {
+            padding-left: 0;
+        }
+    }
+}

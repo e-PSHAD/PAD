@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/local/padplusextensions/lib.php');
 
 class block_padplusvideocall extends block_base {
+
     public function init() {
         $this->title = get_string('padplusvideocall', 'block_padplusvideocall');
     }
@@ -32,9 +33,9 @@ class block_padplusvideocall extends block_base {
 
         $this->content = new stdClass;
 
-        $categorycontext = get_top_category_context_with_capability('block/padplusvideocall:createvideocall');
+        $categorycontext = get_top_category_context_with_capability('block/padplusvideocall:invitevideocall');
         if (! $categorycontext) {
-            // Do not display block if user has no capability to create a video call.
+            // Do not display block if user has no capability to invite/create a video call.
             $this->content->text = '';
             return $this->content;
         }
@@ -48,8 +49,11 @@ class block_padplusvideocall extends block_base {
     }
 
     public function export_for_template($categorycontext) {
+        $createvideocallurl = get_videocall_create_url($categorycontext->id);
+        $videocallform = new block_padplusvideocall\videocall_form($createvideocallurl, (object) ['context' => $categorycontext]);
+
         return array(
-            'createvideocallurl' => get_videocall_create_url($categorycontext->id)
+            'videocallformhtml' => $videocallform->render_html()
         );
     }
 }

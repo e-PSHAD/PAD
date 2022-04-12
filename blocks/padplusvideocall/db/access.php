@@ -49,4 +49,14 @@ $capabilities = array(
             'coursecreator' => CAP_ALLOW,
         ],
     ),
+
+    'block/padplusvideocall:invitevideocall' => array(
+        'riskbitmask' => RISK_SPAM,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSECAT,
+        'archetypes' => [
+            'manager' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW,
+        ],
+    ),
 );

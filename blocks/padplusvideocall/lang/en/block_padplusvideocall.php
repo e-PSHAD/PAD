@@ -33,6 +33,10 @@ $string['notification_action'] = 'Join';
 $string['notification_contexturlname'] = 'Video call';
 
 // UI.
+$string['addparticipants'] = 'Invite participants';
+$string['addparticipants_placeholder'] = 'Enter a name';
+$string['addroomname'] = 'Create a meeting room name';
+$string['addroomname_placeholder'] = 'Ex: monthly interview with...';
 $string['blockintro'] = 'Launch a video conference in a new window. Both fields are optional. You can invite external people from within the conference.';
 $string['launch'] = 'Launch meeting';
 $string['callfromprofile'] = 'Video call';

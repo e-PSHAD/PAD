@@ -14,15 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace core_user\external;
+namespace block_padplusvideocall\external;
 
 /**
- * Provides the core_user_search_identity external function.
+ * PADPLUS: Provides the block_padplusvideocall_search_identity external function.
+ * This only changes the context/capability check.
  *
- * @package     core_user
- * @category    external
- * @copyright   2021 David Mudrák <david@moodle.com>
- * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @see user/classes/external/search_identity for original code
  */
 class search_identity extends \external_api {
 
@@ -34,6 +32,7 @@ class search_identity extends \external_api {
     public static function execute_parameters(): \external_function_parameters {
 
         return new \external_function_parameters([
+            'contextid' => new \external_value(PARAM_INT, 'Id of the authorization context for videocall invitation'),
             'query' => new \external_value(PARAM_TEXT, 'The search query', VALUE_REQUIRED),
         ]);
     }
@@ -44,18 +43,20 @@ class search_identity extends \external_api {
      * @param string $query The search request.
      * @return array
      */
-    public static function execute(string $query): array {
+    public static function execute(string $contextid, string $query): array {
         global $DB, $CFG;
 
         $params = \external_api::validate_parameters(self::execute_parameters(), [
+            'contextid' => $contextid,
             'query' => $query,
         ]);
         $query = $params['query'];
 
-        // Validate context.
-        $context = \context_system::instance();
+        /*** PADPLUS Retrieve given [category] context and check invitevideocall capability. */
+        $context = \context::instance_by_id($params['contextid']);
         self::validate_context($context);
-        require_capability('moodle/user:viewalldetails', $context);
+        require_capability('block/padplusvideocall:invitevideocall', $context);
+        /*** PADPLUS END */
 
         $hasviewfullnames = has_capability('moodle/site:viewfullnames', $context);
 

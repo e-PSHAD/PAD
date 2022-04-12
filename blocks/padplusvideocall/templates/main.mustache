@@ -1,16 +1,12 @@
-<div id="block-padplusvideocall-{{uniqid}}">
-    <p>
-        {{#str}} blockintro, block_padplusvideocall {{/str}}
-    </p>
-    <a id="launch-videocall" href="{{createvideocallurl}}" class="btn btn-primary">{{#str}} launch, block_padplusvideocall {{/str}}</a>
+<div id="block-padplusvideocall-{{uniqid}}" class="block-padplusvideocall">
+    <p class="blockintro">{{#str}} blockintro, block_padplusvideocall {{/str}}</p>
+    {{{videocallformhtml}}}
 </div>
 {{#js}}
 require(
 ['block_padplusvideocall/main'],
 function(Main) {
-    const root = document.getElementById('block-padplusvideocall-{{uniqid}}');
-    const viewersid = [4, 9];
-
-    Main.handleVideoCallRequest('launch-videocall', viewersid);
+    const videocallform = document.getElementById('block-padplusvideocall-{{uniqid}}').querySelector('form');
+    Main.handleVideoCallFormRequest(videocallform);
 });
 {{/js}}

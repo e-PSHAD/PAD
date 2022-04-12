@@ -15,10 +15,10 @@
 
 /**
  * Provides the required functionality for an autocomplete element to select a user.
+ * PADPLUS: we only need to customize this module so that we can the customized
+ * block_padplusvideocall_search_identity with the contextid parameter.
  *
- * @module      core_user/form_user_selector
- * @copyright   2020 David Mudrák <david@moodle.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @see core_user/form_user_selector for original module
  */
 
 import Ajax from 'core/ajax';
@@ -35,12 +35,18 @@ import {get_string as getString} from 'core/str';
  */
 export async function transport(selector, query, callback, failure) {
 
+    /** PADPLUS: call block_padplusvideocall_search_identity with contextid. */
+    const formRoot = document.querySelector(selector);
+    const contextid = formRoot.getAttribute('contextid');
+
     const request = {
-        methodname: 'core_user_search_identity',
+        methodname: 'block_padplusvideocall_search_identity',
         args: {
-            query: query
+            contextid,
+            query
         }
     };
+    /** PADPLUS END */
 
     try {
         const response = await Ajax.call([request])[0];

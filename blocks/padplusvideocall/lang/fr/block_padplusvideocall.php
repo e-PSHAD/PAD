@@ -33,6 +33,10 @@ $string['notification_action'] = 'Rejoindre';
 $string['notification_contexturlname'] = "l'appel vidéo";
 
 // UI.
+$string['addparticipants'] = 'Inviter des participant(e)s';
+$string['addparticipants_placeholder'] = 'Saisir un nom ou un prénom';
+$string['addroomname'] = 'Créer un nom de salle de réunion';
+$string['addroomname_placeholder'] = 'Ex: entretien mensuel avec...';
 $string['blockintro'] = 'Vous pouvez cliquer sur le bouton "Lancer la réunion" sans remplir les deux champs. Vous serez automatiquement redirigé vers une nouvelle fenêtre de navigateur et pourrez ainsi partager le lien créé.';
 $string['launch'] = 'Lancer la réunion';
 $string['callfromprofile'] = 'Appeler en vidéo';
