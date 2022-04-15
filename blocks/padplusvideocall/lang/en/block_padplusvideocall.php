@@ -21,6 +21,7 @@ $string['padplusvideocall'] = 'Video conference';
 $string['padplusvideocall:addinstance'] = 'Add a new video conference block';
 $string['padplusvideocall:myaddinstance'] = 'Add a new video conference block to the My Moodle page';
 $string['padplusvideocall:createvideocall'] = 'Create video conferences';
+$string['createvideocall_nocapability'] = 'You do not have the capability to create video conferences.';
 
 // Notifications.
 $string['messageprovider:videocall_notification'] = 'Video conference notification';
@@ -35,6 +36,10 @@ $string['notification_contexturlname'] = 'Video call';
 $string['blockintro'] = 'Launch a video conference in a new window. Both fields are optional. You can invite external people from within the conference.';
 $string['launch'] = 'Launch meeting';
 $string['callfromprofile'] = 'Video call';
+$string['joinvideocall_leftmeeting'] = 'This tab (or window) should be closed manually.';
+$string['joinvideocall_nomeeting'] = 'The meeting is over.';
+$string['bigbluebutton_welcome'] = 'Welcome!';
+$string['bigbluebutton_moderatormessage'] = 'You can invite a PAD+ participant by sending him this link {$a}';
 
 // Log events.
 $string['eventvideocallcreated'] = 'Video call created';

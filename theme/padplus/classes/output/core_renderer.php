@@ -18,6 +18,7 @@ namespace theme_padplus\output;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot . '/blocks/padplusvideocall/lib.php');
 require_once($CFG->dirroot . '/local/padplusextensions/lib.php');
 
 use action_link,
@@ -331,7 +332,7 @@ class core_renderer extends \core_renderer {
                     'videocall' => array(
                         'buttontype' => 'videocall',
                         'title' => get_string('callfromprofile', 'block_padplusvideocall'),
-                        'url' => new moodle_url('#'),
+                        'url' => new moodle_url(get_videocall_create_url($categorycontext->id, [$viewerid])),
                         'formattedimage' => 'i/bullhorn',
                         'linkattributes' => array(
                             'id' => $buttonid,
@@ -344,7 +345,7 @@ class core_renderer extends \core_renderer {
                 $this->page->requires->js_call_amd(
                     'block_padplusvideocall/main',
                     'handleVideoCallRequest',
-                    array($buttonid, $categorycontext->id, [$viewerid])
+                    array($buttonid)
                 );
 
                 $contextheader->additionalbuttons = $contextheader->additionalbuttons + $videocall;

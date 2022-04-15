@@ -21,6 +21,7 @@ $string['padplusvideocall'] = 'Visioconférence';
 $string['padplusvideocall:addinstance'] = 'Ajouter un bloc visioconférence';
 $string['padplusvideocall:myaddinstance'] = "Ajouter un bloc visioconférence sur ma page d'accueil";
 $string['padplusvideocall:createvideocall'] = 'Créer des visioconférences';
+$string['createvideocall_nocapability'] = 'Vous ne pouvez pas créer de visioconférence.';
 
 // Notifications.
 $string['messageprovider:videocall_notification'] = "Notification de visioconférence";
@@ -35,6 +36,10 @@ $string['notification_contexturlname'] = "l'appel vidéo";
 $string['blockintro'] = 'Vous pouvez cliquer sur le bouton "Lancer la réunion" sans remplir les deux champs. Vous serez automatiquement redirigé vers une nouvelle fenêtre de navigateur et pourrez ainsi partager le lien créé.';
 $string['launch'] = 'Lancer la réunion';
 $string['callfromprofile'] = 'Appeler en vidéo';
+$string['joinvideocall_leftmeeting'] = 'Cet onglet (ou fenêtre) doit être fermé(e) manuellement.';
+$string['joinvideocall_nomeeting'] = 'La réunion est terminée.';
+$string['bigbluebutton_welcome'] = 'Bienvenue !';
+$string['bigbluebutton_moderatormessage'] = 'Vous pouvez inviter votre correspondant PAD+ en lui transmettant cette adresse  {$a}';
 
 // Log events.
 $string['eventvideocallcreated'] = 'Appel vidéo créé';

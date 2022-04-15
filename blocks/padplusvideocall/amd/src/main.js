@@ -1,22 +1,15 @@
-import Ajax from 'core/ajax';
-import Notification from 'core/notification';
-
-export const handleVideoCallRequest = (buttonId, contextid, viewersid) => {
+export const handleVideoCallRequest = (buttonId, viewersid) => {
     const button = document.getElementById(buttonId);
 
     button.addEventListener('click', function(e) {
         e.preventDefault();
 
-        const request = {
-            methodname: 'block_padplusvideocall_initialize_videocall',
-            args: {contextid, viewersid},
-        };
+        let creationurl = button.getAttribute('href');
+        if (viewersid) {
+            const viewersparam = viewersid.join(',');
+            creationurl = `${creationurl}&viewersid=${viewersparam}`;
+        }
 
-        const [promise] = Ajax.call([request]);
-
-        promise.done(response => {
-            const {moderatorurl} = response;
-            window.open(moderatorurl);
-        }).fail(Notification.exception);
+        window.open(creationurl);
     });
 };

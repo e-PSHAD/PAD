@@ -49,7 +49,7 @@ class block_padplusvideocall extends block_base {
 
     public function export_for_template($categorycontext) {
         return array(
-            'contextid' => $categorycontext->id
+            'createvideocallurl' => get_videocall_create_url($categorycontext->id)
         );
     }
 }
