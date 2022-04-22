@@ -83,6 +83,10 @@ $string['settings-workshopids-desc'] = "Si l'utilisateur a accès à une des cat
 $string['settings-catalogid-desc'] = "Si l'utilisateur a accès à la catégorie sélectionnée, alors elle apparaît avec l'intitulé 'Ressources partagées' dans son propre groupe dans la navigation latérale.";
 $string['settings-catalogid-none'] = '[aucune]';
 $string['settings-allcourses-desc'] = "La première catégorie accessible à l'utilisateur (non sélectionnée par les options ci-dessus) apparaît avec l'intitulé 'Toutes les séquences' dans la navigation latérale.";
+$string['settings-videocall'] = 'Visioconférence';
+$string['settings-videocall-desc'] = "Les paramètres du serveur BigBlueButton sont sous Administration du site / Plugins / Modules d'activité / BigBlueButton.";
+$string['settings-videocallprofile'] = 'Appel vidéo pages profil';
+$string['settings-videocallprofile-desc'] = "Afficher le bouton d'appel vidéo sur les pages profil.";
 
 // Enrolment strings.
 $string['unenrolme'] = 'Me désinscrire';

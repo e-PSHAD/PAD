@@ -1,0 +1,16 @@
+<div id="block-padplusvideocall-{{uniqid}}" data-contextid="{{contextid}}">
+    <p>
+        {{#str}} blockintro, block_padplusvideocall {{/str}}
+    </p>
+    <a id="launch-videocall" href="#" class="btn btn-primary">{{#str}} launch, block_padplusvideocall {{/str}}</a>
+</div>
+{{#js}}
+require(
+['block_padplusvideocall/main'],
+function(Main) {
+    const root = document.getElementById('block-padplusvideocall-{{uniqid}}');
+    const viewersid = [4, 9];
+
+    Main.handleVideoCallRequest('launch-videocall', root.dataset.contextid, viewersid);
+});
+{{/js}}

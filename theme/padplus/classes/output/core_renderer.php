@@ -16,11 +16,16 @@
 
 namespace theme_padplus\output;
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->dirroot . '/local/padplusextensions/lib.php');
+
 use action_link,
     action_menu,
     action_menu_filler,
     action_menu_link_secondary,
     core_text,
+    context_header,
     context_system,
     html_writer,
     moodle_url,
@@ -297,6 +302,56 @@ class core_renderer extends \core_renderer {
         }
 
         return parent::context_header($headerinfo, $headinglevel);
+    }
+
+    /*** PADPLUS: override render context header so that we can customize action buttons.
+     * Sadly this is not possible in context_header since it directly calls the renderer.
+     * So we intercept the renderer call to override some more parameters.
+     *
+     * Renders the header bar.
+     *
+     * @param context_header $contextheader Header bar object.
+     * @return string HTML for the header bar.
+     */
+    protected function render_context_header(context_header $contextheader) {
+        if ($this->page->theme->settings->videocallinprofile) {
+            // Retrieve top category where user has the createvideocall capability, if any.
+            $categorycontext = get_top_category_context_with_capability('block/padplusvideocall:createvideocall');
+
+            // Let's take a shortcut!
+            // If there is a 'toggle contact' button, it means we are on the profile page for another user,
+            // either site profile or course profile (beware, the last one does not have a user context).
+            // Then we also add the videocall button if user has the capability context.
+            if ($categorycontext && isset($contextheader->additionalbuttons['togglecontact'])) {
+                // Both site profile (user/profile.php) and course profile (user/view.php) have user id in param.
+                // This will be used to notify the viewer.
+                $viewerid = $this->page->url->get_param('id');
+                $buttonid = 'video-call-user-button';
+                $videocall = array(
+                    'videocall' => array(
+                        'buttontype' => 'videocall',
+                        'title' => get_string('callfromprofile', 'block_padplusvideocall'),
+                        'url' => new moodle_url('#'),
+                        'formattedimage' => 'i/bullhorn',
+                        'linkattributes' => array(
+                            'id' => $buttonid,
+                            'role' => 'button',
+                            'class' => 'btn'
+                        ),
+                        'page' => $this->page
+                    )
+                );
+                $this->page->requires->js_call_amd(
+                    'block_padplusvideocall/main',
+                    'handleVideoCallRequest',
+                    array($buttonid, $categorycontext->id, [$viewerid])
+                );
+
+                $contextheader->additionalbuttons = $contextheader->additionalbuttons + $videocall;
+            }
+        }
+
+        return parent::render_context_header($contextheader);
     }
 
      /*** PADPLUS: override settings menu on home, course & profile page */

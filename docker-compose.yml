@@ -36,3 +36,5 @@ services:
       MYSQL_DATABASE: ${MOODLE_DOCKER_DBNAME}
   mailhog:
     image: mailhog/mailhog
+    ports:
+      - "8025:8025"

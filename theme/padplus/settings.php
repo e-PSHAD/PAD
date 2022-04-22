@@ -138,4 +138,18 @@ if ($ADMIN->fulltree) {
         get_string('allcourses-menu', 'theme_padplus'),
         get_string('settings-allcourses-desc', 'theme_padplus'),
         1));
+
+    // Videocall settings.
+    $settings->add(new admin_setting_heading(
+        'videocallconfig',
+        get_string('settings-videocall', 'theme_padplus'),
+        get_string('settings-videocall-desc', 'theme_padplus')
+    ));
+
+
+    $settings->add(new admin_setting_configcheckbox(
+        'theme_padplus/videocallinprofile',
+        get_string('settings-videocallprofile', 'theme_padplus'),
+        get_string('settings-videocallprofile-desc', 'theme_padplus'),
+        1));
 }

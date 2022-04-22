@@ -1,0 +1,85 @@
+#page-message-output-popup-notifications {
+    main > h2 {
+        display: none;
+    }
+    .notification-area {
+        border-radius: unset;
+        .control-area {
+
+            .content-item-container {
+                height: 6.5rem;
+                padding-left: 1rem;
+                padding-top: 0.5rem;
+                position: relative;
+                .notification-image > img {
+                    display: none;
+                }
+                .notification-message {
+                    font-size: $h6-font-size;
+                    padding-left: 0.5rem;
+                }
+                .timestamp {
+                    bottom: 0.7rem;
+                    color: $dark;
+                    font-size: $font-size-sm;
+                    margin-left: 32px;
+                    position: absolute;
+                }
+                &.selected {
+                    background-color: theme-color('primary');
+                    border-color: theme-color('primary');
+                    .timestamp {
+                        color: $white;
+                    }
+                }
+                &:hover {
+                    .timestamp {
+                        color: $white;
+                    }
+                }
+                > div:focus-visible {
+                    outline: 0.2rem solid theme-color('primary');
+                }
+            }
+
+            .content-item-container.unread {
+                .notification-image {
+                    &:before {
+                        color: theme-color('pad-link');
+                        @include fa-icon();
+                        font-family: 'Font Awesome 5 Free';
+                        font-size: 0.625rem;
+                        font-weight: 900;
+                        content: fa-content($fa-var-circle);
+                        position: absolute;
+                        top: 3rem;
+                    }
+                }
+                .notification-message {
+                    font-weight: bold;
+                }
+                &:hover {
+                    .notification-image:before {
+                        color: $white;
+                    }
+                }
+            }
+        }
+        .content-area {
+            .header {
+                display: none;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 979px) {
+    #page-message-output-popup-notifications {
+        .content-area {
+            width: calc(100% - 22.5rem);
+        }
+        .control-area {
+            width: 22.5rem;
+        }
+    }
+}

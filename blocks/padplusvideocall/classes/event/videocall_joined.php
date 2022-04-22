@@ -14,18 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace theme_padplus\output;
+namespace block_padplusvideocall\event;
 
-class icon_system_fontawesome extends \core\output\icon_system_fontawesome {
-    public function get_core_icon_map() {
-        $iconmap = parent::get_core_icon_map();
+class videocall_joined extends \core\event\base {
 
-        $iconmap['core:i/course'] = 'fa-folder-open'; // Override Moodle default fa-graduation-cap.
-        $iconmap['core:i/dashboard'] = 'fa-th-large'; // Override Moodle default fa-tachometer.
-        // bullhorn icon is only used for Moodle feedback system, which we won't activate.
-        $iconmap['core:i/bullhorn'] = 'fa-video'; // Override Moodle default fa-bullhorn for video call.
-        $iconmap['core:i/mycourses'] = 'fa-layer-group';
-
-        return $iconmap;
+    protected function init(): void {
+        $this->data['crud'] = 'r';
+        $this->data['edulevel'] = self::LEVEL_OTHER;
     }
+
+    public function get_description(): string {
+        return "The user with id '$this->userid' joined a video call";
+    }
+
+    public static function get_name(): string {
+        return get_string('eventvideocalljoined', 'block_padplusvideocall');
+    }
+
 }

@@ -83,6 +83,10 @@ $string['settings-workshopids-desc'] = "If user has access to one of the selecte
 $string['settings-catalogid-desc'] = "If user has access to the selected category, display it with label 'Shared resources' in its own group in the sidebar menu.";
 $string['settings-catalogid-none'] = '[none]';
 $string['settings-allcourses-desc'] = "Display first user-accessible category (not matched by above options) with label 'All sequences' in the sidebar menu.";
+$string['settings-videocall'] = 'Video conference';
+$string['settings-videocall-desc'] = 'BigBlueButton server parameters can be found under Site Administration / Plugins / Activity modules / BigBlueButton.';
+$string['settings-videocallprofile'] = 'Video call on profile pages';
+$string['settings-videocallprofile-desc'] = 'Display video call button on profile pages.';
 
 // Enrolment strings.
 $string['unenrolme'] = 'Unenrol me';

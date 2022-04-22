@@ -1,0 +1,6 @@
+.block_padplusvideocall .card-text.content {
+    border: 1px #e5e5e5 solid;
+    border-radius: 8px;
+    box-shadow: 0 8px 8px 0 rgba(56, 69, 76, 0.04);
+    padding: 24px 16px;
+}

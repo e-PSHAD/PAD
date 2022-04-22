@@ -115,6 +115,24 @@ function current_user_has_access_to_catalog(theme_config $theme) {
 }
 
 /**
+ * Get first context in user top categories which matches the given capability.
+ * If user does not have the capability in any top context, return false.
+ *
+ * @param string    $capability capability to check in a category context
+ * @return mixed    id of the category context for which user has the given capability, false otherwise
+ */
+function get_top_category_context_with_capability($capability) {
+    $usercategories = \core_course_category::top()->get_children();
+    foreach ($usercategories as $cat) {
+        $context = context_coursecat::instance($cat->id);
+        if (has_capability($capability, $context)) {
+            return $context;
+        }
+    }
+    return false;
+}
+
+/**
  * Search the given $courses for any that match the given $classification up to the specified
  * $limit.
  *
