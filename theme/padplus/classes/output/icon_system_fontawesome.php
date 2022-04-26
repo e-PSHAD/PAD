@@ -22,6 +22,8 @@ class icon_system_fontawesome extends \core\output\icon_system_fontawesome {
 
         $iconmap['core:i/course'] = 'fa-folder-open'; // Override Moodle default fa-graduation-cap.
         $iconmap['core:i/dashboard'] = 'fa-th-large'; // Override Moodle default fa-tachometer.
+        // bullhorn icon is only used for Moodle feedback system, which we won't activate.
+        $iconmap['core:i/bullhorn'] = 'fa-video'; // Override Moodle default fa-bullhorn for video call.
         $iconmap['core:i/mycourses'] = 'fa-layer-group';
 
         return $iconmap;

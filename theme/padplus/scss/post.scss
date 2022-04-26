@@ -1,6 +1,7 @@
 // Post SCSS is useful for defining full CSS rules. Because they are included last, they override any previous matching selector with the same specificity.
 
 // Common
+@import 'post/animation.scss';
 @import 'post/focus.scss';
 @import 'post/typography.scss';
 
@@ -12,6 +13,7 @@
 // Components
 @import 'post/components/badges.scss';
 @import 'post/components/block_myoverview.scss';
+@import 'post/components/block_padplusvideocall.scss';
 @import 'post/components/breadcrumbs.scss';
 @import 'post/components/buttons.scss';
 @import 'post/components/coursecards.scss';
@@ -36,5 +38,6 @@
 @import 'post/pages/enrol.scss';
 @import 'post/pages/login.scss';
 @import 'post/pages/mycourses.scss';
+@import 'post/pages/notifications.scss';
 @import 'post/pages/section.scss';
 @import 'post/pages/workshop.scss';

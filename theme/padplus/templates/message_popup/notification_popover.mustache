@@ -86,4 +86,11 @@ require(['jquery', 'message_popup/notification_popover_controller'], function($,
     controller.registerEventListeners();
     controller.registerListNavigationEventListeners();
 });
+
+var countContainer = document.querySelector('.count-container');
+var notificationVideocall = document.querySelector('.notification-videocall');
+
+if (notificationVideocall) {
+    countContainer.classList.add('bullet-animation');
+}
 {{/js}}

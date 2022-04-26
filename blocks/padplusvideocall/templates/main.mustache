@@ -1,0 +1,12 @@
+<div id="block-padplusvideocall-{{uniqid}}" class="block-padplusvideocall">
+    <p class="blockintro">{{#str}} blockintro, block_padplusvideocall {{/str}}</p>
+    {{{videocallformhtml}}}
+</div>
+{{#js}}
+require(
+['block_padplusvideocall/main'],
+function(Main) {
+    const videocallform = document.getElementById('block-padplusvideocall-{{uniqid}}').querySelector('form');
+    Main.handleVideoCallFormRequest(videocallform);
+});
+{{/js}}

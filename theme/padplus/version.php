@@ -35,5 +35,7 @@ $plugin->component = 'theme_padplus';
 
 // This is a list of plugins, this plugin depends on (and their versions).
 $plugin->dependencies = [
-    'theme_boost' => 2021051700
+    'theme_boost' => 2021051700,
+    'local_padplusextensions' => 2021122200,
+    'block_padplusvideocall' => 2022041300
 ];
