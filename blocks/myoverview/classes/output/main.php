@@ -188,10 +188,9 @@ class main implements renderable, templatable {
         // Check and remember the given sorting.
         if ($sort) {
             $this->sort = $sort;
-        } else if ($CFG->courselistshortnames) {
-            $this->sort = BLOCK_MYOVERVIEW_SORTING_SHORTNAME;
         } else {
-            $this->sort = BLOCK_MYOVERVIEW_SORTING_TITLE;
+            /*** PADPLUS: set last accessed time as default sort order */
+            $this->sort = BLOCK_MYOVERVIEW_SORTING_LASTACCESSED;
         }
         // In case sorting remembered is shortname and display extended course names not checked,
         // we should revert sorting to title.
