@@ -15,23 +15,21 @@
 
 /**
  * Manage the timeline view navigation for the overview block.
+ * This has the same behavior as the original without saving user preferences.
  *
- * @copyright  2018 Bas Brands <bas@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @see /block_myoverview/view_nav module for original code.
  */
 
 define(
 [
     'jquery',
     'core/custom_interaction_events',
-    'block_myoverview/repository',
     'block_myoverview/view',
     'block_myoverview/selectors'
 ],
 function(
     $,
     CustomEvents,
-    Repository,
     View,
     Selectors
 ) {
@@ -40,34 +38,6 @@ function(
         FILTERS: '[data-region="filter"]',
         FILTER_OPTION: '[data-filter]',
         DISPLAY_OPTION: '[data-display-option]'
-    };
-
-    /**
-     * Update the user preference for the block.
-     *
-     * @param {String} filter The type of filter: display/sort/grouping.
-     * @param {String} value The current preferred value.
-     */
-    var updatePreferences = function(filter, value) {
-        var type = null;
-        if (filter == 'display') {
-            type = 'block_myoverview_user_view_preference';
-        } else if (filter == 'sort') {
-            type = 'block_myoverview_user_sort_preference';
-        } else if (filter == 'customfieldvalue') {
-            type = 'block_myoverview_user_grouping_customfieldvalue_preference';
-        } else {
-            type = 'block_myoverview_user_grouping_preference';
-        }
-
-        Repository.updateUserPreferences({
-            preferences: [
-                {
-                    type: type,
-                    value: value
-                }
-            ]
-        });
     };
 
     /**
@@ -92,15 +62,12 @@ function(
                 }
 
                 var filter = option.attr('data-filter');
-                var pref = option.attr('data-pref');
                 var customfieldvalue = option.attr('data-customfieldvalue');
 
                 root.find(Selectors.courseView.region).attr('data-' + filter, option.attr('data-value'));
-                updatePreferences(filter, pref);
 
                 if (customfieldvalue) {
                     root.find(Selectors.courseView.region).attr('data-customfieldvalue', customfieldvalue);
-                    updatePreferences('customfieldvalue', customfieldvalue);
                 }
 
                 // Reset the views.
@@ -121,11 +88,7 @@ function(
                     return;
                 }
 
-                var filter = option.attr('data-display-option');
-                var pref = option.attr('data-pref');
-
                 root.find(Selectors.courseView.region).attr('data-display', option.attr('data-value'));
-                updatePreferences(filter, pref);
                 View.reset(root);
                 data.originalEvent.preventDefault();
             }
@@ -144,6 +107,7 @@ function(
     };
 
     return {
+        Selectors: SELECTORS,
         init: init
     };
 });

@@ -42,12 +42,20 @@ require(
 [
     'jquery',
     'block_myoverview/main',
+    'local_padplusextensions/mycourses_main'
 ],
 function(
     $,
-    Main
+    Main,
+    MyCoursesMain
 ) {
     var root = $('#block-myoverview-{{uniqid}}');
-    Main.init(root);
+    if (document.body.id === 'page-my-courses') {
+        // Custom init on 'My Courses' page
+        MyCoursesMain.init(root);
+    } else {
+        // Standard init for dashboard
+        Main.init(root);
+    }
 });
 {{/js}}
