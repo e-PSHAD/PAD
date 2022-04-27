@@ -180,13 +180,15 @@ function block_padplusvideocall_render_navbar_output() {
 
     $output = '';
 
-    $notifications = \message_popup\api::get_popup_notifications($USER->id, 'DESC', 5);
-    foreach ($notifications as $notification) {
-        if ($notification->eventtype == 'videocall_notification' && $notification->timeread == null) {
-            $notificationvideocall = new \moodle_url('/blocks/padplusvideocall/medias/notificationvideocall.mp3');
-            $output .= "<audio autoplay class='notification-videocall'><source src='$notificationvideocall' ></source></audio>";
-            break;
-        };
+    if (core_user::is_real_user($USER->id)) { // Skip notification for anonymous user on homepage.
+        $notifications = \message_popup\api::get_popup_notifications($USER->id, 'DESC', 5);
+        foreach ($notifications as $notification) {
+            if ($notification->eventtype == 'videocall_notification' && $notification->timeread == null) {
+                $notificationvideocall = new \moodle_url('/blocks/padplusvideocall/medias/notificationvideocall.mp3');
+                $output .= "<audio autoplay class='notification-videocall'><source src='$notificationvideocall' ></source></audio>";
+                break;
+            };
+        }
     }
 
     return $output;
