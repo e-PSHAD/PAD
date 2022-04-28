@@ -48,6 +48,11 @@ $string['hide-password'] = 'Cacher le mot de passe';
 
 // My Courses page strings.
 $string['mycourses-page'] = 'Mes séquences';
+$string['mycourses-page_help'] = "• Mes séquences en cours sont celles où vous êtes inscrit(e) et qui ont débuté.<br>
+                                  • Mes séquences à venir sont celles où vous êtes inscrit(e) et dont la date de début est à venir.<br>
+                                  • Mes séquences passées sont celles qui sont terminées ou dont la date butoir est passée.<br>
+                                  • Mes séquences favorites sont celles que vous avez ajoutées avec l’icône “étoile”.";
+$string['mycourse-page_help_label'] = 'Aide sur mes séquences';
 $string['eventmycoursesviewed'] = 'Page mes séquences consultée';
 $string['mycatalog-courses'] = 'Mes ressources partagées';
 $string['aria:mycatalog-courses'] = 'Afficher mes ressources partagées';

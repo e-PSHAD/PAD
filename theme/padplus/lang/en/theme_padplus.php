@@ -48,6 +48,11 @@ $string['hide-password'] = 'Hide password';
 
 // My Courses page strings.
 $string['mycourses-page'] = 'My sequences';
+$string['mycourses-page_help'] = "• My current sequences are those for which you are registered and have started.<br>
+                                  • My upcoming sequences are those for which you are registered and whose start date is in the future.<br>
+                                  • My past sequences are those that have been completed or whose deadline has passed.<br>
+                                  • My favourite sequences are those you have added with the 'start' icon.";
+$string['mycourse-page_help_label'] = 'Help with my sequences';
 $string['eventmycoursesviewed'] = 'My courses viewed';
 $string['mycatalog-courses'] = 'My shared resources';
 $string['aria:mycatalog-courses'] = 'Show my shared resources';
