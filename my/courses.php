@@ -23,6 +23,7 @@
  */
 
 require_once("../config.php");
+require_once($CFG->dirroot . '/local/padplusextensions/lib.php');
 
 require_login(null, false);
 
@@ -34,6 +35,13 @@ $PAGE->set_pagelayout('base');
 $mysequencesstr = get_string('mycourses-page', 'theme_padplus');
 $PAGE->set_title("$SITE->shortname: $mysequencesstr");
 $PAGE->set_heading($mysequencesstr);
+
+$categorycontext = get_top_category_context_with_capability('moodle/course:create');
+if ($categorycontext) {
+    $url = new moodle_url('/course/edit.php', array('category' => $categorycontext->instanceid));
+    $addnewcourse = html_writer::link($url, get_string('addnewcourse'), array('class' => 'btn btn-primary btn-add-course'));
+    $PAGE->set_button($addnewcourse);
+}
 
 echo $OUTPUT->header();
 echo $OUTPUT->skip_link_target();
