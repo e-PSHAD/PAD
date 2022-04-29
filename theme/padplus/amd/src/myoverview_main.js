@@ -14,22 +14,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Javascript to initialise the myoverview block.
+ * Custom initialisation for the myoverview block.
+ * Do not save user choices as preferences, it seems to disturb them,
+ * especially as the block appears on both dashboard and 'My Courses' page.
  *
- * @copyright  2018 Bas Brands <bas@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * For a working solution which decouples block from user preferences
+ * on 'My courses' page only, see commit history:
+ * - 'Customize myoverview block configuration on my-courses page'
  */
 
 define(
 [
     'jquery',
     'block_myoverview/view',
-    'block_myoverview/view_nav'
+    'theme_padplus/myoverview_nav'
 ],
 function(
     $,
     View,
-    ViewNav
+    MyOverviewNav
 ) {
     /**
      * Initialise all of the modules for the overview block.
@@ -39,7 +42,7 @@ function(
     var init = function(root) {
         root = $(root);
         // Initialise the course navigation elements.
-        ViewNav.init(root);
+        MyOverviewNav.init(root);
         // Initialise the courses view modules.
         View.init(root);
     };

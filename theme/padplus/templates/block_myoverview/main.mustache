@@ -41,21 +41,14 @@
 require(
 [
     'jquery',
-    'block_myoverview/main',
-    'local_padplusextensions/mycourses_main'
+    'theme_padplus/myoverview_main'
 ],
 function(
     $,
-    Main,
-    MyCoursesMain
+    MyOverviewMain
 ) {
     var root = $('#block-myoverview-{{uniqid}}');
-    if (document.body.id === 'page-my-courses') {
-        // Custom init on 'My Courses' page
-        MyCoursesMain.init(root);
-    } else {
-        // Standard init for dashboard
-        Main.init(root);
-    }
+    // Custom init for PAD+ overview block (use custom view nav without user preferences update)
+    MyOverviewMain.init(root);
 });
 {{/js}}
