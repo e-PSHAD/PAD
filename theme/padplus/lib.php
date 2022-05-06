@@ -20,6 +20,9 @@
  * @package    theme_padplus
  */
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->dirroot .'/local/padplusextensions/lib.php');
 
 // We will add callbacks here as we add features to our theme.
 
