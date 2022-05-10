@@ -52,7 +52,7 @@ echo $content;
 
 // Trigger my courses page has been viewed event.
 $eventparams = array('context' => $context);
-$event = \core\event\mycourses_viewed::create($eventparams);
+$event = \local_padplusextensions\event\mycourses_viewed::create($eventparams);
 $event->trigger();
 
 echo $OUTPUT->footer();

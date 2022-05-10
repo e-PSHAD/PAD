@@ -14,18 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace core\event;
+namespace local_padplusextensions\event;
 
 /*** PADPLUS - backported from Moodle 4.
  * My courses viewed event class.
  *
  * Class for event to be triggered when a user views their My courses page.
  *
- * @package    core
+ * @package    local_padplusextensions
  * @copyright  2021 Mathew May <mathew.solutions>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mycourses_viewed extends base {
+class mycourses_viewed extends \core\event\base {
 
     /**
      * Init method.
