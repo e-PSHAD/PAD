@@ -21,6 +21,39 @@ require_once($CFG->libdir . '/enrollib.php');
 use core_completion\progress;
 
 /**
+ * Compute course totals by todo|inprogress|done status for progress block.
+ * See also JS module myprogress#computeTotalCoursesByStatus.
+ *
+ * @param string $userid
+ * @return array data context for local_padplusextensions/myprogress_short_summary template
+ */
+function compute_total_courses_by_status($userid) {
+    $visiblecourses = enrol_get_users_courses($userid);
+
+    $result = array_reduce($visiblecourses, function($totals, $course) use ($userid) {
+        $courseprogress = get_course_progress_status($course, $userid);
+        $newtotal = $totals[$courseprogress['status']]['count'] + 1;
+        $totals[$courseprogress['status']]['count'] = $newtotal;
+        $totals[$courseprogress['status']]['hasmany'] = $newtotal > 1;
+        return $totals;
+    }, array(
+        'done' =>
+            ['count' => 0, 'hasmany' => false],
+        'inprogress' =>
+            ['count' => 0, 'hasmany' => false],
+        'todo' =>
+            ['count' => 0, 'hasmany' => false]
+    ));
+    $total = count($visiblecourses);
+    $result['total'] = array(
+        'count' => count($visiblecourses),
+        'hasmany' => $total > 1
+    );
+
+    return array('totalByStatus' => $result);
+}
+
+/**
  * Retrieve all unique students enrolled in given courses.
  *
  * @param array $courses the list of courses to retrieve students from.

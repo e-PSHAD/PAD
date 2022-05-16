@@ -63,3 +63,31 @@
         padding: 0;
     }
 }
+
+// Responsive for dashboard.
+#page-my-index {
+    .short-summary-block {
+        margin-top: 1.5rem;
+    }
+
+    @media screen and (max-width: 1440px) {
+        .short-summary-block {
+            grid-gap: 1.75rem;
+        }
+    }
+
+    @media screen and (max-width: 1400px) {
+        .short-summary-block {
+            grid-template-columns: 1fr;
+        }
+        .short-summary-item {
+            justify-content: center;
+        }
+    }
+
+    @media screen and (max-width: 767.98px) {
+        .block_padplusmyprogress .card-body {
+            padding: 0px !important;
+        }
+    }
+}

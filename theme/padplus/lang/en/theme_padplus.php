@@ -61,6 +61,7 @@ $string['workshop-course'] = 'Group workshop';
 
 // My progress page strings.
 $string['myprogress-professional-title'] = 'Students curriculum';
+$string['goto-myprogress'] = 'Go to my curriculum';
 $string['myprogress-professional-intro'] = 'You can track the progress of trainees enrolled in your sequences. They are sorted according to their main category.';
 $string['myprogress-professional-intro-sub'] = 'The data displayed takes into account only what is done on the platform.';
 $string['myprogress-student-title'] = 'My curriculum';

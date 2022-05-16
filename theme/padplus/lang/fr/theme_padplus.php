@@ -61,6 +61,7 @@ $string['workshop-course'] = 'Atelier collectif';
 
 // My progress page strings.
 $string['myprogress-professional-title'] = 'Parcours des stagiaires';
+$string['goto-myprogress'] = 'Accéder à mon parcours';
 $string['myprogress-professional-intro'] = 'Vous pouvez suivre la progression des stagiaires inscrits à vos séquences. Elles sont triées selon leur catégorie principale.';
 $string['myprogress-professional-intro-sub'] = 'Les données affichées prennent en compte uniquement ce qui est effectué sur la plateforme.';
 $string['myprogress-student-title'] = 'Mon parcours';
