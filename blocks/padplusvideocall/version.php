@@ -22,4 +22,5 @@ $plugin->requires = 2021051706;
 
 $plugin->dependencies = array(
     'mod_bigbluebuttonbn' => 2019101012,
+    'local_padplusextensions' => 2022050300,
 );
