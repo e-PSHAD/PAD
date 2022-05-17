@@ -77,33 +77,3 @@
         topgroups
     };
 }
-
-/**
- * Compute course totals by todo|inprogress|done status from summary data.
- * See also PHP function compute_total_courses_by_status.
- *
- * @param {object} data summary data for each top group with coursesbystatus
- * @return {object} data context for local_padplusextensions/myprogress_short_summary template
- */
-export function computeTotalCoursesByStatus(data) {
-    const totalByStatus = data.topgroups.reduce((totals, topgroup) => {
-        topgroup.coursesbystatus.forEach((statusGroup) => {
-            const newTotal = totals[statusGroup.status].count + statusGroup.count;
-            totals[statusGroup.status] = {
-                count: newTotal,
-                hasmany: newTotal > 1
-            };
-        });
-        return totals;
-    }, {done: {count: 0, hasmany: false}, inprogress: {count: 0, hasmany: false}, todo: {count: 0, hasmany: false}});
-
-    const total = totalByStatus.done.count + totalByStatus.inprogress.count + totalByStatus.todo.count;
-    totalByStatus.total = {
-        count: total,
-        hasmany: total > 1
-    };
-
-    return {
-        totalByStatus
-    };
-}

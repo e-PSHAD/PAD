@@ -63,12 +63,13 @@ class progress_overview extends \external_api {
         }
 
         $progress = get_user_overall_progress($userid);
+        $totalbystatus = compute_total_courses_by_status($userid);
 
-        return [
+        return array_merge([
             'userid' => $userid,
             'username' => fullname(\core_user::get_user($userid), \core_user\fields::get_name_fields()),
             'progress' => $progress,
-        ];
+            ], $totalbystatus);
     }
 
     /**
@@ -113,6 +114,24 @@ class progress_overview extends \external_api {
                         ]), 'List of bottom categories (modules)')
                 ]), 'List of upper categories (platforms)'
             ),
+            'totalByStatus' => new \external_single_structure([
+                'done' => new \external_single_structure([
+                    'count' => new \external_value(PARAM_INT, 'Number of done courses'),
+                    'hasmany' => new \external_value(PARAM_BOOL, 'Has many done courses?'),
+                ]),
+                'inprogress' => new \external_single_structure([
+                    'count' => new \external_value(PARAM_INT, 'Number of courses in progress'),
+                    'hasmany' => new \external_value(PARAM_BOOL, 'Has many courses in progress?'),
+                ]),
+                'todo' => new \external_single_structure([
+                    'count' => new \external_value(PARAM_INT, 'Number of courses to do'),
+                    'hasmany' => new \external_value(PARAM_BOOL, 'Has many courses to do?'),
+                ]),
+                'total' => new \external_single_structure([
+                    'count' => new \external_value(PARAM_INT, 'Total number of courses'),
+                    'hasmany' => new \external_value(PARAM_BOOL, 'Has many courses?'),
+                ]),
+            ])
         ]);
     }
 }

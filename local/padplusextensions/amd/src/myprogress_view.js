@@ -18,7 +18,7 @@ import Autocomplete from 'core/form-autocomplete';
 import Notification from 'core/notification';
 import * as Str from 'core/str';
 import Templates from 'core/templates';
-import {computeSummaryDataForTopGroups, computeTotalCoursesByStatus} from './myprogress';
+import {computeSummaryDataForTopGroups} from './myprogress';
 
 const Selectors = {
     DATA_CARRIER: '[data-studentid]',
@@ -143,13 +143,12 @@ function updateProgress(root, STRINGS, userid, contextid = undefined) {
     }])[0].then((data) => {
         // Compute summary data from response
         const topgroupsData = computeSummaryDataForTopGroups(data.progress, STRINGS);
-        const totalByStatusData = computeTotalCoursesByStatus(topgroupsData);
 
         // Build template context for rendering
         const context = {
             username: data.username,
             forprofessional: contextid !== undefined,
-            ...totalByStatusData,
+            totalByStatus: data.totalByStatus,
             ...topgroupsData,
         };
         return Templates.renderForPromise('local_padplusextensions/myprogress_content', context).then(({html, js}) => {
