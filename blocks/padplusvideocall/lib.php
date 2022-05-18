@@ -222,6 +222,47 @@ function send_reminder($moderator, $subject, $htmlmessage, $rawmessage) {
     $message->fullmessagehtml = $htmlmessage;
     $message->fullmessage = $rawmessage;
 
+    $usercontext = context_user::instance($moderator->id);
+    $unikid = uniqid();
+    $file = new stdClass;
+    $file->contextid = $usercontext->id;
+    $file->component = 'user';
+    $file->filearea  = 'private';
+    $file->itemid    = 0;
+    $file->filepath  = '/';
+    $filename = "videocall_event_{$unikid}.ics";
+    $file->filename  = $filename;
+    $file->source    = 'videocall';
+
+    $fullname = fullname($moderator);
+    $useremail = $moderator->email;
+    $time = time();
+    $timestart = gmdate('Ymd\THis', $time) . 'Z';
+    $timeend = gmdate('Ymd\THis', $time + (60 * 60)) . 'Z';
+    $meetingname = 'Your videocall';
+    $messagebody = 'Follow this link https://www.google.com?q=s&t=f';
+
+    $calendarevent = <<< ICSDATA
+    BEGIN:VCALENDAR
+    VERSION:2.0
+    PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+    BEGIN:VEVENT
+    UID:{$unikid}
+    DTSTAMP:{$timestart}
+    ORGANIZER;CN={$fullname}:MAILTO:{$useremail}
+    DTSTART:{$timestart}
+    DTEND:{$timeend}
+    SUMMARY:{$meetingname}
+    DESCRIPTION:{$messagebody}
+    END:VEVENT
+    END:VCALENDAR
+    ICSDATA;
+
+    $fs = get_file_storage();
+    $file = $fs->create_file_from_string($file, $calendarevent);
+    $message->attachment = $file;
+    $message->attachname = $filename;
+
     return message_send($message);
 }
 
