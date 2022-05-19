@@ -14,7 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->dirroot . '/mod/bigbluebuttonbn/locallib.php');
+
 define('BBBPAD_VIDEOCALL_PATH', '/blocks/padplusvideocall/bbbpad_videocall.php');
+
+/**
+ * Build meeting data.
+ *
+ * @return object
+ */
+function generate_meeting_data() {
+    $meetingid = pad_guid_v4();
+    $modpw = bigbluebuttonbn_random_password(12);
+    $viewerpw = bigbluebuttonbn_random_password(12, $modpw);
+    return array(
+        'meetingid' => $meetingid,
+        'modpw' => $modpw,
+        'viewerpw' => $viewerpw,
+    );
+}
 
 /**
  * Build PAD+ videocall URL with given params. This is the URL to bbbpad_videocall controller.
@@ -30,16 +50,38 @@ function build_videocall_full_url($params) {
 }
 
 /**
- * Build the PAD+ URL for videocall creation. This URL is called when a user clicks on
+ * Build the PAD+ URL for deferred videocall creation. This URL is generated when a user requests
+ * a videocall link in block.
+ *
+ * @param string|int    $meetingid meeting id to create and join on the BigBlueButton server.
+ * @param string|int    $modpw moderator password.
+ * @param string|int    $viewerpw viewer password for meeting creation.
+ * @param string|int    $contextid the context in which user should have block/padplusvideocall:createvideocall capability.
+ * @return string       The URL to initiate a video call through PAD+.
+ */
+function get_videocall_create_later_url($meetingid, $modpw, $viewerpw, $contextid) {
+    $createparams = array(
+        'action' => 'createjoin',
+        'meetingid' => $meetingid,
+        'modpw' => $modpw,
+        'viewerpw' => $viewerpw,
+        'contextid' => $contextid
+    );
+
+    return build_videocall_full_url($createparams);
+}
+
+/**
+ * Build the PAD+ URL for immediate videocall creation. This URL is called when a user clicks on
  * a 'launch videocall' in block or profile page, for example.
  *
  * @param string|int    $contextid the context in which user should have block/padplusvideocall:createvideocall capability.
  * @param array         $viewersid list of viewers ids to send notification to.
  * @return string       The URL to initiate a video call through PAD+.
  */
-function get_videocall_create_url($contextid, $viewersid = array()) {
+function get_videocall_create_now_url($contextid, $viewersid = array()) {
     $createparams = array(
-        'action' => 'createjoin',
+        'action' => 'createjoinnow',
         'contextid' => $contextid
     );
     if (count($viewersid) > 0) {
@@ -150,6 +192,94 @@ function send_videocall_notification($moderator, $viewer, $viewerurl) {
     // Direct link when clicking on a notification.
     $message->contexturl = $viewerurl;
     $message->contexturlname = get_string('notification_contexturlname', 'block_padplusvideocall');
+
+    return message_send($message);
+}
+
+/**
+ * Send videocall reminder to oneself with moderator link.
+ *
+ * @param object    $moderator user which has requested a video call.
+ * @param string    $moderatorurl creation URL for moderator.
+ * @return mixed    the integer ID of the new message or false if there was a problem with submitted data
+ */
+function send_moderator_link_reminder($moderator, $moderatorurl) {
+    $subject = get_string('reminder_moderator_subject', 'block_padplusvideocall');
+
+    $moderatorname = fullname($moderator);
+    $hello = get_string('notification_hello', 'block_padplusvideocall', $moderatorname);
+
+    $bodyhtml = get_string('reminder_moderator_bodyhtml', 'block_padplusvideocall');
+    $actionurl = html_writer::link($moderatorurl, get_string('reminder_moderator_action', 'block_padplusvideocall'));
+    $htmlmessage = <<<END_HTML
+    <p>{$hello}</p>
+    <p>{$bodyhtml}</p>
+    <p>{$moderatorurl}</p>
+    <p>{$actionurl}</p>
+    END_HTML;
+
+    $bodyraw = get_string('reminder_moderator_bodyraw', 'block_padplusvideocall');
+    $rawmessage = <<<END_RAW
+    {$hello}\n
+    {$bodyraw}\n
+    {$moderatorurl}\n
+    END_RAW;
+
+    return send_reminder($moderator, $subject, $htmlmessage, $rawmessage);
+}
+
+/**
+ * Send videocall reminder to oneself with viewer link.
+ *
+ * @param object    $moderator user which has requested a video call.
+ * @param string    $viewerurl invitation URL for viewer.
+ * @return mixed    the integer ID of the new message or false if there was a problem with submitted data
+ */
+function send_viewer_link_reminder($moderator, $viewerurl) {
+    $subject = get_string('reminder_viewer_subject', 'block_padplusvideocall');
+
+    $moderatorname = fullname($moderator);
+    $hello = get_string('notification_hello', 'block_padplusvideocall', $moderatorname);
+
+    $bodyhtml = get_string('reminder_viewer_bodyhtml', 'block_padplusvideocall');
+    $actionurl = html_writer::link($viewerurl, get_string('reminder_viewer_action', 'block_padplusvideocall'));
+    $htmlmessage = <<<END_HTML
+    <p>{$hello}</p>
+    <p>{$bodyhtml}</p>
+    <p>{$viewerurl}</p>
+    <p>{$actionurl}</p>
+    END_HTML;
+
+    $bodyraw = get_string('reminder_viewer_bodyraw', 'block_padplusvideocall');
+    $rawmessage = <<<END_RAW
+    {$hello}\n
+    {$bodyraw}\n
+    {$viewerurl}\n
+    END_RAW;
+
+    return send_reminder($moderator, $subject, $htmlmessage, $rawmessage);
+}
+
+/**
+ * Send reminder message to oneself.
+ *
+ * @param object $moderator user which has initiated the video call.
+ * @param string $subject message subject.
+ * @param string $htmlmessage message body in html format.
+ * @param string $rawmessage message body in raw format for non-HTML reader.
+ * @return mixed the integer ID of the new message or false if there was a problem with submitted data
+ */
+function send_reminder($moderator, $subject, $htmlmessage, $rawmessage) {
+    $message = new \core\message\message();
+    $message->notification = 1;
+    $message->component = 'block_padplusvideocall';
+    $message->name = 'videocall_reminder';
+    $message->userfrom = $moderator;
+    $message->userto = $moderator;
+    $message->subject = $subject;
+    $message->fullmessageformat = FORMAT_HTML;
+    $message->fullmessagehtml = $htmlmessage;
+    $message->fullmessage = $rawmessage;
 
     return message_send($message);
 }

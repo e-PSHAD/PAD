@@ -16,20 +16,21 @@
 
 namespace block_padplusvideocall\external;
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->dirroot . '/blocks/padplusvideocall/lib.php');
+
 /**
- * PADPLUS: Provides the block_padplusvideocall_search_identity external function.
- * This only changes the context/capability check.
- *
- * @see user/classes/external/search_identity for original code
+ * Provides PAD+ web services for video calls.
  */
-class search_identity extends \external_api {
+class bbbpad_external extends \external_api {
 
     /**
-     * Describes the external function parameters.
+     * Describes search_identity function parameters.
      *
      * @return external_function_parameters
      */
-    public static function execute_parameters(): \external_function_parameters {
+    public static function search_identity_parameters(): \external_function_parameters {
 
         return new \external_function_parameters([
             'contextid' => new \external_value(PARAM_INT, 'Id of the authorization context for videocall invitation'),
@@ -40,13 +41,15 @@ class search_identity extends \external_api {
     /**
      * Finds users with the identity matching the given query.
      *
+     * @see user/classes/external/search_identity for original code - this only changes the capability check.
+     *
      * @param string $query The search request.
      * @return array
      */
-    public static function execute(string $contextid, string $query): array {
+    public static function search_identity(string $contextid, string $query): array {
         global $DB, $CFG;
 
-        $params = \external_api::validate_parameters(self::execute_parameters(), [
+        $params = \external_api::validate_parameters(self::search_identity_parameters(), [
             'contextid' => $contextid,
             'query' => $query,
         ]);
@@ -105,11 +108,11 @@ class search_identity extends \external_api {
     }
 
     /**
-     * Describes the external function result value.
+     * Describes search_identity function result value.
      *
      * @return external_description
      */
-    public static function execute_returns(): \external_description {
+    public static function search_identity_returns(): \external_description {
 
         return new \external_single_structure([
             'list' => new \external_multiple_structure(
@@ -127,6 +130,64 @@ class search_identity extends \external_api {
             ),
             'maxusersperpage' => new \external_value(PARAM_INT, 'Configured maximum users per page.'),
             'overflow' => new \external_value(PARAM_BOOL, 'Were there more records than maxusersperpage found?'),
+        ]);
+    }
+
+    /**
+     * Describes generate_meeting_links function parameters.
+     *
+     * @return external_function_parameters
+     */
+    public static function generate_meeting_links_parameters(): \external_function_parameters {
+
+        return new \external_function_parameters([
+            'contextid' => new \external_value(PARAM_INT, 'Id of the authorization context for videocall meeting'),
+        ]);
+    }
+
+    /**
+     * Generate moderator and viewer links for a new meeting.
+     *
+     * @param string $query The search request.
+     * @return array
+     */
+    public static function generate_meeting_links(string $contextid): array {
+        global $USER;
+
+        $params = \external_api::validate_parameters(
+            self::generate_meeting_links_parameters(),
+            ['contextid' => $contextid]
+        );
+
+        $context = \context::instance_by_id($params['contextid']);
+        self::validate_context($context);
+        require_capability('block/padplusvideocall:invitevideocall', $context);
+
+        $meetingdata = generate_meeting_data();
+        $meetingid = $meetingdata['meetingid'];
+        $modpw = $meetingdata['modpw'];
+        $viewerpw = $meetingdata['viewerpw'];
+        $moderatorurl = get_videocall_create_later_url($meetingid, $modpw, $viewerpw, $context->id);
+        $viewerurl = get_videocall_join_url($meetingid, $viewerpw);
+
+        send_moderator_link_reminder($USER, $moderatorurl);
+        send_viewer_link_reminder($USER, $viewerurl);
+
+        return array(
+            'moderatorurl' => $moderatorurl,
+            'viewerurl' => $viewerurl
+        );
+    }
+
+    /**
+     * Describes generate_meeting_links function result value.
+     *
+     * @return external_description
+     */
+    public static function generate_meeting_links_returns(): \external_description {
+        return new \external_single_structure([
+            'moderatorurl' => new \external_value(PARAM_TEXT, 'Meeting creation link for moderator.'),
+            'viewerurl' => new \external_value(PARAM_TEXT, 'Meeting join link for moderator.'),
         ]);
     }
 }

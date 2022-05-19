@@ -49,11 +49,12 @@ class block_padplusvideocall extends block_base {
     }
 
     public function export_for_template($categorycontext) {
-        $createvideocallurl = get_videocall_create_url($categorycontext->id);
+        $createvideocallurl = get_videocall_create_now_url($categorycontext->id);
         $videocallform = new block_padplusvideocall\videocall_form($createvideocallurl, (object) ['context' => $categorycontext]);
 
         return array(
-            'videocallformhtml' => $videocallform->render_html()
+            'videocallformhtml' => $videocallform->render_html(),
+            'contextid' => $categorycontext->id
         );
     }
 }

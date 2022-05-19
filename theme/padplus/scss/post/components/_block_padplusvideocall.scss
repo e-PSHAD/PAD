@@ -6,8 +6,17 @@
         padding: 24px 16px;
     }
 
+    h6 {
+        color: theme-color('primary');
+        font-weight: bold;
+    }
+
     .blockintro {
         font-size: $font-size-sm;
+    }
+
+    .btn-primary {
+        font-weight: 400 !important;
     }
 
     // Override default form-group attributes to place label on top of input.
@@ -125,6 +134,75 @@
     @media (max-width: 767.98px) {
         .mform {
             padding-left: 0;
+        }
+    }
+}
+
+.block-padplusvideocall-intro input {
+    margin-right: 0.5rem;
+}
+
+.padplusvideocall-links {
+    input {
+        border: 1px solid theme-color(pad-border);
+        border-radius: 4px;
+        color: $secondary;
+        font-size: $font-size-sm;
+        height: 2.5rem;
+        padding-left: 0.5rem;
+        width: 100%;
+
+    }
+
+    .btn-copy {
+        align-items: center;
+        background-color: $white;
+        border: none;
+        color: theme-color(pad-link) !important;
+        display: flex;
+        justify-content: flex-start;
+        font-size: 1.25rem;
+        margin-left: 0.625rem;
+        padding-bottom: 0.375rem;
+    }
+
+    label {
+        font-weight: 700;
+        margin: 1rem 0 0.625rem 0;
+    }
+
+    .btns-container {
+        margin-top: 2rem;
+
+        .btn-secondary {
+            border: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .padplusvideocall-link {
+        display: flex;
+    }
+
+    .padplusvideocall-input {
+        position: relative;
+        width: 90%;
+
+        .copy-success {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: $light;
+            color: $black !important;
+            height: 2.5rem;
+
+            .fa-check {
+                color: theme-color('primary');
+            }
         }
     }
 }

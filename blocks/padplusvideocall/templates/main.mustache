@@ -1,12 +1,132 @@
-<div id="block-padplusvideocall-{{uniqid}}" class="block-padplusvideocall">
-    <p class="blockintro">{{#str}} blockintro, block_padplusvideocall {{/str}}</p>
-    {{{videocallformhtml}}}
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template block_padplusvideocall/main
+
+    Display user progress over categories and course status.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * videocallformhtml: raw html for the invite form with autocomplete behavior
+    * contextid: context id for link requests
+
+    Example context (json):
+    {
+        videocallformhtml: "<form> ... </form>",
+        contextid: 25
+    }
+}}
+<div id="block-padplusvideocall-{{uniqid}}">
+    <div class="block-padplusvideocall-intro">
+        <h4>{{#str}} select_videocall_mode, block_padplusvideocall {{/str}}</h4>
+        <div>
+            <label>
+                <input type="radio" name="padplusvideocall-mode" value="unplanned">
+                {{#str}} select_videocall_unplanned, block_padplusvideocall {{/str}}
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="radio" name="padplusvideocall-mode" value="planned">
+                {{#str}} select_videocall_planned, block_padplusvideocall {{/str}}
+            </label>
+        </div>
+    </div>
+
+    <div class="hidden" data-container="padplusvideocall-unplanned">
+        <hr>
+        <p class="blockintro">{{#str}} blockintro, block_padplusvideocall {{/str}}</p>
+        {{{videocallformhtml}}}
+    </div>
+
+    <div class="hidden" data-container="padplusvideocall-planned" data-contextid="{{contextid}}">
+        <hr>
+        <h6>{{#str}} shared_link, block_padplusvideocall {{/str}}</h6>
+        <div class="blockintro">
+            <p>
+                {{#str}} shared_link_description, block_padplusvideocall {{/str}}</br>
+                {{#str}} shared_link_subdescription, block_padplusvideocall {{/str}}
+            </p>
+        </div>
+        <div data-container="padplusvideocall-initial-links">
+            <button class="btn btn-primary" data-action="request-links">{{#str}} create, block_padplusvideocall {{/str}}</button>
+        </div>
+
+        <div class="padplusvideocall-links hidden" data-container="padplusvideocall-shared-links">
+
+            <label for="block-padplusvideocall-moderator-link">{{#str}} shared_link_moderator, block_padplusvideocall {{/str}}</label>
+            <div class="padplusvideocall-link">
+                <div class="padplusvideocall-input">
+                    <input
+                        type="text"
+                        id="block-padplusvideocall-moderator-link"
+                        data-input="moderator"
+                        readonly="readonly"
+                        value=""/>
+                    <div class="hidden" data-icon="moderator">
+                        <div class="copy-success">
+                            {{#str}} copied_link, block_padplusvideocall {{/str}}
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-copy" data-action="copy" data-input="moderator"><i class="far fa-copy"></i></button>
+            </div>
+
+            <label for="block-padplusvideocall-viewer-link">{{#str}} shared_link_viewer, block_padplusvideocall {{/str}}</label>
+            <div class="padplusvideocall-link">
+                <div class="padplusvideocall-input">
+                    <input
+                        type="text"
+                        id="block-padplusvideocall-viewer-link"
+                        data-input="viewer"
+                        readonly="readonly"
+                        value=""/>
+                    <div class="hidden" data-icon="viewer">
+                        <div class="copy-success">
+                            {{#str}} copied_link, block_padplusvideocall {{/str}}
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-copy" data-action="copy" data-input="viewer"><i class="far fa-copy"></i></button>
+            </div>
+
+            <div class="btns-container">
+                <button class="btn btn-primary" data-action="request-links">{{#str}} update, block_padplusvideocall {{/str}}</button>
+                <button class="btn btn-secondary" data-action="reset">{{#str}} cancel, block_padplusvideocall {{/str}}</button>
+            </div>
+
+        </div>
+    </div>
 </div>
 {{#js}}
 require(
 ['block_padplusvideocall/main'],
 function(Main) {
-    const videocallform = document.getElementById('block-padplusvideocall-{{uniqid}}').querySelector('form');
+    const root = document.getElementById('block-padplusvideocall-{{uniqid}}');
+    const videocallform = root.querySelector('form');
     Main.handleVideoCallFormRequest(videocallform);
+
+    Main.setupVideoCallBlock(root);
 });
 {{/js}}

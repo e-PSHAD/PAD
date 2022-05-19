@@ -60,6 +60,39 @@ switch (strtolower($action)) {
         break;
 
     case 'createjoin':
+        // Action for moderators launching a deferred video call. Viewers should get viewer link by another mean.
+        $meetingid = required_param('meetingid', PARAM_TEXT);
+        $modpw = required_param('modpw', PARAM_TEXT);
+        $viewerpw = required_param('viewerpw', PARAM_TEXT);
+        $contextid = required_param('contextid', PARAM_INT);
+        $meetingname = optional_param('name', '', PARAM_TEXT);
+
+        // Check create capability for moderator.
+        $context = context::instance_by_id($contextid);
+        if (! has_capability('block/padplusvideocall:createvideocall', $context)) {
+            $message = get_string('createvideocall_nocapability', 'block_padplusvideocall');
+            $logouturl = get_videocall_logout_url($message);
+            header('Location: ' . $logouturl);
+            break;
+        }
+
+        if (strlen($meetingname) === 0) {
+            $moderatorname = fullname($USER);
+            $meetingname = "$pageheading $moderatorname";
+        }
+
+        $result = bbbpad_create_meeting($meetingid, $meetingname, $viewerpw, $modpw, $context);
+        if (!$result) {
+            // Function bbbpad_create_meeting should throw if an error happens, but break just in case there is no return value.
+            break;
+        }
+
+        // The meeting is now running, just join the session.
+        bbbpad_join_meeting($meetingid, $USER, $modpw, $result->logouturl, $context);
+        break;
+
+    case 'createjoinnow':
+        // Action for moderators launching an immediate video call. Will notify viewers with viewer link.
         $contextid = required_param('contextid', PARAM_INT);
         $viewersid = required_param('viewersid', PARAM_SEQUENCE);
         $meetingname = optional_param('name', '', PARAM_TEXT);
@@ -86,46 +119,24 @@ switch (strtolower($action)) {
             }
         }
 
-        $meetingid = pad_guid_v4();
-        $modpw = bigbluebuttonbn_random_password(12);
-        $viewerpw = bigbluebuttonbn_random_password(12, $modpw);
-        $viewerurl = get_videocall_join_url($meetingid, $viewerpw);
-        $logouturl = get_videocall_logout_url();
+        $meetingdata = generate_meeting_data();
+        $meetingid = $meetingdata['meetingid'];
+        $modpw = $meetingdata['modpw'];
+        $viewerpw = $meetingdata['viewerpw'];
 
-        // Create meeting.
-        // This is idempotent per BBB API specification, so can be called multiples times without side effects.
-        $response = bigbluebuttonbn_get_create_meeting_array(
-            bbbpad_create_meeting_data($meetingid, $meetingname, $viewerpw, $modpw, $viewerurl, $logouturl),
-            bbbpad_create_meeting_metadata()
-        );
-        if (empty($response)) {
-            throw new moodle_exception('view_error_unable_join_teacher', 'mod_bigbluebuttonbn');
+        $result = bbbpad_create_meeting($meetingid, $meetingname, $viewerpw, $modpw, $context);
+        if (!$result) {
+            // Function bbbpad_create_meeting should throw if an error happens, but break just in case there is no return value.
             break;
         }
-        if ($response['returncode'] == 'FAILED') {
-            if (!$printerrorkey) {
-                throw new moodle_exception($response['message'], 'mod_bigbluebuttonbn');
-                break;
-            }
-            $printerrorkey = bigbluebuttonbn_get_error_key($response['messageKey'], 'view_error_create');
-            throw new moodle_exception($printerrorkey, 'mod_bigbluebuttonbn');
-            break;
-        }
-        if ($response['hasBeenForciblyEnded'] == 'true') {
-            throw new moodle_exception(get_string('index_error_forciblyended', 'mod_bigbluebuttonbn'));
-            break;
-        }
-
-        bbbpad_log_event('created', $context);
 
         foreach ($viewers as $viewer) {
-            send_videocall_notification($USER, $viewer, $viewerurl);
+            send_videocall_notification($USER, $viewer, $result->viewerurl);
         }
 
         // The meeting is now running, just join the session.
-        bbbpad_join_meeting($meetingid, $USER, $modpw, $logouturl, $context);
+        bbbpad_join_meeting($meetingid, $USER, $modpw, $result->logouturl, $context);
         break;
-
 
     case 'join':
         $meetingid = required_param('meetingid', PARAM_TEXT);
@@ -140,7 +151,7 @@ switch (strtolower($action)) {
             break;
         }
 
-        // Otherwise stop when meeting is not running. It may already be obsolete and we we don't viewer to create
+        // Otherwise stop when meeting is not running. It may already be obsolete and we don't want viewer to create
         // meeting by themselves.
         $message = get_string('joinvideocall_nomeeting', 'block_padplusvideocall');
         $logouturl = get_videocall_logout_url($message);
@@ -164,6 +175,49 @@ function bbbpad_close_window($message = '') {
 }
 
 /**
+ * Create BigBlueButton meeting.
+ * Handle
+ * @param string    $meetingid
+ * @param string    $meetingname
+ * @param string    $viewerpw
+ * @param string    $modpw
+ * @param object    $context for log event
+ * @return object   an object with viewerurl and logouturl for the meeting
+ * @throws moodle_exception in case something bad happens when creating the meeting
+ */
+function bbbpad_create_meeting($meetingid, $meetingname, $viewerpw, $modpw, $context) {
+    $viewerurl = get_videocall_join_url($meetingid, $viewerpw);
+    $logouturl = get_videocall_logout_url();
+
+    // Create meeting.
+    // This is idempotent per BBB API specification, so can be called multiples times without side effects.
+    $response = bigbluebuttonbn_get_create_meeting_array(
+        bbbpad_build_meeting_data($meetingid, $meetingname, $viewerpw, $modpw, $viewerurl, $logouturl),
+        bbbpad_build_meeting_metadata()
+    );
+    if (empty($response)) {
+        throw new moodle_exception('view_error_unable_join_teacher', 'mod_bigbluebuttonbn');
+    }
+    if ($response['returncode'] == 'FAILED') {
+        $printerrorkey = bigbluebuttonbn_get_error_key($response['messageKey'], 'view_error_create');
+        if (!$printerrorkey) {
+            throw new moodle_exception($response['message'], 'mod_bigbluebuttonbn');
+        }
+        throw new moodle_exception($printerrorkey, 'mod_bigbluebuttonbn');
+    }
+    if ($response['hasBeenForciblyEnded'] == 'true') {
+        throw new moodle_exception(get_string('index_error_forciblyended', 'mod_bigbluebuttonbn'));
+    }
+
+    bbbpad_log_event('created', $context);
+
+    return (object) array(
+        'viewerurl' => $viewerurl,
+        'logouturl' => $logouturl
+    );
+}
+
+/**
  * Build BigBlueButton payload for meeting creation.
  *
  * @see             mod/bigbluebuttonbn/bbb_view.php bigbluebuttonbn_bbb_view_create_meeting_data
@@ -175,7 +229,7 @@ function bbbpad_close_window($message = '') {
  * @param string    $logouturl
  * @return object
  */
-function bbbpad_create_meeting_data($meetingid, $meetingname, $viewerpw, $modpw, $viewerurl, $logouturl) {
+function bbbpad_build_meeting_data($meetingid, $meetingname, $viewerpw, $modpw, $viewerurl, $logouturl) {
     $welcomemessage = get_string('bigbluebutton_welcome', 'block_padplusvideocall');
     $moderatormessage = get_string('bigbluebutton_moderatormessage', 'block_padplusvideocall', $viewerurl);
     $data = array(
@@ -198,7 +252,7 @@ function bbbpad_create_meeting_data($meetingid, $meetingname, $viewerpw, $modpw,
  * @see             mod/bigbluebuttonbn/locallib.php bigbluebuttonbn_create_meeting_metadata
  * @return object
  */
-function bbbpad_create_meeting_metadata() {
+function bbbpad_build_meeting_metadata() {
     return array(
         'bbbpad-type' => 'videocall'
     );

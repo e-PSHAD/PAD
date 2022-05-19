@@ -17,13 +17,25 @@
 defined('MOODLE_INTERNAL') || die();
 
 $functions = array(
-    // PADPLUS: Look up user by matching name or other identity fields.
+    // Look up user by matching name or other identity fields.
     //
     // This is directly inspired by core_user_search_identity service,
     // with a different capability requirement.
     'block_padplusvideocall_search_identity' => array(
-        'classname'     => 'block_padplusvideocall\external\search_identity',
+        'classname'     => 'block_padplusvideocall\external\bbbpad_external',
+        'methodname'    => 'search_identity',
         'description'   => 'Search for users matching the given criteria in their name or other identity fields.',
+        'type'          => 'read',
+        'ajax'          => true,
+        'loginrequired' => true,
+        'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
+        'capabilities'  => 'block/padplusvideocall:invitevideocall',
+    ),
+    // Generate meeting links for sharing.
+    'block_padplusvideocall_generate_meeting_links' => array(
+        'classname'     => 'block_padplusvideocall\external\bbbpad_external',
+        'methodname'    => 'generate_meeting_links',
+        'description'   => 'Generate moderator and viewer links for a new meeting.',
         'type'          => 'read',
         'ajax'          => true,
         'loginrequired' => true,

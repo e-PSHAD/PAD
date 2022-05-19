@@ -13,8 +13,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+import Ajax from 'core/ajax';
+import Notification from 'core/notification';
+
 /**
  * Handle click on button to start a video call.
+ * This is used on profile pages only.
  *
  * @param {String} buttonId The id of the button element.
  */
@@ -65,3 +69,120 @@ export const requestVideoCall = (e, launchvideocallurl, viewersid, meetingname) 
 
     window.open(launchvideocallurl);
 };
+
+/**
+ * Setup JS interactions for VideoCall block.
+ *
+ * @param {Element} root
+ */
+export const setupVideoCallBlock = (root) => {
+    // Containers.
+    const containerSharedLinks = root.querySelector("[data-container=padplusvideocall-shared-links]");
+
+    // Btns.
+    const btnReset = root.querySelector("[data-action=reset");
+    const btnsCopy = root.querySelectorAll("[data-action=copy]");
+    const btnsRadio = root.querySelectorAll('[name=padplusvideocall-mode]');
+
+    // Inputs.
+    const moderatorInput = root.querySelector("[data-input=moderator]");
+    const viewerInput = root.querySelector("[data-input=viewer]");
+
+    // Handle show & hide of the different blocks corresponding to the videocall modes: planned/unplanned.
+    btnsRadio.forEach(radio => {
+        const unplannedVideoCallGroup = root.querySelector('[data-container=padplusvideocall-unplanned]');
+        const plannedVideoCallGroup = root.querySelector('[data-container=padplusvideocall-planned]');
+        radio.addEventListener('change', event => {
+            if (event.target.value === 'planned') {
+                toggleDisplay(unplannedVideoCallGroup, plannedVideoCallGroup);
+            } else {
+                toggleDisplay(plannedVideoCallGroup, unplannedVideoCallGroup);
+            }
+        });
+    });
+
+    const initialRequestContainer = root.querySelector('[data-container=padplusvideocall-initial-links]');
+    const requestLinksButtons = root.querySelectorAll('[data-action=request-links]');
+    // Handle click on buttons to request videocall links. Both have the same behavior.
+    requestLinksButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            toggleDisplay(containerSharedLinks);
+            return requestNewMeetingLinks(root).then((data) => {
+                setInputValue(moderatorInput, data.moderatorurl);
+                setInputValue(viewerInput, data.viewerurl);
+                toggleDisplay(initialRequestContainer, containerSharedLinks);
+                return;
+            });
+        });
+    });
+
+    // Handle click on button to reset videocall block.
+    btnReset.addEventListener('click', function() {
+        toggleDisplay(containerSharedLinks, initialRequestContainer);
+        moderatorInput.setAttribute('value', '');
+        viewerInput.setAttribute('value', '');
+    });
+
+    // Handle click on buttons to copy videocall links.
+    btnsCopy.forEach(btnCopy => {
+        btnCopy.addEventListener('click', function() {
+            const user = btnCopy.getAttribute('data-input');
+            const input = root.querySelector(`[data-input=${user}]`);
+            const icon = root.querySelector(`[data-icon=${user}]`);
+            toggleDisplay(input, icon);
+            setTimeout(function() {
+                toggleDisplay(icon, input);
+            }, 1200);
+
+            navigator.clipboard.writeText(input.value);
+        });
+    });
+};
+
+/**
+ * Toggle display between given elements.
+ *
+ * @param {Element} elementToHide
+ * @param {Element} elementToShow
+ */
+function toggleDisplay(elementToHide, elementToShow = null) {
+    elementToHide.classList.add('hidden');
+
+    if (elementToShow) {
+        elementToShow.classList.remove('hidden');
+    }
+}
+
+/**
+ * Set input value and force cursor so that the string end appears in view.
+ * Since value can be long URLs, user is more likely to see them change after each call.
+ *
+ * @param {Element} inputElement
+ * @param {string} value
+ */
+function setInputValue(inputElement, value) {
+    inputElement.setAttribute('value', value);
+    // Here goes some weird DOM/Javascript update stuff, first wait for DOM update
+    setTimeout(() => {
+        // Set cursor at end
+        inputElement.setSelectionRange(value.length, value.length);
+        // Put focus on element otherwise cursor won't show
+        inputElement.focus();
+        // Immediately blur focus because we don't want the input highlighted
+        inputElement.blur();
+    });
+}
+
+/**
+ * Generate meeting links.
+ *
+ * @param {object} root Input that contains the contextid.
+ * @returns {data}
+ */
+function requestNewMeetingLinks(root) {
+    const contextid = root.querySelector('[data-contextid]').getAttribute('data-contextid');
+    return Ajax.call([{
+        methodname: 'block_padplusvideocall_generate_meeting_links',
+        args: {contextid},
+    }])[0].catch(Notification.exception);
+}
