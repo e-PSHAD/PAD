@@ -1,0 +1,65 @@
+.short-summary-block {
+    display: grid;
+    grid-gap: 3.75rem;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.short-summary-item {
+    background-color: $light;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-around;
+    padding: 1.125rem 1.5rem;
+}
+
+.short-summary-item-count {
+    color: $info;
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: 0em;
+    line-height: 4.2rem;
+    text-align: left;
+}
+
+.short-summary-item-content {
+    align-items: center;
+    display: flex;
+    font-size: 1.125rem;
+    font-weight: 400;
+    justify-content: center;
+    letter-spacing: 0em;
+    line-height: 1.4rem;
+    margin-left: 1.25rem;
+    text-align: left;
+}
+
+// Responsive for My progress page.
+#myprogress-main {
+    .short-summary-block {
+        margin-bottom: 2.5rem;
+    }
+
+    @media screen and (max-width: 1440px) {
+        .short-summary-block {
+            grid-gap: 1.75rem;
+        }
+    }
+
+    @media screen and (max-width: 1200px) {
+        .short-summary-block {
+            grid-gap: 1.75rem;
+            grid-template-columns: 1fr;
+        }
+        .short-summary-item {
+            justify-content: center;
+        }
+    }
+
+    @media screen and (max-width: 1040px) {
+        padding: 0 1.5rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        padding: 0;
+    }
+}

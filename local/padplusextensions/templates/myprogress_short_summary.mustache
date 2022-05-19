@@ -1,0 +1,89 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_padplusextensions/myprogress_short_summary
+
+    Display a short summary of course progress with 3 status cards for todo, inprogress, and done courses.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * totalByStatus
+
+    Example context (json):
+    {
+        totalByStatus: {
+            total: {
+                count: 3,
+                hasmany: true
+            },
+            inprogress: {
+                count: 1,
+                hasmany: false
+            },
+            done: {
+                count: 2,
+                hasmany: true
+            }
+        },
+    }
+}}
+<div class="short-summary-block">
+    <div class="short-summary-item">
+        <div class="short-summary-item-count">
+            {{ totalByStatus.total.count }}
+        </div>
+        <div class="short-summary-item-content">
+            {{#totalByStatus.total.hasmany}}
+                {{#str}} course-total-plural, theme_padplus {{/str}}
+            {{/totalByStatus.total.hasmany}}
+            {{^totalByStatus.total.hasmany}}
+                {{#str}} course-total, theme_padplus {{/str}}
+            {{/totalByStatus.total.hasmany}}
+        </div>
+    </div>
+    <div class="short-summary-item">
+        <div class="short-summary-item-count">
+            {{ totalByStatus.done.count }}
+        </div>
+        <div class="short-summary-item-content">
+            {{#totalByStatus.done.hasmany}}
+                {{#str}} course-done-plural, theme_padplus {{/str}}
+            {{/totalByStatus.done.hasmany}}
+            {{^totalByStatus.done.hasmany}}
+                {{#str}} course-done, theme_padplus {{/str}}
+            {{/totalByStatus.done.hasmany}}
+        </div>
+    </div>
+    <div class="short-summary-item">
+        <div class="short-summary-item-count">
+            {{ totalByStatus.inprogress.count }}
+        </div>
+        <div class="short-summary-item-content">
+            {{#totalByStatus.inprogress.hasmany}}
+                {{#str}} course-inprogress-plural, theme_padplus {{/str}}
+            {{/totalByStatus.inprogress.hasmany}}
+            {{^totalByStatus.inprogress.hasmany}}
+                {{#str}} course-inprogress, theme_padplus {{/str}}
+            {{/totalByStatus.inprogress.hasmany}}
+        </div>
+    </div>
+</div>

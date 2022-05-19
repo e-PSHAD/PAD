@@ -1,0 +1,327 @@
+#page-my-progress #page {
+    padding: 0 12.5rem;
+
+    // Hide avatar and messaging button in My Progress header.
+    .page-header-image,
+    .header-button-group {
+        display: none;
+    }
+
+    #page-header .card-body {
+        padding-bottom: 0;
+    }
+
+    h3:last-of-type {
+        margin-bottom: 1rem;
+    }
+
+    @media screen and (max-width: 1389px) {
+        padding: 0 9.5rem;
+    }
+
+    @media screen and (max-width: 1289px) {
+        padding: 0 6.25rem;
+    }
+
+    @media screen and (max-width: 1042px) {
+        padding: 0 1rem;
+
+        #region-main {
+            padding: 1.25rem 0;
+        }
+
+        .course-item .course-item-progress-container {
+            width: 100%;
+        }
+
+        .myprogress-summary-content {
+            flex-direction: column;
+        }
+
+        .platform-container-header {
+            align-items: flex-start;
+            flex-direction: column;
+
+            a {
+                margin-top: 0.5rem;
+                width: fit-content;
+            }
+        }
+    }
+
+    @media screen and (max-width: 770px) {
+        input {
+            width: 100%;
+        }
+
+        .form-autocomplete-suggestions {
+            width: 90%;
+        }
+    }
+}
+
+.myprogress-student-name {
+    margin-bottom: 2rem;
+    margin-top: 1.5rem;
+}
+
+.myprogress-page-intro {
+    line-height: 1.75rem;
+    margin-bottom: 2.375rem;
+}
+
+.platform-container {
+    margin: 2.5rem 0;
+
+    h4 {
+        margin-bottom: 0;
+
+        > span {
+            font-weight: 400;
+        }
+    }
+
+    // Tooltip: displays the title of the course when focus on the progress icon.
+    a {
+        padding-top: 0.313rem;
+        position: relative;
+
+        &:focus {
+            .tooltip-arrow {
+                border-right: 9px solid theme-color('pad-border');
+                border-left: 9px solid transparent;
+                border-top: 9px solid transparent;
+                border-bottom: 9px solid transparent;
+                left: 1rem;
+                position: absolute;
+                top: 0.5rem;
+            }
+
+            .tooltip-arrow-shadow {
+                border-right: 9px solid $white;
+                border-left: 9px solid transparent;
+                border-top: 9px solid transparent;
+                border-bottom: 9px solid transparent;
+                left: 1.063rem;
+                position: absolute;
+                top: 0.5rem;
+                z-index: 1;
+            }
+
+            .icon::after {
+                background-color: $white;
+                border: 1px solid theme-color('pad-border');
+                border-radius: 4px;
+                box-shadow: 0px 4px 4px 0px rgba(56, 69, 76, 0.04);
+                color: $secondary;
+                content: attr(title);
+                font-family: Arial;
+                font-size: $font-size-sm;
+                font-weight: normal;
+                left: 2.125rem;
+                line-height: 1.4rem;
+                min-width: 10rem;
+                padding: 0.875rem;
+                position: absolute;
+                text-align: start;
+                z-index: 1;
+            }
+        }
+    }
+
+    .icon {
+        color: $gray-600;
+        font-size: 1.625rem;
+        height: 1.625rem;
+        width: 1.625rem;
+    }
+
+    .circle-checked .icon {
+        color: theme-color('primary') !important;
+    }
+}
+
+.platform-container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+        position: relative;
+        margin-right: 1.25rem;
+
+        &:after { // Expanded|Unexpanded icon.
+            bottom: -0.0625rem;
+            @include fa-icon();
+            font-family: 'Font Awesome 5 Free';
+            font-size: 1.5rem;
+            font-weight: 900;
+            position: absolute;
+            right: -1.25rem;
+        }
+    }
+}
+
+.myprogress-summary-container {
+    border: 1px solid theme-color('pad-border');
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px 0px rgba(56, 69, 76, 0.04);
+    list-style: none;
+    margin: 1.5rem 0;
+    padding: 0 1.5rem;
+}
+
+// Style for progress summary view.
+.myprogress-summary-content {
+    display: flex;
+    margin: 0.625rem 0;
+
+    li {
+        margin: 0.875rem !important;
+    }
+}
+
+.courses-counter {
+    margin: 0.875rem 0;
+    min-width: 30%;
+}
+
+.courses-status-container {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
+
+    .icon {
+        margin: 0 !important;
+    }
+}
+
+
+// Style for progress detailed view.
+.module-item {
+    border-bottom: 1px solid theme-color('pad-border');
+    padding: 0.75rem 0;
+
+    > div {
+        font-size: $h6-font-size;
+        font-weight: bold;
+        margin: 0.75rem 0;
+    }
+
+    &:last-of-type {
+        border-bottom: none;
+    }
+}
+
+.courses-container {
+    list-style: none;
+    margin: 1.125rem 0;
+}
+
+.course-item {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    margin: 1.125rem 0;
+}
+
+.course-item .course-item-title {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    min-width: 66%;
+
+    > div {
+        display: flex;
+    }
+
+    a {
+        padding-top: 0;
+    }
+}
+
+.course-item .course-item-progress-container {
+    align-items: center;
+    display: flex;
+    margin-top: 0.75rem;
+    width: 70%;
+
+    .progress {
+        background-color:  theme-color("light");
+        border: 0px solid transparent;
+        border-radius: 6px;
+        flex-grow: 1;
+        height: 0.75rem;
+        margin-right: 0.5rem;
+
+        .progress-bar {
+            border-radius: 6px;
+        }
+    }
+}
+
+.toggle-unexpanded-icon:after {
+    content: fa-content($fa-var-caret-right);
+}
+
+.toggle-expanded-icon:after {
+    content: fa-content($fa-var-caret-down);
+}
+
+// Form styles.
+#myprogress-main form {
+    &.hidden-when-loading {
+        display: none;
+    }
+
+    input {
+        width: 25rem;
+        border-radius: 4px;
+        color: $secondary;
+        outline: none;
+        font-size: $font-size-base;
+    }
+
+    .form-autocomplete-suggestions {
+        border: 1px solid theme-color("pad-border");
+        border-radius: 4px;
+        box-shadow: 0px 4px 4px 0px rgba(56, 69, 76, 0.04);
+        padding: 0;
+        margin: 0;
+        width: 24.875rem;
+        overflow: scroll;
+
+        li {
+            box-shadow: none;
+        }
+    }
+
+    .form-autocomplete-downarrow {
+        color: $white;
+
+        &:after {
+            border: none;
+            color: theme-color('complementary');
+            content: fa-content($fa-var-chevron-down);
+            @include fa-icon();
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+    }
+}
+
+.progress-loader {
+    position: relative;
+    h6 {
+        font-weight: 400 !important;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+    .loader {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+}

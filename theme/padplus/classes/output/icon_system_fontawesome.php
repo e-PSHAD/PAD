@@ -25,6 +25,8 @@ class icon_system_fontawesome extends \core\output\icon_system_fontawesome {
         // bullhorn icon is only used for Moodle feedback system, which we won't activate.
         $iconmap['core:i/bullhorn'] = 'fa-video'; // Override Moodle default fa-bullhorn for video call.
         $iconmap['core:i/mycourses'] = 'fa-layer-group';
+        $iconmap['core:i/myprogress'] = 'fa-user-graduate';
+        $iconmap['core:i/halfcircle'] = 'fa-adjust'; // In-progress course icon.
 
         return $iconmap;
     }

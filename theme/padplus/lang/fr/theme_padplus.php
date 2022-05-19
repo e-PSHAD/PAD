@@ -59,6 +59,35 @@ $string['aria:mycatalog-courses'] = 'Afficher mes ressources partagées';
 $string['catalog-course'] = 'Ressource partagée';
 $string['workshop-course'] = 'Atelier collectif';
 
+// My progress page strings.
+$string['myprogress-professional-title'] = 'Parcours des stagiaires';
+$string['myprogress-professional-intro'] = 'Vous pouvez suivre la progression des stagiaires inscrits à vos séquences. Elles sont triées selon leur catégorie principale.';
+$string['myprogress-professional-intro-sub'] = 'Les données affichées prennent en compte uniquement ce qui est effectué sur la plateforme.';
+$string['myprogress-student-title'] = 'Mon parcours';
+$string['myprogress-student-intro'] = 'Suivez la progression de vos séquences. Elles sont triées selon leur catégorie principale.';
+$string['myprogress-student-intro-note'] = 'Les données affichées prennent en compte uniquement ce qui est effectué sur la plateforme.';
+$string['myprogress-subtitle'] = 'Répartition des séquences';
+$string['myprogress-subtitle-description'] = 'La vue détaillée permet d’afficher la catégorie parente des séquences ainsi que leur état d’avancement.';
+$string['myprogress-loading'] = 'Recherche des données en cours...';
+$string['eventmyprogressviewed'] = 'Page progrès consultée';
+$string['user-progress'] = 'Suivi de {$a}';
+$string['user-progress-search-placeholder'] = 'Rechercher un stagiaire';
+$string['user-progress-no-selection'] = 'Aucun stagiaire sélectionné';
+$string['course-singular'] = 'séquence';
+$string['course-plural'] = 'séquences';
+$string['course-done'] = 'séquence terminée';
+$string['course-done-plural'] = 'séquences terminées';
+$string['course-inprogress'] = 'séquence commencée';
+$string['course-inprogress-plural'] = 'séquences commencées';
+$string['course-todo'] = 'séquence à faire';
+$string['course-todo-plural'] = 'séquences à faire';
+$string['course-total'] = 'séquence attribuée';
+$string['course-total-plural'] = 'séquences attribuées';
+$string['undefined-platform'] = 'Plateforme non définie';
+$string['undefined-module'] = 'Module non défini';
+$string['show-progress-details'] = 'Voir le détail';
+$string['hide-progress-details'] = 'Masquer le détail';
+
 // Theme settings strings.
 $string['settings-color-title'] = 'Couleurs du thème';
 $string['settings-color-desc'] = "Couleurs qui définissent l'identité de votre site";

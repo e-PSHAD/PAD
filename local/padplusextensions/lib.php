@@ -32,8 +32,22 @@ function local_padplusextensions_extend_navigation(global_navigation $nav) {
             'mycoursespage',
             new pix_icon('i/mycourses', '')
         );
-        $mycoursesnode->showinflatnavigation = true;
-        $nav->add_node($mycoursesnode);
+
+        $professionnalctx = get_top_category_context_for_professional();
+        $myprogressnode = navigation_node::create(
+            get_string( $professionnalctx ? 'myprogress-professional-title' : 'myprogress-student-title', 'theme_padplus'),
+            new moodle_url('/my/progress.php'),
+            navigation_node::TYPE_ROOTNODE,
+            null,
+            'myprogresspage',
+            new pix_icon('i/myprogress', '')
+        );
+
+        $nodes = array($mycoursesnode, $myprogressnode);
+        foreach ($nodes as $node) {
+            $node->showinflatnavigation = true;
+            $nav->add_node($node);
+        }
     }
 
     // Check for admin/instance manager.
@@ -130,6 +144,17 @@ function get_top_category_context_with_capability($capability) {
         }
     }
     return false;
+}
+
+/**
+ * Get first category context which matches a professional role, i.e. a course creator.
+ * This function is the closest we have as a predicate to discriminate professionals and students,
+ * since students can not create courses.
+ *
+ * @return mixed id of the category context for a professional user, false for a student
+ */
+function get_top_category_context_for_professional() {
+    return get_top_category_context_with_capability('moodle/course:create');
 }
 
 /**
