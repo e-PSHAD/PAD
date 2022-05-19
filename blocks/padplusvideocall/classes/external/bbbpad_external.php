@@ -43,7 +43,8 @@ class bbbpad_external extends \external_api {
      *
      * @see user/classes/external/search_identity for original code - this only changes the capability check.
      *
-     * @param string $query The search request.
+     * @param string $contextid Id of the authorization context for videocall invitation.
+     * @param string $query The search query.
      * @return array
      */
     public static function search_identity(string $contextid, string $query): array {
@@ -134,28 +135,28 @@ class bbbpad_external extends \external_api {
     }
 
     /**
-     * Describes generate_meeting_links function parameters.
+     * Describes generate_meeting_link function parameters.
      *
      * @return external_function_parameters
      */
-    public static function generate_meeting_links_parameters(): \external_function_parameters {
+    public static function generate_meeting_link_parameters(): \external_function_parameters {
 
         return new \external_function_parameters([
-            'contextid' => new \external_value(PARAM_INT, 'Id of the authorization context for videocall meeting'),
+            'contextid' => new \external_value(PARAM_INT, 'Id of the authorization context for videocall invitation'),
         ]);
     }
 
     /**
-     * Generate moderator and viewer links for a new meeting.
+     * Generate meeting link to share.
      *
-     * @param string $query The search request.
+     * @param string $contextid Id of the authorization context for videocall invitation.
      * @return array
      */
-    public static function generate_meeting_links(string $contextid): array {
+    public static function generate_meeting_link(string $contextid): array {
         global $USER;
 
         $params = \external_api::validate_parameters(
-            self::generate_meeting_links_parameters(),
+            self::generate_meeting_link_parameters(),
             ['contextid' => $contextid]
         );
 
@@ -163,31 +164,23 @@ class bbbpad_external extends \external_api {
         self::validate_context($context);
         require_capability('block/padplusvideocall:invitevideocall', $context);
 
-        $meetingdata = generate_meeting_data();
-        $meetingid = $meetingdata['meetingid'];
-        $modpw = $meetingdata['modpw'];
-        $viewerpw = $meetingdata['viewerpw'];
-        $moderatorurl = get_videocall_create_later_url($meetingid, $modpw, $viewerpw, $context->id);
-        $viewerurl = get_videocall_join_url($meetingid, $viewerpw);
+        $meetingurl = get_videocall_join_url(generate_videocall_data());
 
-        send_moderator_link_reminder($USER, $moderatorurl);
-        send_viewer_link_reminder($USER, $viewerurl);
+        send_videocall_link_reminder($USER, $meetingurl);
 
         return array(
-            'moderatorurl' => $moderatorurl,
-            'viewerurl' => $viewerurl
+            'meetingurl' => $meetingurl
         );
     }
 
     /**
-     * Describes generate_meeting_links function result value.
+     * Describes generate_meeting_link function result value.
      *
      * @return external_description
      */
-    public static function generate_meeting_links_returns(): \external_description {
+    public static function generate_meeting_link_returns(): \external_description {
         return new \external_single_structure([
-            'moderatorurl' => new \external_value(PARAM_TEXT, 'Meeting creation link for moderator.'),
-            'viewerurl' => new \external_value(PARAM_TEXT, 'Meeting join link for moderator.'),
+            'meetingurl' => new \external_value(PARAM_TEXT, 'Meeting link to share.'),
         ]);
     }
 }

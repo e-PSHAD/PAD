@@ -20,20 +20,30 @@ require_once($CFG->dirroot . '/mod/bigbluebuttonbn/locallib.php');
 
 define('BBBPAD_VIDEOCALL_PATH', '/blocks/padplusvideocall/bbbpad_videocall.php');
 
+class VideocallData {
+    public string $meetingid;
+
+    public string $modpw;
+
+    public string $viewerpw;
+
+    public function __construct(string $meetingid, string $modpw, string $viewerpw) {
+        $this->meetingid = $meetingid;
+        $this->modpw = $modpw;
+        $this->viewerpw = $viewerpw;
+    }
+}
+
 /**
- * Build meeting data.
+ * Generate new videocall data.
  *
- * @return object
+ * @return VideocallData record with fresh meeting id, modetator password, and viewer password
  */
-function generate_meeting_data() {
+function generate_videocall_data(): VideocallData {
     $meetingid = pad_guid_v4();
     $modpw = bigbluebuttonbn_random_password(12);
     $viewerpw = bigbluebuttonbn_random_password(12, $modpw);
-    return array(
-        'meetingid' => $meetingid,
-        'modpw' => $modpw,
-        'viewerpw' => $viewerpw,
-    );
+    return new VideocallData($meetingid, $modpw, $viewerpw);
 }
 
 /**
@@ -50,61 +60,24 @@ function build_videocall_full_url($params) {
 }
 
 /**
- * Build the PAD+ URL for deferred videocall creation. This URL is generated when a user requests
- * a videocall link in block.
+ * Build the PAD+ URL for joining video call.
  *
- * @param string|int    $meetingid meeting id to create and join on the BigBlueButton server.
- * @param string|int    $modpw moderator password.
- * @param string|int    $viewerpw viewer password for meeting creation.
- * @param string|int    $contextid the context in which user should have block/padplusvideocall:createvideocall capability.
- * @return string       The URL to initiate a video call through PAD+.
- */
-function get_videocall_create_later_url($meetingid, $modpw, $viewerpw, $contextid) {
-    $createparams = array(
-        'action' => 'createjoin',
-        'meetingid' => $meetingid,
-        'modpw' => $modpw,
-        'viewerpw' => $viewerpw,
-        'contextid' => $contextid
-    );
-
-    return build_videocall_full_url($createparams);
-}
-
-/**
- * Build the PAD+ URL for immediate videocall creation. This URL is called when a user clicks on
- * a 'launch videocall' in block or profile page, for example.
- *
- * @param string|int    $contextid the context in which user should have block/padplusvideocall:createvideocall capability.
+ * @param VideocallData videocall data
  * @param array         $viewersid list of viewers ids to send notification to.
  * @return string       The URL to initiate a video call through PAD+.
  */
-function get_videocall_create_now_url($contextid, $viewersid = array()) {
+function get_videocall_join_url(VideocallData $data, $viewersid = array()) {
     $createparams = array(
-        'action' => 'createjoinnow',
-        'contextid' => $contextid
+        'action' => 'join',
+        'meetingid' => $data->meetingid,
+        'modpw' => $data->modpw,
+        'viewerpw' => $data->viewerpw
     );
     if (count($viewersid) > 0) {
         $createparams['viewersid'] = implode(',', $viewersid);
     }
 
     return build_videocall_full_url($createparams);
-}
-
-/**
- * Build the PAD+ URL for videocall invitation. This URL is sent to viewers through the notification system.
- *
- * @param string    $meetingid meeting id to join on the BigBlueButton server.
- * @param string    $viewerpw viewer password to join the meeting on the BigBlueButton server.
- * @return string   The URL to join a video call through PAD+ controller.
- */
-function get_videocall_join_url($meetingid, $viewerpw) {
-    $joinparams = array(
-        'action' => 'join',
-        'meetingid' => $meetingid,
-        'viewerpw' => $viewerpw
-    );
-    return build_videocall_full_url($joinparams);
 }
 
 /**
@@ -197,64 +170,32 @@ function send_videocall_notification($moderator, $viewer, $viewerurl) {
 }
 
 /**
- * Send videocall reminder to oneself with moderator link.
+ * Send videocall reminder to oneself with meeting link.
  *
  * @param object    $moderator user which has requested a video call.
- * @param string    $moderatorurl creation URL for moderator.
+ * @param string    $meetingurl invitation URL for viewer.
  * @return mixed    the integer ID of the new message or false if there was a problem with submitted data
  */
-function send_moderator_link_reminder($moderator, $moderatorurl) {
-    $subject = get_string('reminder_moderator_subject', 'block_padplusvideocall');
+function send_videocall_link_reminder($moderator, $meetingurl) {
+    $subject = get_string('reminder_subject', 'block_padplusvideocall');
 
     $moderatorname = fullname($moderator);
     $hello = get_string('notification_hello', 'block_padplusvideocall', $moderatorname);
 
-    $bodyhtml = get_string('reminder_moderator_bodyhtml', 'block_padplusvideocall');
-    $actionurl = html_writer::link($moderatorurl, get_string('reminder_moderator_action', 'block_padplusvideocall'));
+    $bodyhtml = get_string('reminder_bodyhtml', 'block_padplusvideocall');
+    $actionurl = html_writer::link($meetingurl, get_string('reminder_action', 'block_padplusvideocall'));
     $htmlmessage = <<<END_HTML
     <p>{$hello}</p>
     <p>{$bodyhtml}</p>
-    <p>{$moderatorurl}</p>
+    <p>{$meetingurl}</p>
     <p>{$actionurl}</p>
     END_HTML;
 
-    $bodyraw = get_string('reminder_moderator_bodyraw', 'block_padplusvideocall');
+    $bodyraw = get_string('reminder_bodyraw', 'block_padplusvideocall');
     $rawmessage = <<<END_RAW
     {$hello}\n
     {$bodyraw}\n
-    {$moderatorurl}\n
-    END_RAW;
-
-    return send_reminder($moderator, $subject, $htmlmessage, $rawmessage);
-}
-
-/**
- * Send videocall reminder to oneself with viewer link.
- *
- * @param object    $moderator user which has requested a video call.
- * @param string    $viewerurl invitation URL for viewer.
- * @return mixed    the integer ID of the new message or false if there was a problem with submitted data
- */
-function send_viewer_link_reminder($moderator, $viewerurl) {
-    $subject = get_string('reminder_viewer_subject', 'block_padplusvideocall');
-
-    $moderatorname = fullname($moderator);
-    $hello = get_string('notification_hello', 'block_padplusvideocall', $moderatorname);
-
-    $bodyhtml = get_string('reminder_viewer_bodyhtml', 'block_padplusvideocall');
-    $actionurl = html_writer::link($viewerurl, get_string('reminder_viewer_action', 'block_padplusvideocall'));
-    $htmlmessage = <<<END_HTML
-    <p>{$hello}</p>
-    <p>{$bodyhtml}</p>
-    <p>{$viewerurl}</p>
-    <p>{$actionurl}</p>
-    END_HTML;
-
-    $bodyraw = get_string('reminder_viewer_bodyraw', 'block_padplusvideocall');
-    $rawmessage = <<<END_RAW
-    {$hello}\n
-    {$bodyraw}\n
-    {$viewerurl}\n
+    {$meetingurl}\n
     END_RAW;
 
     return send_reminder($moderator, $subject, $htmlmessage, $rawmessage);

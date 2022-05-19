@@ -23,7 +23,7 @@
     * none
 
     Data attributes required for JS:
-    * none
+    * data-contextid
 
     Context variables required for this template:
     * videocallformhtml: raw html for the invite form with autocomplete behavior
@@ -40,80 +40,64 @@
         <h4>{{#str}} select_videocall_mode, block_padplusvideocall {{/str}}</h4>
         <div>
             <label>
-                <input type="radio" name="padplusvideocall-mode" value="unplanned">
-                {{#str}} select_videocall_unplanned, block_padplusvideocall {{/str}}
+                <input type="radio" name="videocall-mode" value="direct" autocomplete="off">
+                {{#str}} select_videocall_direct, block_padplusvideocall {{/str}}
             </label>
         </div>
         <div>
             <label>
-                <input type="radio" name="padplusvideocall-mode" value="planned">
-                {{#str}} select_videocall_planned, block_padplusvideocall {{/str}}
+                <input type="radio" name="videocall-mode" value="link" autocomplete="off">
+                {{#str}} select_videocall_link, block_padplusvideocall {{/str}}
             </label>
         </div>
     </div>
 
-    <div class="hidden" data-container="padplusvideocall-unplanned">
+    <div class="hidden" data-container="videocall-mode-direct">
         <hr>
-        <p class="blockintro">{{#str}} blockintro, block_padplusvideocall {{/str}}</p>
+        <p class="blockintro">
+            {{#str}} direct_mode_description, block_padplusvideocall {{/str}}
+        </p>
         {{{videocallformhtml}}}
     </div>
 
-    <div class="hidden" data-container="padplusvideocall-planned" data-contextid="{{contextid}}">
+    <div class="hidden" data-container="videocall-mode-link" data-contextid="{{contextid}}">
         <hr>
-        <h6>{{#str}} shared_link, block_padplusvideocall {{/str}}</h6>
-        <div class="blockintro">
-            <p>
-                {{#str}} shared_link_description, block_padplusvideocall {{/str}}</br>
-                {{#str}} shared_link_subdescription, block_padplusvideocall {{/str}}
-            </p>
-        </div>
-        <div data-container="padplusvideocall-initial-links">
-            <button class="btn btn-primary" data-action="request-links">{{#str}} create, block_padplusvideocall {{/str}}</button>
+        <h5>{{#str}} shared_link, block_padplusvideocall {{/str}}</h5>
+        <p class="blockintro">
+            {{#str}} shared_link_description, block_padplusvideocall {{/str}}</br>
+            {{#str}} shared_link_subdescription, block_padplusvideocall {{/str}}
+        </p>
+        <div data-container="videocall-link-initial">
+            <button class="btn btn-primary" data-action="request-link">{{#str}} request_link, block_padplusvideocall {{/str}}</button>
         </div>
 
-        <div class="padplusvideocall-links hidden" data-container="padplusvideocall-shared-links">
+        <div class="mode-link-container hidden" data-container="videocall-meeting-link">
 
-            <label for="block-padplusvideocall-moderator-link">{{#str}} shared_link_moderator, block_padplusvideocall {{/str}}</label>
-            <div class="padplusvideocall-link">
-                <div class="padplusvideocall-input">
+            <label for="block-padplusvideocall-meeting-link">{{#str}} meeting_link, block_padplusvideocall {{/str}}</label>
+            <div class="mode-link-form">
+                <div class="mode-link-input">
                     <input
                         type="text"
-                        id="block-padplusvideocall-moderator-link"
-                        data-input="moderator"
+                        class="form-control"
+                        id="block-padplusvideocall-meeting-link"
+                        data-input="meeting-link"
                         readonly="readonly"
                         value=""/>
-                    <div class="hidden" data-icon="moderator">
+                    <div class="hidden" data-container="videocall-copy-success">
                         <div class="copy-success">
                             {{#str}} copied_link, block_padplusvideocall {{/str}}
                             <i class="fas fa-check"></i>
                         </div>
                     </div>
                 </div>
-                <button class="btn-copy" data-action="copy" data-input="moderator"><i class="far fa-copy"></i></button>
-            </div>
-
-            <label for="block-padplusvideocall-viewer-link">{{#str}} shared_link_viewer, block_padplusvideocall {{/str}}</label>
-            <div class="padplusvideocall-link">
-                <div class="padplusvideocall-input">
-                    <input
-                        type="text"
-                        id="block-padplusvideocall-viewer-link"
-                        data-input="viewer"
-                        readonly="readonly"
-                        value=""/>
-                    <div class="hidden" data-icon="viewer">
-                        <div class="copy-success">
-                            {{#str}} copied_link, block_padplusvideocall {{/str}}
-                            <i class="fas fa-check"></i>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn-copy" data-action="copy" data-input="viewer"><i class="far fa-copy"></i></button>
+                <button class="aabtn btn-copy" data-action="copy" title="{{#str}} copy_link, block_padplusvideocall {{/str}}">
+                    <span class="sr-only">{{#str}} copy_link, block_padplusvideocall {{/str}}</span>
+                    <i class="far fa-copy"></i>
+                </button>
             </div>
 
             <div class="btns-container">
-                <button class="btn btn-primary" data-action="request-links">{{#str}} update, block_padplusvideocall {{/str}}</button>
-                <button class="btn btn-secondary" data-action="reset">{{#str}} cancel, block_padplusvideocall {{/str}}</button>
+                <button class="btn btn-primary" data-action="reset">{{#str}} cancel_link, block_padplusvideocall {{/str}}</button>
             </div>
 
         </div>
@@ -124,9 +108,6 @@ require(
 ['block_padplusvideocall/main'],
 function(Main) {
     const root = document.getElementById('block-padplusvideocall-{{uniqid}}');
-    const videocallform = root.querySelector('form');
-    Main.handleVideoCallFormRequest(videocallform);
-
     Main.setupVideoCallBlock(root);
 });
 {{/js}}

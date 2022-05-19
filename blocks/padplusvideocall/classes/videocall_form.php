@@ -26,12 +26,6 @@ class videocall_form extends moodleform {
 
     public function definition() {
         $attributes = array(
-            'placeholder' => get_string('addroomname_placeholder', 'block_padplusvideocall')
-        );
-        $this->_form->addElement('text', 'videocallname', get_string('addroomname', 'block_padplusvideocall'), $attributes);
-        $this->_form->setType('videocallname', PARAM_ALPHANUM);
-
-        $attributes = array(
             'ajax' => 'block_padplusvideocall/form_user_selector',
             'multiple' => true,
             'contextid' => $this->_customdata->context->id,

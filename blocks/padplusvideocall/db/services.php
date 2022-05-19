@@ -32,10 +32,10 @@ $functions = array(
         'capabilities'  => 'block/padplusvideocall:invitevideocall',
     ),
     // Generate meeting links for sharing.
-    'block_padplusvideocall_generate_meeting_links' => array(
+    'block_padplusvideocall_generate_meeting_link' => array(
         'classname'     => 'block_padplusvideocall\external\bbbpad_external',
-        'methodname'    => 'generate_meeting_links',
-        'description'   => 'Generate moderator and viewer links for a new meeting.',
+        'methodname'    => 'generate_meeting_link',
+        'description'   => 'Generate a new meeting link to share.',
         'type'          => 'read',
         'ajax'          => true,
         'loginrequired' => true,

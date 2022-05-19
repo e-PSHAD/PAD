@@ -16,9 +16,66 @@
 import Ajax from 'core/ajax';
 import Notification from 'core/notification';
 
+const Selectors = {
+    DATA_CONTEXT: '[data-contextid]',
+    INPUT_MODE: '[name=videocall-mode]',
+    INPUT_MEETING_LINK: '[data-input=meeting-link]',
+    CONTAINER_MODE_DIRECT: '[data-container=videocall-mode-direct]',
+    CONTAINER_MODE_LINK: '[data-container=videocall-mode-link]',
+    CONTAINER_LINK_INITIAL: '[data-container=videocall-link-initial]',
+    CONTAINER_MEETING_LINK: '[data-container=videocall-meeting-link]',
+    CONTAINER_COPY_SUCCESS: '[data-container=videocall-copy-success]',
+    ACTION_REQUEST_LINK: '[data-action=request-link]',
+    ACTION_RESET_LINK: '[data-action=reset]',
+    ACTION_COPY_LINK: '[data-action=copy]'
+};
+
+/**
+ * Setup JS interactions for VideoCall block.
+ *
+ * @param {Element} root
+ */
+ export const setupVideoCallBlock = (root) => {
+    const btnsRadio = root.querySelectorAll(Selectors.INPUT_MODE);
+    // Toggle display of direct or link modes for videocalls
+    btnsRadio.forEach(radio => {
+        const directVideoCallGroup = root.querySelector(Selectors.CONTAINER_MODE_DIRECT);
+        const linkVideoCallGroup = root.querySelector(Selectors.CONTAINER_MODE_LINK);
+        radio.addEventListener('change', event => {
+            if (event.target.value === 'direct') {
+                toggleDisplay(linkVideoCallGroup, directVideoCallGroup);
+            } else {
+                toggleDisplay(directVideoCallGroup, linkVideoCallGroup);
+            }
+        });
+    });
+
+    setupVideoCallDirectMode(root);
+    setupVideoCallLinkMode(root);
+};
+
+/**
+ * Setup form from videocall_form.php to start a video call
+ *
+ * @param {Element} root
+ */
+ function setupVideoCallDirectMode(root) {
+    const directVideoCallGroup = root.querySelector(Selectors.CONTAINER_MODE_DIRECT);
+    const videocallform = directVideoCallGroup.querySelector('form');
+    const submit = videocallform.querySelector('input[type=submit]');
+
+    submit.addEventListener('click', function(e) {
+        const formData = new FormData(videocallform);
+        const viewersid = formData.getAll('videocallviewers[]');
+        const launchvideocallurl = videocallform.getAttribute('action');
+        requestVideoCall(e, launchvideocallurl, viewersid);
+    });
+}
+
 /**
  * Handle click on button to start a video call.
- * This is used on profile pages only.
+ *
+ * Note: this is used on profile pages only.
  *
  * @param {String} buttonId The id of the button element.
  */
@@ -28,23 +85,6 @@ export const handleVideoCallRequest = (buttonId) => {
     button.addEventListener('click', function(e) {
         const launchvideocallurl = button.getAttribute('href');
         requestVideoCall(e, launchvideocallurl);
-    });
-};
-
-/**
- * Handle video form in block to start a video call.
- *
- * @param {String} videocallform The form element which contains data.
- */
-export const handleVideoCallFormRequest = (videocallform) => {
-    const submit = videocallform.querySelector('input[type=submit]');
-
-    submit.addEventListener('click', function(e) {
-        const formData = new FormData(videocallform);
-        const meetingname = formData.get('videocallname');
-        const viewersid = formData.getAll('videocallviewers[]');
-        const launchvideocallurl = videocallform.getAttribute('action');
-        requestVideoCall(e, launchvideocallurl, viewersid, meetingname);
     });
 };
 
@@ -71,73 +111,69 @@ export const requestVideoCall = (e, launchvideocallurl, viewersid, meetingname) 
 };
 
 /**
- * Setup JS interactions for VideoCall block.
+ * Setup JS interactions for videocall link generation.
  *
  * @param {Element} root
  */
-export const setupVideoCallBlock = (root) => {
+function setupVideoCallLinkMode(root) {
     // Containers.
-    const containerSharedLinks = root.querySelector("[data-container=padplusvideocall-shared-links]");
+    const initialRequestContainer = root.querySelector(Selectors.CONTAINER_LINK_INITIAL);
+    const meetingLinkContainer = root.querySelector(Selectors.CONTAINER_MEETING_LINK);
 
-    // Btns.
-    const btnReset = root.querySelector("[data-action=reset");
-    const btnsCopy = root.querySelectorAll("[data-action=copy]");
-    const btnsRadio = root.querySelectorAll('[name=padplusvideocall-mode]');
+    // Input.
+    const meetingLinkInput = root.querySelector(Selectors.INPUT_MEETING_LINK);
 
-    // Inputs.
-    const moderatorInput = root.querySelector("[data-input=moderator]");
-    const viewerInput = root.querySelector("[data-input=viewer]");
-
-    // Handle show & hide of the different blocks corresponding to the videocall modes: planned/unplanned.
-    btnsRadio.forEach(radio => {
-        const unplannedVideoCallGroup = root.querySelector('[data-container=padplusvideocall-unplanned]');
-        const plannedVideoCallGroup = root.querySelector('[data-container=padplusvideocall-planned]');
-        radio.addEventListener('change', event => {
-            if (event.target.value === 'planned') {
-                toggleDisplay(unplannedVideoCallGroup, plannedVideoCallGroup);
-            } else {
-                toggleDisplay(plannedVideoCallGroup, unplannedVideoCallGroup);
-            }
-        });
+    const btnRequestLink = root.querySelector(Selectors.ACTION_REQUEST_LINK);
+    // Handle click on button to request videocall link.
+    btnRequestLink.addEventListener('click', () => {
+        const contextid = root.querySelector(Selectors.DATA_CONTEXT).getAttribute('data-contextid');
+        toggleDisplay(meetingLinkContainer);
+        return requestNewMeetingLink(contextid).then(meetingurl => {
+            meetingLinkInput.setAttribute('value', meetingurl);
+            toggleDisplay(initialRequestContainer, meetingLinkContainer);
+            return;
+        }).catch(Notification.exception);
     });
 
-    const initialRequestContainer = root.querySelector('[data-container=padplusvideocall-initial-links]');
-    const requestLinksButtons = root.querySelectorAll('[data-action=request-links]');
-    // Handle click on buttons to request videocall links. Both have the same behavior.
-    requestLinksButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            toggleDisplay(containerSharedLinks);
-            return requestNewMeetingLinks(root).then((data) => {
-                setInputValue(moderatorInput, data.moderatorurl);
-                setInputValue(viewerInput, data.viewerurl);
-                toggleDisplay(initialRequestContainer, containerSharedLinks);
-                return;
-            });
-        });
-    });
-
+    const btnReset = root.querySelector(Selectors.ACTION_RESET_LINK);
     // Handle click on button to reset videocall block.
     btnReset.addEventListener('click', function() {
-        toggleDisplay(containerSharedLinks, initialRequestContainer);
-        moderatorInput.setAttribute('value', '');
-        viewerInput.setAttribute('value', '');
+        // Reset group to initial state
+        toggleDisplay(meetingLinkContainer, initialRequestContainer);
+        meetingLinkInput.setAttribute('value', '');
+
+        // Reset mode selection
+        const linkVideoCallGroup = root.querySelector(Selectors.CONTAINER_MODE_LINK);
+        toggleDisplay(linkVideoCallGroup);
+        const directModeBtn = root.querySelector(Selectors.INPUT_MODE + '[value=link]');
+        directModeBtn.checked = false;
     });
 
-    // Handle click on buttons to copy videocall links.
-    btnsCopy.forEach(btnCopy => {
-        btnCopy.addEventListener('click', function() {
-            const user = btnCopy.getAttribute('data-input');
-            const input = root.querySelector(`[data-input=${user}]`);
-            const icon = root.querySelector(`[data-icon=${user}]`);
-            toggleDisplay(input, icon);
-            setTimeout(function() {
-                toggleDisplay(icon, input);
-            }, 1200);
+    const successContainer = root.querySelector(Selectors.CONTAINER_COPY_SUCCESS);
+    const btnCopy = root.querySelector(Selectors.ACTION_COPY_LINK);
+    // Handle click on button to copy videocall link.
+    btnCopy.addEventListener('click', function() {
+        navigator.clipboard.writeText(meetingLinkInput.value);
 
-            navigator.clipboard.writeText(input.value);
-        });
+        toggleDisplay(meetingLinkInput, successContainer);
+        setTimeout(function() {
+            toggleDisplay(successContainer, meetingLinkInput);
+        }, 1200);
     });
-};
+}
+
+/**
+ * Request a new meeting link to share.
+ *
+ * @param {number} contextid context id in which meeting link generation is authorized
+ * @returns {string}
+ */
+ function requestNewMeetingLink(contextid) {
+    return Ajax.call([{
+        methodname: 'block_padplusvideocall_generate_meeting_link',
+        args: {contextid},
+    }])[0].then(data => data.meetingurl);
+}
 
 /**
  * Toggle display between given elements.
@@ -151,38 +187,4 @@ function toggleDisplay(elementToHide, elementToShow = null) {
     if (elementToShow) {
         elementToShow.classList.remove('hidden');
     }
-}
-
-/**
- * Set input value and force cursor so that the string end appears in view.
- * Since value can be long URLs, user is more likely to see them change after each call.
- *
- * @param {Element} inputElement
- * @param {string} value
- */
-function setInputValue(inputElement, value) {
-    inputElement.setAttribute('value', value);
-    // Here goes some weird DOM/Javascript update stuff, first wait for DOM update
-    setTimeout(() => {
-        // Set cursor at end
-        inputElement.setSelectionRange(value.length, value.length);
-        // Put focus on element otherwise cursor won't show
-        inputElement.focus();
-        // Immediately blur focus because we don't want the input highlighted
-        inputElement.blur();
-    });
-}
-
-/**
- * Generate meeting links.
- *
- * @param {object} root Input that contains the contextid.
- * @returns {data}
- */
-function requestNewMeetingLinks(root) {
-    const contextid = root.querySelector('[data-contextid]').getAttribute('data-contextid');
-    return Ajax.call([{
-        methodname: 'block_padplusvideocall_generate_meeting_links',
-        args: {contextid},
-    }])[0].catch(Notification.exception);
 }

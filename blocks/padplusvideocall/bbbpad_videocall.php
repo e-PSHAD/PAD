@@ -21,18 +21,16 @@
  * Depending on the given action parameter:
  * - create and/or join a meeting as moderator or attendee
  * - handle meeting logout (typically close the window if it was open programmatically)
- * - run playback for previous meetings recording
  *
  * In order to create a meeting, both following conditions should be met:
  * - current user had the right permission (typically a professional, identifed as a contributor)
  * - URL should convey all parameters to create the meeting (meeting id, passwords, etc.)
  *
- * Viewer URL only have mandatory parameters to join the meeting as a viewer (meeting id and viewer passord).
- *
  */
 
 require_once('../../config.php');
 require_once($CFG->dirroot . '/mod/bigbluebuttonbn/locallib.php');
+require_once($CFG->dirroot . '/local/padplusextensions/lib.php');
 require_once(__DIR__ . '/lib.php');
 
 require_login(null, false);
@@ -59,103 +57,65 @@ switch (strtolower($action)) {
         bbbpad_close_window($message);
         break;
 
-    case 'createjoin':
-        // Action for moderators launching a deferred video call. Viewers should get viewer link by another mean.
+    case 'join':
+        // Dispatch user workflow:
+        // - users with createvideocall capability can create meeting and become moderator;
+        // - users without that capability can only join meeting as regular viewers.
         $meetingid = required_param('meetingid', PARAM_TEXT);
+        // Technically, $modpw is only required for moderator, but we don't know which workflow will be chosen yet.
         $modpw = required_param('modpw', PARAM_TEXT);
         $viewerpw = required_param('viewerpw', PARAM_TEXT);
-        $contextid = required_param('contextid', PARAM_INT);
+        $viewersid = optional_param('viewersid', '', PARAM_SEQUENCE);
         $meetingname = optional_param('name', '', PARAM_TEXT);
 
-        // Check create capability for moderator.
-        $context = context::instance_by_id($contextid);
-        if (! has_capability('block/padplusvideocall:createvideocall', $context)) {
-            $message = get_string('createvideocall_nocapability', 'block_padplusvideocall');
-            $logouturl = get_videocall_logout_url($message);
-            header('Location: ' . $logouturl);
-            break;
-        }
+        $context = get_top_category_context_with_capability('block/padplusvideocall:createvideocall');
+        if ($context) { /* Moderator workflow should always succeed */
+            $videocalldata = new VideocallData($meetingid, $modpw, $viewerpw);
+            $meetingurl = get_videocall_join_url($videocalldata);
+            $logouturl = get_videocall_logout_url();
 
-        if (strlen($meetingname) === 0) {
-            $moderatorname = fullname($USER);
-            $meetingname = "$pageheading $moderatorname";
-        }
+            // Fetch invitees if any.
+            $viewersid = explode(',', $viewersid);
+            $viewers = $DB->get_records_list('user', 'id', $viewersid);
 
-        $result = bbbpad_create_meeting($meetingid, $meetingname, $viewerpw, $modpw, $context);
-        if (!$result) {
-            // Function bbbpad_create_meeting should throw if an error happens, but break just in case there is no return value.
-            break;
-        }
+            // Set default meeting name if none.
+            if (strlen($meetingname) === 0) {
+                $moderatorname = fullname($USER);
+                $meetingname = "$pageheading $moderatorname";
+                if (count($viewers) === 1) {
+                    // Retrieve first and only viewer from associative array.
+                    $viewer = $viewers[array_key_first($viewers)];
+                    $meetingname .= ' - ' . fullname($viewer);
+                }
+            }
 
-        // The meeting is now running, just join the session.
-        bbbpad_join_meeting($meetingid, $USER, $modpw, $result->logouturl, $context);
-        break;
+            // Create meeting if need be. This is idempotent if multiple users request the same meeting creation.
+            bbbpad_create_meeting($videocalldata, $meetingname, $meetingurl, $logouturl, $context);
 
-    case 'createjoinnow':
-        // Action for moderators launching an immediate video call. Will notify viewers with viewer link.
-        $contextid = required_param('contextid', PARAM_INT);
-        $viewersid = required_param('viewersid', PARAM_SEQUENCE);
-        $meetingname = optional_param('name', '', PARAM_TEXT);
+            // Send invitations to viewers if any.
+            foreach ($viewers as $viewer) {
+                send_videocall_notification($USER, $viewer, $meetingurl);
+            }
 
-        // Check create capability for moderator.
-        $context = context::instance_by_id($contextid);
-        if (! has_capability('block/padplusvideocall:createvideocall', $context)) {
-            $message = get_string('createvideocall_nocapability', 'block_padplusvideocall');
-            $logouturl = get_videocall_logout_url($message);
-            header('Location: ' . $logouturl);
-            break;
-        }
+            // The meeting should now be running, join the session as moderator.
+            bbbpad_join_meeting($videocalldata->meetingid, $USER, $videocalldata->modpw, $logouturl, $context);
 
-        $viewersid = explode(',', $viewersid);
-        $viewers = $DB->get_records_list('user', 'id', $viewersid);
+        } else { /* Viewer workflow */
+            // Join session if and only if it is in progress.
+            // Always request cache update to get meeting info, otherwise the viewer might be rejected because
+            // cache might tell meeting is not running and won't update for 1 minute, delaying viewer admission.
+            if (bigbluebuttonbn_is_meeting_running($meetingid, true)) {
+                $logouturl = get_videocall_logout_url();
+                bbbpad_join_meeting($meetingid, $USER, $viewerpw, $logouturl);
 
-        if (strlen($meetingname) === 0) {
-            $moderatorname = fullname($USER);
-            $meetingname = "$pageheading $moderatorname";
-            if (count($viewers) === 1) {
-                // Retrieve first and only viewer from associative array.
-                $viewer = $viewers[array_key_first($viewers)];
-                $meetingname .= ' - ' . fullname($viewer);
+            } else {
+                // Redirect if meeting is not running. It may already be obsolete and we don't want viewer to create
+                // meeting by themselves.
+                $message = get_string('joinvideocall_nomeeting', 'block_padplusvideocall');
+                $logouturl = get_videocall_logout_url($message);
+                header('Location: ' . $logouturl);
             }
         }
-
-        $meetingdata = generate_meeting_data();
-        $meetingid = $meetingdata['meetingid'];
-        $modpw = $meetingdata['modpw'];
-        $viewerpw = $meetingdata['viewerpw'];
-
-        $result = bbbpad_create_meeting($meetingid, $meetingname, $viewerpw, $modpw, $context);
-        if (!$result) {
-            // Function bbbpad_create_meeting should throw if an error happens, but break just in case there is no return value.
-            break;
-        }
-
-        foreach ($viewers as $viewer) {
-            send_videocall_notification($USER, $viewer, $result->viewerurl);
-        }
-
-        // The meeting is now running, just join the session.
-        bbbpad_join_meeting($meetingid, $USER, $modpw, $result->logouturl, $context);
-        break;
-
-    case 'join':
-        $meetingid = required_param('meetingid', PARAM_TEXT);
-        $viewerpw = required_param('viewerpw', PARAM_TEXT);
-
-        // Join session if and only if it is in progress.
-        // Always request cache update to get meeting info, otherwise the viewer might be rejected because
-        // cache might tell meeting is not running and won't update for 1 minute, delaying viewer admission.
-        if (bigbluebuttonbn_is_meeting_running($meetingid, true)) {
-            $logouturl = get_videocall_logout_url();
-            bbbpad_join_meeting($meetingid, $USER, $viewerpw, $logouturl);
-            break;
-        }
-
-        // Otherwise stop when meeting is not running. It may already be obsolete and we don't want viewer to create
-        // meeting by themselves.
-        $message = get_string('joinvideocall_nomeeting', 'block_padplusvideocall');
-        $logouturl = get_videocall_logout_url($message);
-        header('Location: ' . $logouturl);
         break;
 
     default:
@@ -176,23 +136,18 @@ function bbbpad_close_window($message = '') {
 
 /**
  * Create BigBlueButton meeting.
- * Handle
- * @param string    $meetingid
- * @param string    $meetingname
- * @param string    $viewerpw
- * @param string    $modpw
- * @param object    $context for log event
- * @return object   an object with viewerurl and logouturl for the meeting
+ * This is idempotent per BBB API specification, so can be called multiples times without side effects.
+ *
+ * @param VideocallData $videocalldata
+ * @param string        $meetingname
+ * @param string        $meetingurl
+ * @param string        $logouturl
+ * @param object        $context for log event
  * @throws moodle_exception in case something bad happens when creating the meeting
  */
-function bbbpad_create_meeting($meetingid, $meetingname, $viewerpw, $modpw, $context) {
-    $viewerurl = get_videocall_join_url($meetingid, $viewerpw);
-    $logouturl = get_videocall_logout_url();
-
-    // Create meeting.
-    // This is idempotent per BBB API specification, so can be called multiples times without side effects.
+function bbbpad_create_meeting($videocalldata, $meetingname, $meetingurl, $logouturl, $context) {
     $response = bigbluebuttonbn_get_create_meeting_array(
-        bbbpad_build_meeting_data($meetingid, $meetingname, $viewerpw, $modpw, $viewerurl, $logouturl),
+        bbbpad_build_meeting_data($videocalldata, $meetingname, $meetingurl, $logouturl),
         bbbpad_build_meeting_metadata()
     );
     if (empty($response)) {
@@ -211,32 +166,27 @@ function bbbpad_create_meeting($meetingid, $meetingname, $viewerpw, $modpw, $con
 
     bbbpad_log_event('created', $context);
 
-    return (object) array(
-        'viewerurl' => $viewerurl,
-        'logouturl' => $logouturl
-    );
+    return;
 }
 
 /**
  * Build BigBlueButton payload for meeting creation.
  *
- * @see             mod/bigbluebuttonbn/bbb_view.php bigbluebuttonbn_bbb_view_create_meeting_data
- * @param string    $meetingid
- * @param string    $meetingname
- * @param string    $viewerpw
- * @param string    $modpw
- * @param string    $viewerurl
- * @param string    $logouturl
+ * @see                 mod/bigbluebuttonbn/bbb_view.php bigbluebuttonbn_bbb_view_create_meeting_data
+ * @param VideocallData $videocalldata
+ * @param string        $meetingname
+ * @param string        $meetingurl
+ * @param string        $logouturl
  * @return object
  */
-function bbbpad_build_meeting_data($meetingid, $meetingname, $viewerpw, $modpw, $viewerurl, $logouturl) {
+function bbbpad_build_meeting_data($videocalldata, $meetingname, $meetingurl, $logouturl) {
     $welcomemessage = get_string('bigbluebutton_welcome', 'block_padplusvideocall');
-    $moderatormessage = get_string('bigbluebutton_moderatormessage', 'block_padplusvideocall', $viewerurl);
+    $moderatormessage = get_string('bigbluebutton_moderatormessage', 'block_padplusvideocall', $meetingurl);
     $data = array(
-        'meetingID' => $meetingid,
+        'meetingID' => $videocalldata->meetingid,
         'name' => $meetingname,
-        'attendeePW' => $viewerpw,
-        'moderatorPW' => $modpw,
+        'attendeePW' => $videocalldata->viewerpw,
+        'moderatorPW' => $videocalldata->modpw,
         'logoutURL' => $logouturl,
         'welcome' => $welcomemessage,
         'moderatorOnlyMessage' => $moderatormessage,
@@ -259,7 +209,7 @@ function bbbpad_build_meeting_metadata() {
 }
 
 /**
- * Helper for preparing data used while joining the meeting.
+ * Join BigBlueButton meeting.
  *
  * @see            mod/bigbluebuttonbn/bbb_view.php bigbluebuttonbn_bbb_view_join_meeting
  * @param string   $meetingid the meeting id on BigBlueButton server
