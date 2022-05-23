@@ -263,6 +263,13 @@ class core_renderer extends \core_renderer {
 
     private function is_activity_page() {
         $pagepath = $this->page->url->get_path();
+        if ($pagepath === '/mod/forum/user.php') {
+            // Special case: forum/user.php is not an activity but a report page.
+            // It reports all posts and messages made by user in forums.
+            // It can be accessed through user profile or course profile (which limits scope to course forums).
+            return false;
+        }
+
         return strpos($pagepath, '/mod/') === 0;
     }
 
