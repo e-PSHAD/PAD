@@ -1,0 +1,173 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_padplusextensions/myprogress_content
+
+    Display user progress over categories and course status.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * data-container="topgroup"
+    * data-container="progress-summary"
+    * data-container="progress-details"
+    * data-input="toggle-details"
+
+    Context variables required for this template:
+    * username
+    * totalByStatus > see local_padplusextensions/myprogress_short_summary
+    * topgroups
+
+    Example context (json):
+    {
+        username: '',
+        totalByStatus: {
+            // see local_padplusextensions/myprogress_short_summary
+        },
+        topgroups: {
+            topgroupid,
+            topgroupname,
+            topgrouptotallabel,
+            modules,
+            coursesbystatus: [{
+                count: 2,
+                grouplabel: 'séquences terminées',
+                courses: [{
+                    viewurl: '#',
+                    fullname: 'toto',
+                    statuslabel: 'terminé',
+                    status: 'done'
+                }, {
+                    viewurl: '#',
+                    fullname: 'tata',
+                    statuslabel: 'terminé',
+                    status: 'done'
+                }]
+            }, {
+                count: 2,
+                grouplabel: 'séquences entamées',
+                courses: [{
+                    viewurl: '#',
+                    fullname: 'toto',
+                    statuslabel: 'en cours',
+                    status: 'inprogress'
+                }, {
+                    viewurl: '#',
+                    fullname: 'tata',
+                    statuslabel: 'en cours',
+                    status: 'inprogress'
+                }]
+            }, {
+                count: 0,
+                grouplabel: 'séquences non entamées',
+                courses: []
+            }]
+        }
+    }
+}}
+<div>
+    {{#forprofessional}}
+    <h3 class="myprogress-student-name">{{#str}} user-progress, theme_padplus, {{username}} {{/str}}</h3>
+    {{/forprofessional}}
+
+    {{> local_padplusextensions/myprogress_short_summary }}
+
+    <h3>{{#str}} myprogress-subtitle, theme_padplus {{/str}}</h3>
+    <p>{{#str}} myprogress-subtitle-description, theme_padplus {{/str}}</p>
+
+    {{#topgroups}}
+    <div class="platform-container" data-container="topgroup">
+        <div class="platform-container-header">
+            <h4>{{topgroupname}} : <span>{{topgrouptotallabel}}</span></h4>
+
+            <a href="#" role="button" data-input="toggle-details">toggleSummaryDetails</a>
+        </div>
+        <div data-container="progress-summary" id="progress-summary-{{topgroupid}}-{{uniqid}}">
+            <div class="myprogress-summary-container">
+                {{#coursesbystatus}}
+                <div class="myprogress-summary-content">
+                    <div class="courses-counter"><strong>{{count}}</strong> {{grouplabel}}</div>
+                    <ul class="courses-status-container">
+                        {{#courses}}
+                        <li>
+                            <a href="{{viewurl}}" {{#progress.done}}class="circle-checked"{{/progress.done}}>
+                                {{#progress.done}}
+                                {{#pix}}i/checkedcircle, core, {{{namestatuslabel}}}{{/pix}}
+                                {{/progress.done}}
+
+                                {{#progress.inprogress}}
+                                {{#pix}}i/halfcircle, core, {{{namestatuslabel}}}{{/pix}}
+                                {{/progress.inprogress}}
+
+                                {{#progress.todo}}
+                                {{#pix}}i/uncheckedcircle, core, {{{namestatuslabel}}}{{/pix}}
+                                {{/progress.todo}}
+                                <div class="tooltip-arrow"></div><div class="tooltip-arrow-shadow"></div>
+                            </a>
+                        </li>
+                        {{/courses}}
+                    </ul>
+                </div>
+                {{/coursesbystatus}}
+            </div>
+        </div>
+
+        <div data-container="progress-details" id="progress-details-{{topgroupid}}-{{uniqid}}">
+            <ul class="myprogress-summary-container">
+                {{#modules}}
+                <li class="module-item">
+                    <div>{{name}}</div>
+                    <ul class="courses-container">
+                        {{#courses}}
+                        <li class="course-item">
+                            <div class="course-item-title">
+                                <div {{#progress.done}}class="circle-checked"{{/progress.done}}>
+                                    {{#progress.done}}
+                                    {{#pix}}i/checkedcircle, core, {{#str}} course-done, theme_padplus {{/str}}{{/pix}}
+                                    {{/progress.done}}
+
+                                    {{#progress.todo}}
+                                    {{#pix}}i/uncheckedcircle, core, {{#str}} course-todo, theme_padplus {{/str}}{{/pix}}
+                                    {{/progress.todo}}
+
+                                    {{#progress.inprogress}}
+                                    {{#pix}}i/halfcircle, core, {{#str}} course-inprogress, theme_padplus {{/str}}{{/pix}}
+                                    {{/progress.inprogress}}
+                                </div>
+
+                                <a href="{{viewurl}}">{{fullname}}</a>
+                            </div>
+
+                            {{#progress.inprogress}}
+                            <div class="course-item-progress-container">
+                                <div class="progress">
+                                    <div class="progress-bar bar" role="progressbar" aria-valuenow="{{progress.percent}}" style="width: {{progress.percent}}%" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="small">{{progress.percent}}%</div>
+                            </div>
+                            {{/progress.inprogress}}
+                        </li>
+                        {{/courses}}
+                    </ul>
+                </li>
+                {{/modules}}
+            </ul>
+        </div>
+    </div>
+    {{/topgroups}}
+</div>

@@ -59,6 +59,36 @@ $string['aria:mycatalog-courses'] = 'Show my shared resources';
 $string['catalog-course'] = 'Shared resource';
 $string['workshop-course'] = 'Group workshop';
 
+// My progress page strings.
+$string['myprogress-professional-title'] = 'Students curriculum';
+$string['goto-myprogress'] = 'Go to my curriculum';
+$string['myprogress-professional-intro'] = 'You can track the progress of trainees enrolled in your sequences. They are sorted according to their main category.';
+$string['myprogress-professional-intro-sub'] = 'The data displayed takes into account only what is done on the platform.';
+$string['myprogress-student-title'] = 'My curriculum';
+$string['myprogress-student-intro'] = 'Follow the progress of your sequences. They are sorted according to their main category.';
+$string['myprogress-student-intro-note'] = 'The data displayed only takes into account what is done on the platform.';
+$string['myprogress-subtitle'] = 'Distribution of sequences';
+$string['myprogress-subtitle-description'] = 'The detail view displays the parent category of sequences and their progress.';
+$string['myprogress-loading'] = 'Looking for student data...';
+$string['eventmyprogressviewed'] = 'My progress viewed';
+$string['user-progress'] = '{$a}\'s curriculum';
+$string['user-progress-search-placeholder'] = 'Search for students';
+$string['user-progress-no-selection'] = 'No student selected';
+$string['course-singular'] = 'course';
+$string['course-plural'] = 'courses';
+$string['course-done'] = 'done course';
+$string['course-done-plural'] = 'done courses';
+$string['course-inprogress'] = 'in progress course';
+$string['course-inprogress-plural'] = 'in progress courses';
+$string['course-todo'] = 'todo course';
+$string['course-todo-plural'] = 'todo courses';
+$string['course-total'] = 'assigned course';
+$string['course-total-plural'] = 'assigned courses';
+$string['undefined-platform'] = 'Undefined Platform';
+$string['undefined-module'] = 'Undefined Module';
+$string['show-progress-details'] = 'Show details';
+$string['hide-progress-details'] = 'Hide details';
+
 // Theme settings strings.
 $string['settings-color-title'] = 'Theme colours';
 $string['settings-color-desc'] = 'Colours that define the identity of your site';

@@ -14,15 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Local extensions for PAD+ which do not fit in the theme:
- *
- * - global navigation extension
- * - custom renderer
- */
-
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2022050300; // This is the version of the plugin.
-$plugin->requires = 2021051700.00; // This is the version of Moodle this plugin requires.
-$plugin->component = 'local_padplusextensions';// Full name of the plugin (used for diagnostics).
+$plugin->component = 'block_padplusmyprogress';
+$plugin->version = 2022051600;
+$plugin->requires = 2021051706;
+
+$plugin->dependencies = array(
+    'local_padplusextensions' => 2022050300,
+);

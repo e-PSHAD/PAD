@@ -14,15 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Local extensions for PAD+ which do not fit in the theme:
- *
- * - global navigation extension
- * - custom renderer
- */
+$string['pluginname'] = 'PAD+ progression stagiaire';
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version = 2022050300; // This is the version of the plugin.
-$plugin->requires = 2021051700.00; // This is the version of Moodle this plugin requires.
-$plugin->component = 'local_padplusextensions';// Full name of the plugin (used for diagnostics).
+// Capabilities.
+$string['padplusvideocall:addinstance'] = 'Ajouter un bloc progression stagiaire';
+$string['padplusvideocall:myaddinstance'] = "Ajouter un bloc progression stagiaire sur ma page d'accueil";
