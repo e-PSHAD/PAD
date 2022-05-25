@@ -36,11 +36,7 @@ class lib_test extends \advanced_testcase {
 
         $expectedmain = $this->build_expected_item($maincategory->id, get_string('allcourses-menu', 'theme_padplus'));
         $expectedworkshop = $this->build_expected_item($workshops->id, get_string('workshop-menu', 'theme_padplus'), 'i/group');
-        $expectedcatalog = $this->build_expected_item(
-            $catalog->id,
-            get_string('catalog-menu', 'theme_padplus'),
-            'i/open',
-            get_string('catalog-menu', 'theme_padplus'));
+        $expectedcatalog = $this->build_expected_item($catalog->id, get_string('catalog-menu', 'theme_padplus'), 'i/open');
 
         $result = select_user_top_categories(array($maincategory, $workshops, $catalog), $theme);
         $this->assertEquals(
@@ -121,12 +117,11 @@ class lib_test extends \advanced_testcase {
         return \core_course_category::create($data);
     }
 
-    public function build_expected_item($id, $name, $icon = null, $showdivider = null) {
+    public function build_expected_item($id, $name, $icon = null) {
         $data = new \stdClass();
         $data->id = $id;
         $data->name = $name;
         $data->icon = $icon;
-        $data->showdivider = $showdivider;
         return (object) array_filter((array) $data);
     }
 

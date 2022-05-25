@@ -96,7 +96,6 @@ function select_user_top_categories(array $topcategories, theme_config $theme) {
             $workshop = $categoryentry;
         } else if (category_belongs_to_catalog($category, $theme) && !$catalog) {
             $categoryentry->name = get_string('catalog-menu', 'theme_padplus');
-            $categoryentry->showdivider = get_string('catalog-menu', 'theme_padplus');
             $categoryentry->icon = 'i/open';
             $catalog = $categoryentry;
         } else if ($enableallcourses && !$allcourses) {
