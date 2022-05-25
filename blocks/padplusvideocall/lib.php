@@ -242,9 +242,13 @@ function bbbpad_log_event($eventtype, $context) {
     $event->trigger();
 }
 
+define('LAST_FIVE', 5);
+define('ONE_HOUR_DURATION', 3600); // Duration in seconds.
+
 /**
  * Extend navbar output (next to notification icon) to trigger enhanced notification (sound+animation).
- * This is triggered only when an unread videocall notification appears in the last 5 notifications.
+ * This is triggered only when an unread videocall notification appears in the last 5 notifications
+ * and it is not older than one hour.
  */
 function block_padplusvideocall_render_navbar_output() {
     global $USER;
@@ -252,13 +256,17 @@ function block_padplusvideocall_render_navbar_output() {
     $output = '';
 
     if (core_user::is_real_user($USER->id)) { // Skip notification for anonymous user on homepage.
-        $notifications = \message_popup\api::get_popup_notifications($USER->id, 'DESC', 5);
+        $notifications = \message_popup\api::get_popup_notifications($USER->id, 'DESC', LAST_FIVE);
         foreach ($notifications as $notification) {
-            if ($notification->eventtype == 'videocall_notification' && $notification->timeread == null) {
-                $notificationvideocall = new \moodle_url('/blocks/padplusvideocall/medias/notificationvideocall.mp3');
-                $output .= "<audio autoplay class='notification-videocall'><source src='$notificationvideocall' ></source></audio>";
-                break;
-            };
+            if ($notification->eventtype == 'videocall_notification') {
+                $notificationisunread = $notification->timeread == null;
+                $notificationisrecent = (time() - $notification->timecreated) < ONE_HOUR_DURATION;
+                if ($notificationisunread && $notificationisrecent ) {
+                    $notificationvideocall = new \moodle_url('/blocks/padplusvideocall/medias/notificationvideocall.mp3');
+                    $output .= "<audio autoplay class='notification-videocall'><source src='$notificationvideocall' ></source></audio>";
+                    break;
+                };
+            }
         }
     }
 
