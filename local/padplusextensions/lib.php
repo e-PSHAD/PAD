@@ -14,13 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->libdir . '/completionlib.php');
+
 /**
  * Extend Moodle global navigation with custom items:
  * - item can be inserted in flat navigation (see PAD+ sidebar customisation in columns2.php)
  * - item can appear in breadcrumb
  */
 function local_padplusextensions_extend_navigation(global_navigation $nav) {
+    global $COURSE;
     $syscontext = context_system::instance();
+
+    $padnodes = array();
 
     // Check for any authenticated user.
     if (has_capability('moodle/user:changeownpassword', $syscontext)) {
@@ -32,6 +39,7 @@ function local_padplusextensions_extend_navigation(global_navigation $nav) {
             'mycoursespage',
             new pix_icon('i/mycourses', '')
         );
+        $padnodes[] = $mycoursesnode;
 
         $professionnalctx = get_top_category_context_for_professional();
         $myprogressnode = navigation_node::create(
@@ -42,12 +50,7 @@ function local_padplusextensions_extend_navigation(global_navigation $nav) {
             'myprogresspage',
             new pix_icon('i/myprogress', '')
         );
-
-        $nodes = array($mycoursesnode, $myprogressnode);
-        foreach ($nodes as $node) {
-            $node->showinflatnavigation = true;
-            $nav->add_node($node);
-        }
+        $padnodes[] = $myprogressnode;
     }
 
     // Check for admin/instance manager.
@@ -60,8 +63,48 @@ function local_padplusextensions_extend_navigation(global_navigation $nav) {
             'allcategories',
             new pix_icon('i/course', '')
         );
-        $allcategoriesnode->showinflatnavigation = true;
-        $nav->add_node($allcategoriesnode);
+        $padnodes[] = $allcategoriesnode;
+    }
+
+    // Check for access and availability of progress report.
+    if (has_capability('report/progress:view', context_course::instance($COURSE->id))) {
+        // Activity report is enabled by default, but might be disabled or unavailable for single-activity course.
+        $completion = new completion_info($COURSE);
+        if ($completion->is_enabled() && $completion->has_activities()) {
+            $progressnode = navigation_node::create(
+                get_string('pluginname', 'report_progress'),
+                new moodle_url('/report/progress/index.php', array('course' => $COURSE->id)),
+                navigation_node::TYPE_SETTING,
+                null,
+                'progressreport'
+            );
+            // Force active check on URL base only.
+            // It seems progress report manipulates URL params in a weird way, which invalidates default check_if_active match.
+            $progressnode->check_if_active(URL_MATCH_BASE);
+            $padnodes[] = $progressnode;
+        }
+    }
+
+    // Check for access and availability of completion report.
+    if (has_capability('report/completion:view', context_course::instance($COURSE->id))) {
+        // Completion report is not available if not configured, we need to check that.
+        $completion = new completion_info($COURSE);
+        if ($completion->is_enabled() && $completion->has_criteria()) {
+            $completionnode = navigation_node::create(
+                get_string('pluginname', 'report_completion'),
+                new moodle_url('/report/completion/index.php', array('course' => $COURSE->id)),
+                navigation_node::TYPE_SETTING,
+                null,
+                'completionreport'
+            );
+            $padnodes[] = $completionnode;
+        }
+    }
+
+    // Add all PAD+ navigation nodes to flat navigation for later insertion in sidemenu (see columns2.php).
+    foreach ($padnodes as $node) {
+        $node->showinflatnavigation = true;
+        $nav->add_node($node);
     }
 }
 

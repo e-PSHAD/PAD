@@ -110,7 +110,7 @@ if (has_capability('moodle/category:manage', $context)) {
         $categorynode = navigation_node::create(
             $category->name,
             new moodle_url('/course/index.php', array('categoryid' => $category->id)),
-            navigation_node::TYPE_CUSTOM,
+            navigation_node::TYPE_CATEGORY,
             null,
             "category_{$category->id}",
             new pix_icon($category->icon ?? 'i/course', '')
@@ -119,16 +119,13 @@ if (has_capability('moodle/category:manage', $context)) {
         if ($first) {
             $flatnode->set_showdivider(true, get_string('categories-menu-nav', 'theme_padplus'));
         }
-        if (isset($category->showdivider)) {
-            $flatnode->set_showdivider(true, $category->showdivider);
-        }
         $padnav->add($flatnode);
         $first = false;
     }
 }
 
 // Group: current course. Options left out: 'badgesview', 'competencies'.
-fill_nav_from_menu_keys($nav, $padnav, ['coursehome', 'participants', 'grades']);
+fill_nav_from_menu_keys($nav, $padnav, ['coursehome', 'participants', 'progressreport', 'completionreport', 'grades']);
 // Leaving out section items: fill_nav_from_menu_type($nav, $padnav, navigation_node::TYPE_SECTION);
 // Enable divider on coursehome since it comes after the main menu now & change nav label.
 $coursehome = $padnav->get('coursehome');
@@ -139,7 +136,7 @@ if (is_object($coursehome)) {
 }
 
 // Replace icon by an indentation for these course subitems.
-foreach (['participants', 'grades'] as $navkey) {
+foreach (['participants', 'progressreport', 'completionreport', 'grades'] as $navkey) {
     $navitem = $padnav->get($navkey);
     if (is_object($navitem)) {
         $navitem->icon->pix = null;
