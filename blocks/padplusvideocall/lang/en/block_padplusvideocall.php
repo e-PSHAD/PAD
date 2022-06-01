@@ -22,6 +22,9 @@ $string['padplusvideocall:addinstance'] = 'Add a new video conference block';
 $string['padplusvideocall:myaddinstance'] = 'Add a new video conference block to the My Moodle page';
 $string['padplusvideocall:createvideocall'] = 'Create video conferences';
 
+// Privacy.
+$string['privacy:metadata'] = 'The PAD+ video conference block sends notifications through the message system.';
+
 // Notifications.
 $string['messageprovider:videocall_notification'] = 'Video conference notification';
 $string['notification_subject'] = '{$a} invites you to a video call';

@@ -15,3 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 $string['pluginname'] = 'Extensions locales pour PAD+';
+
+// Privacy.
+$string['privacy:metadata'] = "Le plugin Extensions locales pour PAD+ n'enregistre aucune donnée personnelle.";

@@ -22,6 +22,9 @@ $string['padplusvideocall:addinstance'] = 'Ajouter un bloc visioconférence';
 $string['padplusvideocall:myaddinstance'] = "Ajouter un bloc visioconférence sur ma page d'accueil";
 $string['padplusvideocall:createvideocall'] = 'Créer des visioconférences';
 
+// Privacy.
+$string['privacy:metadata'] = 'Le bloc PAD+ visioconférence envoie des notifications via le système de messagerie.';
+
 // Notifications.
 $string['messageprovider:videocall_notification'] = 'Notification de visioconférence';
 $string['notification_subject'] = '{$a} vous invite à une visioconférence. Rejoindre';
