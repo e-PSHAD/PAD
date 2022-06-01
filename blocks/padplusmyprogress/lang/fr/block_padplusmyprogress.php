@@ -19,3 +19,6 @@ $string['pluginname'] = 'PAD+ progression stagiaire';
 // Capabilities.
 $string['padplusvideocall:addinstance'] = 'Ajouter un bloc progression stagiaire';
 $string['padplusvideocall:myaddinstance'] = "Ajouter un bloc progression stagiaire sur ma page d'accueil";
+
+// Privacy.
+$string['privacy:metadata'] = "Le bloc PAD+ progression stagiaire affiche seulement les données existantes d'inscriptions et de progression dans les séquences.";

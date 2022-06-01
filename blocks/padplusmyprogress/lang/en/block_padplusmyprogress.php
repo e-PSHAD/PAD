@@ -19,3 +19,6 @@ $string['pluginname'] = 'PAD+ student progress';
 // Capabilities.
 $string['padplusvideocall:addinstance'] = 'Add a new student progress block';
 $string['padplusvideocall:myaddinstance'] = 'Add a new student progress block to the My Moodle page';
+
+// Privacy.
+$string['privacy:metadata'] = 'The PAD+ student progress block only displays existing enrolment and progress data.';

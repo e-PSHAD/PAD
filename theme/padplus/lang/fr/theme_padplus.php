@@ -30,6 +30,9 @@ $string['pluginname'] = 'PAD+';
 // We need to include a lang string for each block region.
 $string['region-side-pre'] = 'Droit';
 
+// Privacy.
+$string['privacy:metadata'] = "Le plugin Thème PAD+ n'enregistre aucune donnée personnelle.";
+
 // Main strings.
 $string['global-search'] = 'Rechercher des séquences, des personnes...';
 $string['myhome-welcome'] = 'Bienvenue  {$a}';
