@@ -20,6 +20,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/local/padplusextensions/progresslib.php');
 
+use moodle_url;
 use plugin_renderer_base;
 
 /**
@@ -41,16 +42,20 @@ class myprogress_renderer extends plugin_renderer_base {
     public function context_for_professional($ctx) {
         global $USER;
 
-        $mycourses = enrol_get_all_users_courses($USER->id);
-        $uniquestudents = get_students_in_courses($mycourses);
+        $uniquestudents = get_all_students_in_user_courses($USER->id);
         $studentlist = array_map(
             fn($user) => array('value' => $user->id, 'label' => fullname($user)),
             $uniquestudents);
+        $spreadsheeturl = new moodle_url(
+            '/local/padplusextensions/export/progress_xls.php',
+            array('contextid' => $ctx->id)
+        );
 
         return array(
             'students' => $studentlist,
             'contextid' => $ctx->id,
             'visible' => true, // For loading overlay.
+            'spreadsheeturl' => $spreadsheeturl,
         );
     }
 

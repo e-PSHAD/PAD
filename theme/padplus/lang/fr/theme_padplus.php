@@ -87,10 +87,23 @@ $string['course-todo'] = 'séquence à faire';
 $string['course-todo-plural'] = 'séquences à faire';
 $string['course-total'] = 'séquence attribuée';
 $string['course-total-plural'] = 'séquences attribuées';
-$string['undefined-platform'] = 'Plateforme non définie';
-$string['undefined-module'] = 'Module non défini';
+$string['export-progress-intro'] = 'Vous pouvez également exporter le suivi de tous vos stagiaires dans un fichier Excel (.xls).';
+$string['export-progress'] = 'Exporter le suivi de tous les stagiaires';
+$string['undefined-platform'] = 'Hors plateforme';
+$string['undefined-module'] = 'Hors module';
 $string['show-progress-details'] = 'Voir le détail';
 $string['hide-progress-details'] = 'Masquer le détail';
+
+// Spreadsheet 'Students progress' strings.
+$string['export-header-course'] = 'Séquence';
+$string['export-header-module'] = 'Module';
+$string['export-header-platform'] = 'Plateforme';
+$string['export-header-progress'] = 'Progrès (%)';
+$string['export-header-status'] = 'Statut';
+$string['export-header-total'] = 'Total de la séquence';
+$string['export-status-done'] = 'Terminée';
+$string['export-status-inprogress'] = 'Commencée';
+$string['export-status-todo'] = 'À faire';
 
 // Theme settings strings.
 $string['settings-color-title'] = 'Couleurs du thème';
