@@ -17,6 +17,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/enrollib.php');
+require_once($CFG->dirroot . '/grade/lib.php');
+require_once($CFG->dirroot . '/grade/report/overview/lib.php');
 
 use core_completion\progress;
 
@@ -72,6 +74,19 @@ function get_students_in_courses($courses) {
     usort($uniqueusers, fn($a, $b) => strcasecmp($a->lastname, $b->lastname));
     return $uniqueusers;
 }
+
+/**
+ * Retrieve all unique students enrolled in the same courses as the user.
+ * The user is intended to be a teacher, although no such verification is made.
+ *
+ * @param string $userid
+ * @return array a sorted set of all users enrolled the same courses as the user
+ */
+function get_all_students_in_user_courses($userid) {
+    $courses = enrol_get_all_users_courses($userid);
+    return get_students_in_courses($courses);
+}
+
 
 /**
  * Compute category contexts for the given course, to be used to regroup courses by categories.
@@ -262,6 +277,7 @@ function get_user_overall_progress($userid) {
 
             $courses = array_map(
                 fn($course) => array(
+                    'id' => $course->id,
                     'viewurl' => (new moodle_url('/course/view.php', array('id' => $course->id)))->out(),
                     'fullname' => $course->fullname,
                     'progress' => get_course_progress_status($course, $userid)
@@ -280,4 +296,39 @@ function get_user_overall_progress($userid) {
             'modules' => $modules
         );
     }, array_keys($contextgroups), $contextgroups);
+}
+
+/**
+ * Retrieve and format for export course total for all user courses.
+ *
+ * @see class grade_report_overview used in /grade/report/overview/classes/external.php
+ * @param string $userid
+ * @return array a map of course id to course total
+ */
+function retrieve_courses_totals($userid) {
+    $course = get_course(SITEID);
+    $context = context_course::instance($course->id);
+    $gpr = new grade_plugin_return(array(
+        'type' => 'report',
+        'plugin' => 'overview',
+        'courseid' => $course->id,
+        'userid' => $userid));
+    $report = new grade_report_overview($userid, $gpr, $context);
+    $coursesgrades = $report->setup_courses_data(true);
+
+    $grades = array();
+    foreach ($coursesgrades as $coursegrade) {
+        $courseid = $coursegrade['course']->id;
+        $finalgrade = grade_format_gradevalue($coursegrade['finalgrade'], $coursegrade['courseitem'], true);
+        $grades[$courseid] = $finalgrade;
+    }
+
+    return $grades;
+}
+
+function get_course_total($courseid, $coursetotals) {
+    if (array_key_exists($courseid, $coursetotals)) {
+        return $coursetotals[$courseid];
+    }
+    return '';
 }

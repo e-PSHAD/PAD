@@ -87,10 +87,23 @@ $string['course-todo'] = 'todo course';
 $string['course-todo-plural'] = 'todo courses';
 $string['course-total'] = 'assigned course';
 $string['course-total-plural'] = 'assigned courses';
+$string['export-progress-intro'] = 'You can also export the tracking of all your students to an Excel file (.xls).';
+$string['export-progress'] = 'Export progress for all students';
 $string['undefined-platform'] = 'Undefined Platform';
 $string['undefined-module'] = 'Undefined Module';
 $string['show-progress-details'] = 'Show details';
 $string['hide-progress-details'] = 'Hide details';
+
+// Spreadsheet 'Students progress' strings.
+$string['export-header-course'] = 'Course';
+$string['export-header-module'] = 'Module';
+$string['export-header-platform'] = 'Platform';
+$string['export-header-progress'] = 'Progress (%)';
+$string['export-header-status'] = 'Status';
+$string['export-header-total'] = 'Course total';
+$string['export-status-done'] = 'Done';
+$string['export-status-inprogress'] = 'In progress';
+$string['export-status-todo'] = 'To do';
 
 // Theme settings strings.
 $string['settings-color-title'] = 'Theme colours';

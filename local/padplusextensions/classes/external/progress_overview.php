@@ -91,6 +91,7 @@ class progress_overview extends \external_api {
                             'name' => new \external_value(PARAM_TEXT, 'Name of category'),
                             'courses' => new \external_multiple_structure(
                                 new \external_single_structure([
+                                    'id' => new \external_value(PARAM_TEXT, 'Id of course'),
                                     'fullname' => new \external_value(PARAM_TEXT, 'Fullname of course'),
                                     'viewurl' => new \external_value(PARAM_URL, 'URL of course homepage'),
                                     'progress' => new \external_single_structure([

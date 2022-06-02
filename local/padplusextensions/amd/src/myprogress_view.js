@@ -24,6 +24,7 @@ const Selectors = {
     DATA_CARRIER: '[data-studentid]',
     INPUT_STUDENT: '[data-input=student-selection]',
     INPUT_TOGGLE_DETAILS: '[data-input=toggle-details]',
+    CONTAINER_FOOTER_PROGRESS: '[data-container=footer-progress]',
     CONTAINER_LOADER: '[data-container=loader]',
     CONTAINER_MAIN_PROGRESS: '[data-container=main-progress]',
     CONTAINER_TOPGROUP: '[data-container=topgroup]',
@@ -113,9 +114,12 @@ export async function setupPage(root) {
                 }
             });
 
-            // Autocomplete setup triggers flash of unstyled components, so the whole form is hidden at first. Now we can reveal it
-            const hiddenForm = root.querySelector('.hidden-when-loading');
-            hiddenForm.classList.remove('hidden-when-loading');
+            // Autocomplete setup triggers flash of unstyled components, so the whole form & export button is hidden at first.
+            const hiddenContainers = root.querySelectorAll('.hidden-when-initializing');
+            hiddenContainers.forEach(element => {
+                element.classList.remove('hidden-when-initializing');
+            });
+
             // Hide loader, setup is complete and there is no request in progress
             toggleDisplay(root, Selectors.CONTAINER_LOADER);
 
@@ -133,8 +137,9 @@ export async function setupPage(root) {
  * @param {string}  contextid context id, optional
  */
 function updateProgress(root, STRINGS, userid, contextid = undefined) {
-    // Hide current content (if any) and show the loader
+    // Hide current content (if any) and export container, and show the loader.
     toggleDisplay(root, Selectors.CONTAINER_MAIN_PROGRESS, Selectors.CONTAINER_LOADER);
+    toggleDisplay(root, Selectors.CONTAINER_FOOTER_PROGRESS);
 
     // Fetch progress data for given user
     Ajax.call([{
@@ -155,8 +160,9 @@ function updateProgress(root, STRINGS, userid, contextid = undefined) {
             Templates.replaceNodeContents(Selectors.CONTAINER_MAIN_PROGRESS, html, js);
             // Setup handlers once toggle buttons have been rendered
             setupToggleDetails(root, STRINGS);
-            // Rendering done, time to hide the loader and show the content!
+            // Rendering done, time to hide the loader and show the content & export container.
             toggleDisplay(root, Selectors.CONTAINER_LOADER, Selectors.CONTAINER_MAIN_PROGRESS);
+            toggleDisplay(root, Selectors.CONTAINER_LOADER, Selectors.CONTAINER_FOOTER_PROGRESS);
             return;
         });
     }).catch(Notification.exception);

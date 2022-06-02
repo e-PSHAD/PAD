@@ -64,7 +64,7 @@
         {{#str}} myprogress-professional-intro, theme_padplus {{/str}}</br>
         {{#str}} myprogress-professional-intro-sub, theme_padplus {{/str}}
     </p>
-    <form class="hidden-when-loading">
+    <form class="hidden-when-initializing">
         <label for="student-progress-selection" class="sr-only">{{#str}} user-progress-search-placeholder, theme_padplus {{/str}}</label>
         <select id="student-progress-selection" name="students" data-input="student-selection">
             {{#students}}
@@ -81,6 +81,13 @@
             {{> local_padplusextensions/loader }}
         </div>
         <div data-container="main-progress"></div>
+    </div>
+
+    <div class="myprogress-page-footer hidden-when-initializing" data-container="footer-progress">
+        {{^studentid}}
+        <p>{{#str}} export-progress-intro, theme_padplus {{/str}}</p>
+        <a href="{{spreadsheeturl}}" class="btn btn-secondary"><i class="fas fa-file-download"></i>{{#str}} export-progress, theme_padplus {{/str}}</a>
+        {{/studentid}}
     </div>
 </div>
 {{#js}}

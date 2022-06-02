@@ -7,6 +7,11 @@
         display: none;
     }
 
+    // Temporary class to be removed after initialization.
+    .hidden-when-initializing {
+        display: none;
+    }
+
     #page-header .card-body {
         padding-bottom: 0;
     }
@@ -272,10 +277,6 @@
 
 // Form styles.
 #myprogress-main form {
-    &.hidden-when-loading {
-        display: none;
-    }
-
     input {
         width: 25rem;
         border-radius: 4px;
@@ -312,6 +313,7 @@
     }
 }
 
+// Loader.
 .progress-loader {
     position: relative;
     h6 {
@@ -324,4 +326,9 @@
         justify-content: center;
         width: 100%;
     }
+}
+
+// Footer.
+.myprogress-page-footer .fa-file-download {
+    margin-right: 0.5rem;
 }
