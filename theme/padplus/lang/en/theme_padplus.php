@@ -42,8 +42,8 @@ $string['aria-main-nav'] = 'Main navigation';
 $string['categories-menu-nav'] = 'Categories';
 $string['allcategories-menu'] = 'All categories';
 $string['allcourses-menu'] = 'All courses';
-$string['workshop-menu'] = 'Group workshops';
-$string['catalog-menu'] = 'Shared resources';
+$string['workshop-menu'] = 'Additional workshops';
+$string['catalog-menu'] = 'Professional resources';
 
 // Login page strings.
 $string['show-password'] = 'Show password';
@@ -54,13 +54,13 @@ $string['mycourses-page'] = 'My sequences';
 $string['mycourses-page_help'] = "• My current sequences are those for which you are registered and have started.<br>
                                   • My upcoming sequences are those for which you are registered and whose start date is in the future.<br>
                                   • My past sequences are those that have been completed or whose deadline has passed.<br>
-                                  • My favourite sequences are those you have added with the 'start' icon.";
+                                  • My favourite sequences are those you have added with the 'star' icon.";
 $string['mycourse-page_help_label'] = 'Help with my sequences';
 $string['eventmycoursesviewed'] = 'My courses viewed';
-$string['mycatalog-courses'] = 'My shared resources';
-$string['aria:mycatalog-courses'] = 'Show my shared resources';
-$string['catalog-course'] = 'Shared resource';
-$string['workshop-course'] = 'Group workshop';
+$string['mycatalog-courses'] = 'My professional resources';
+$string['aria:mycatalog-courses'] = 'Show my professional resources';
+$string['catalog-course'] = 'Professional resource';
+$string['workshop-course'] = 'Additional workshop';
 
 // My progress page strings.
 $string['myprogress-professional-title'] = 'Students curriculum';
@@ -130,8 +130,8 @@ $string['settings-copyright'] = 'Copyright';
 $string['settings-copyright-desc'] = 'Footer information';
 $string['settings-sidebarmenu'] = 'Sidebar Menu';
 $string['settings-sidebarmenu-desc'] = 'Display parameters for sidebar menu.';
-$string['settings-workshopids-desc'] = "If user has access to one of the selected categories, display it with label 'Group workshops' in the sidebar menu.";
-$string['settings-catalogid-desc'] = "If user has access to the selected category, display it with label 'Shared resources' in its own group in the sidebar menu.";
+$string['settings-workshopids-desc'] = "If user has access to one of the selected categories, display it with label 'Additional workshops' in the sidebar menu.";
+$string['settings-catalogid-desc'] = "If user has access to the selected category, display it with label 'Professional resources' in the sidebar menu.";
 $string['settings-catalogid-none'] = '[none]';
 $string['settings-allcourses-desc'] = "Display first user-accessible category (not matched by above options) with label 'All sequences' in the sidebar menu.";
 $string['settings-videocall'] = 'Video conference';
