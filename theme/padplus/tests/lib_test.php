@@ -25,7 +25,7 @@ class lib_test extends \advanced_testcase {
 
     public function test_select_user_top_categories() {
         $maincategory = $this->create_test_category('Séquences');
-        $workshops = $this->create_test_category('Ateliers collectifs');
+        $workshops = $this->create_test_category('Ateliers complémentaires');
         $catalog = $this->create_test_category('Catalogue');
 
         $theme = \theme_config::load('padplus');
