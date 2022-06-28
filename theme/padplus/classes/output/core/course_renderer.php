@@ -147,13 +147,12 @@ class course_renderer extends \core_course_renderer {
         }
         $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
 
-        /*** PADPLUS: course search form & category management button. */
-        $output .= html_writer::start_div('', ['class' => 'category-page-searchbar-container']);
-        $output .= $this->course_search_form();
+        /*** PADPLUS: category management button. */
         if ($coursecat->has_manage_capability()) {
+            $output .= html_writer::start_div('', ['class' => 'category-page-settings-container']);
             $output .= $this->region_main_settings_menu();
+            $output .= html_writer::end_div();
         }
-        $output .= html_writer::end_div();
         /*** PADPLUS END */
 
         // Display course category tree.

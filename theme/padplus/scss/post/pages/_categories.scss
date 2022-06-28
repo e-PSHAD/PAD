@@ -26,8 +26,10 @@
     .region_main_settings_menu_proxy {
         display: none;
     }
-    .category-page-searchbar-container {
+    .category-page-settings-container {
         @include dropdown-padplus();
+        display: flex;
+        justify-content: flex-end;
     }
 }
 
@@ -65,41 +67,6 @@
                 justify-content: center;
                 min-width: 40px;
             }
-        }
-    }
-}
-
-// Search bar & drowpdown container.
-.category-page-searchbar-container {
-    align-items: center;
-    border-radius: 8px;
-    display: flex;
-    height: 88px;
-    justify-content: space-between;
-    .simplesearchform .input-group {
-        min-width: 400px;
-        .form-control {
-            border: 1px solid theme-color('pad-border');
-            border-radius: 4px;
-            &:focus {
-                z-index: 1;
-            }
-        }
-        .input-group-append {
-            display: none;
-        }
-        &:before {
-            color: $body-color;
-            content: fa-content($fa-var-search);
-            background-color: $white;
-            @include fa-icon();
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-            font-size: 1.2rem;
-            position: absolute;
-            right: 12px;
-            top: 9px;
-            z-index: 2;
         }
     }
 }
@@ -147,14 +114,6 @@
     }
 }
 
-@media screen and (max-width: 1200px) {
-    .category-page-searchbar-container {
-        .simplesearchform .input-group {
-            min-width: 250px;
-        }
-    }
-}
-
 @media screen and (max-width: 1042px) {
     #page-course-index-category {
         #page {
@@ -164,18 +123,9 @@
 }
 
 @media screen and (max-width: 865px) {
-    .category-page-searchbar-container {
+    .category-page-settings-container {
         flex-direction: column;
         margin-bottom: 40px;
-        .mform {
-            padding: 0;
-        }
-        .simplesearchform,
-        .form-inline,
-        .input-group,
-        .form-control {
-            width: 100%;
-        }
         .action-menu {
             width: 100%;
             .action-menu-trigger {
