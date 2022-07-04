@@ -41,7 +41,9 @@ $context = context_system::instance();
 $pagetitle = get_string('globalsearch', 'search');
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title($pagetitle);
+/*** PADPLUS: prepend site name in front of page title for accessibility. */
+$PAGE->set_title("$SITE->shortname: " . $pagetitle);
+/*** PADPLUS END */
 $PAGE->set_heading($pagetitle);
 
 if (!empty($CFG->forcelogin)) {
