@@ -1,0 +1,14 @@
+PAD+ is developed against the Moodle 3.11.x stable branch. Here is a summary of big changes brought upon by PAD+.
+
+Version 1.0
+-----------
+
+- PAD+ is a custom Moodle with a dedicated theme in theme/padplus, overridding some rendering functions, templates, and styles
+- Plugin local/padplusextensions hosts common PAD+ code which are shared between plugins and features
+- Both plugins blocks/padplusmyprogress and blocks/padplusvideocall extend dashboard capabilities with PAD+ features
+- Plugin BigBlueButtonBN v2.4 is integrated into the codebase without modification
+- Due to Moodle routing constraints, both pages my/courses.php and my/progress.php have been added to core
+- When no customization is possible through above plugins, some core code have been locally patched - they are easily identified by a 'PADPLUS' string in code comment
+    - Most changes target the myoverview block and dedicated services (new filter, pagination fix, tag display, disabled autosave)
+    - FontAwesome updated to v5 in Boost theme
+    - Accessible front colors in ATTO editor
