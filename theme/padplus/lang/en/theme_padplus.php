@@ -45,6 +45,15 @@ $string['allcourses-menu'] = 'All courses';
 $string['workshop-menu'] = 'Additional workshops';
 $string['catalog-menu'] = 'Professional resources';
 
+// Footer navigation strings.
+$string['footer-contact'] = 'Contact';
+$string['footer-help'] = 'Tutorials';
+$string['footer-help-title'] = 'Tutorials (new window)';
+$string['footer-site-policy'] = 'Site policy';
+$string['footer-legal-notices'] = 'Legal notices';
+$string['footer-privacy-policy'] = 'Privacy policy';
+$string['footer-copyright'] = 'Copyright ©';
+
 // Login page strings.
 $string['show-password'] = 'Show password';
 $string['hide-password'] = 'Hide password';
@@ -114,16 +123,16 @@ $string['settings-sidebarcolor'] = 'Sidebar background colour';
 $string['settings-sidebarcolor-desc'] = 'Colour used for sidebar background';
 $string['settings-footer'] = 'Footer';
 $string['settings-footer-desc'] = 'Configuration of footer items';
-$string['settings-helplink'] = 'Help Link';
-$string['settings-helplink-desc'] = 'URL to external site hosting PAD+ help';
-$string['settings-supportlink'] = 'Support';
-$string['settings-supportlink-desc'] = 'URL to support form PAD+';
 $string['settings-contactlink'] = 'Contact';
-$string['settings-contactlink-desc'] = 'URL to contact form PAD+';
-$string['settings-legalnoticeslink'] = 'Terms';
-$string['settings-legalnoticeslink-desc'] = 'URL to legal notices PAD+';
-$string['settings-privacylink'] = 'Privacy';
-$string['settings-privacylink-desc'] = 'URL to privacy terms PAD+';
+$string['settings-contactlink-desc'] = 'URL to contact page';
+$string['settings-helplink'] = 'Tutorials';
+$string['settings-helplink-desc'] = 'URL to external site hosting PAD+ tutorials';
+$string['settings-sitepolicylink'] = 'Site policy';
+$string['settings-sitepolicylink-desc'] = 'URL to site policy';
+$string['settings-privacylink'] = 'Privacy policy';
+$string['settings-privacylink-desc'] = 'URL to privacy policy';
+$string['settings-legalnoticeslink'] = 'Legal notices';
+$string['settings-legalnoticeslink-desc'] = 'URL to legal notices';
 $string['settings-copyright'] = 'Copyright';
 $string['settings-copyright-desc'] = 'Footer information';
 $string['settings-sidebarmenu'] = 'Sidebar Menu';

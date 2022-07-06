@@ -45,6 +45,15 @@ $string['allcourses-menu'] = 'Tous les cours';
 $string['workshop-menu'] = 'Ateliers complémentaires';
 $string['catalog-menu'] = 'Ressources professionnelles';
 
+// Footer navigation strings.
+$string['footer-contact'] = 'Contact';
+$string['footer-help'] = 'Tutoriels';
+$string['footer-help-title'] = 'Tutoriels (nouvelle fenêtre)';
+$string['footer-site-policy'] = "Charte d'utilisation";
+$string['footer-legal-notices'] = 'Mentions légales';
+$string['footer-privacy-policy'] = 'Politique de confidentialité';
+$string['footer-copyright'] = 'Copyright ©';
+
 // Login page strings.
 $string['show-password'] = 'Montrer le mot de passe';
 $string['hide-password'] = 'Cacher le mot de passe';
@@ -114,16 +123,16 @@ $string['settings-sidebarcolor'] = 'Couleur de la barre latérale';
 $string['settings-sidebarcolor-desc'] = "Couleur utilisée pour l'arrière-plan de la barre latérale";
 $string['settings-footer'] = 'Pied de page';
 $string['settings-footer-desc'] = 'Configuration des éléments du pied de page';
-$string['settings-helplink'] = "Lien d'aide";
-$string['settings-helplink-desc'] = "URL vers un site externe hébergeant l'aide PAD+";
-$string['settings-supportlink'] = 'Support';
-$string['settings-supportlink-desc'] = 'URL vers le formulaire de support PAD+';
 $string['settings-contactlink'] = 'Contact';
-$string['settings-contactlink-desc'] = 'URL vers le formulaire de contact PAD+';
-$string['settings-legalnoticeslink'] = 'Mentions légales';
-$string['settings-legalnoticeslink-desc'] = 'URL vers les mentions légales PAD+';
+$string['settings-contactlink-desc'] = "URL vers la page de contact de l'instance";
+$string['settings-helplink'] = "Tutoriels";
+$string['settings-helplink-desc'] = "URL vers les tutoriels externes de la PAD+";
+$string['settings-sitepolicylink'] = "Charte d'utilisation";
+$string['settings-sitepolicylink-desc'] = "URL vers la charte d'utilisation du site (politique du site)";
 $string['settings-privacylink'] = 'Politique de confidentialité';
-$string['settings-privacylink-desc'] = 'URL vers la politique de confidentialité PAD+';
+$string['settings-privacylink-desc'] = 'URL vers la politique de confidentialité du site';
+$string['settings-legalnoticeslink'] = 'Mentions légales';
+$string['settings-legalnoticeslink-desc'] = 'URL vers les mentions légales du site';
 $string['settings-copyright'] = 'Copyright';
 $string['settings-copyright-desc'] = 'Information du pied de page';
 $string['settings-sidebarmenu'] = 'Menu de navigation latérale';

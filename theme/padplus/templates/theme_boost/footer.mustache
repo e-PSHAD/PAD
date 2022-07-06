@@ -44,36 +44,35 @@
                         </a>
                     </li>
                     <li>
-                        <a class="mr-1" href="{{{ padfooter.helplink }}}" title="Aide (nouvelle fenêtre)" target="_blank">
-                            Aide
+                        <a href="{{{ padfooter.contactlink }}}">
+                            {{#str}} footer-contact, theme_padplus {{/str}}
                         </a>
-                        <i class="icon fa fa-external-link-alt fa-fw " aria-hidden="true"></i>
                     </li>
                     <li>
-                        <a class="mr-1" href="{{{ padfooter.supportlink }}}" title="Support (nouvelle fenêtre)" target="_blank">
-                            Support
+                        <a class="mr-1" href="{{{ padfooter.helplink }}}" title="{{#str}} footer-help-title, theme_padplus {{/str}}" target="_blank">
+                            {{#str}} footer-help, theme_padplus {{/str}}
                         </a>
                         <i class="icon fa fa-external-link-alt fa-fw " aria-hidden="true"></i>
                     </li>
                 </div>
                 <div class="page-footer-subgroup-right">
                     <li>
-                        <a href="{{{ padfooter.contactlink }}}">
-                            Contact
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{{ padfooter.legalnoticeslink }}}">
-                            Mentions légales
+                        <a href="{{{ padfooter.sitepolicylink }}}">
+                            {{#str}} footer-site-policy, theme_padplus {{/str}}
                         </a>
                     </li>
                     <li>
                         <a href="{{{ padfooter.privacylink }}}">
-                            Politique de confidentialité
+                            {{#str}} footer-privacy-policy, theme_padplus {{/str}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{{ padfooter.legalnoticeslink }}}">
+                            {{#str}} footer-legal-notices, theme_padplus {{/str}}
                         </a>
                     </li>
                     <li class="secondary-text">
-                        Copyright © {{{ padfooter.copyright }}}
+                        {{#str}} footer-copyright, theme_padplus {{/str}} {{{ padfooter.copyright }}}
                     </li>
                 </div>
             </ul>

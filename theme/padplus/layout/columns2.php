@@ -153,11 +153,11 @@ $templatecontext['firstcollectionlabel'] = $padnav->get_collectionlabel();
 /*** PADPLUS: footer configuration */
 $themesettings = $PAGE->theme->settings;
 $padfooter = [
-    'helplink' => $themesettings->helplink,
-    'supportlink' => $themesettings->supportlink,
     'contactlink' => $themesettings->contactlink,
-    'legalnoticeslink' => $themesettings->legalnoticeslink,
+    'helplink' => $themesettings->helplink,
+    'sitepolicylink' => $themesettings->sitepolicylink,
     'privacylink' => $themesettings->privacylink,
+    'legalnoticeslink' => $themesettings->legalnoticeslink,
     'copyright' => $themesettings->copyright
 ];
 $templatecontext['padfooter'] = $padfooter;

@@ -52,22 +52,6 @@ if ($ADMIN->fulltree) {
     ));
 
     $settings->add(new admin_setting_configtext(
-        'theme_padplus/helplink',
-        get_string('settings-helplink', 'theme_padplus'),
-        get_string('settings-helplink-desc', 'theme_padplus'),
-        '',
-        PARAM_URL
-    ));
-
-    $settings->add(new admin_setting_configtext(
-        'theme_padplus/supportlink',
-        get_string('settings-supportlink', 'theme_padplus'),
-        get_string('settings-supportlink-desc', 'theme_padplus'),
-        '',
-        PARAM_URL
-    ));
-
-    $settings->add(new admin_setting_configtext(
         'theme_padplus/contactlink',
         get_string('settings-contactlink', 'theme_padplus'),
         get_string('settings-contactlink-desc', 'theme_padplus'),
@@ -76,9 +60,17 @@ if ($ADMIN->fulltree) {
     ));
 
     $settings->add(new admin_setting_configtext(
-        'theme_padplus/legalnoticeslink',
-        get_string('settings-legalnoticeslink', 'theme_padplus'),
-        get_string('settings-legalnoticeslink-desc', 'theme_padplus'),
+        'theme_padplus/helplink',
+        get_string('settings-helplink', 'theme_padplus'),
+        get_string('settings-helplink-desc', 'theme_padplus'),
+        '',
+        PARAM_URL
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'theme_padplus/sitepolicylink',
+        get_string('settings-sitepolicylink', 'theme_padplus'),
+        get_string('settings-sitepolicylink-desc', 'theme_padplus'),
         '',
         PARAM_URL
     ));
@@ -87,6 +79,14 @@ if ($ADMIN->fulltree) {
         'theme_padplus/privacylink',
         get_string('settings-privacylink', 'theme_padplus'),
         get_string('settings-privacylink-desc', 'theme_padplus'),
+        '',
+        PARAM_URL
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'theme_padplus/legalnoticeslink',
+        get_string('settings-legalnoticeslink', 'theme_padplus'),
+        get_string('settings-legalnoticeslink-desc', 'theme_padplus'),
         '',
         PARAM_URL
     ));

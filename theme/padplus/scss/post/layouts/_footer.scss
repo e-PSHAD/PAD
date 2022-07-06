@@ -4,6 +4,11 @@
     background-color: gray("100") !important;
     border-top: 2px solid theme-color("primary");
 
+    .policiesfooter {
+        // Hide standard policy footer since it appears in our redesigned footer navigation.
+        display: none;
+    }
+
     nav {
         height: 64px;
         img {
