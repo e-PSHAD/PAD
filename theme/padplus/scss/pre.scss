@@ -1,21 +1,15 @@
 // By setting this variables in pre.scss we can override the default value of this variable everywhere it is used.
 
 // Color system
-// Just in case, set a default palette if not correctly set in 'marque-blanche.scss'.
 // This is the EPNAK default theme (accessibility ok).
 
-// 1) define your colors
+// 1) define colors
 $some-green:       #008A28;
-$some-blue:        #0877D9;
 $some-light-green: #f7fbf0;
 
-// 2) map your custom colors on PAD+ theme colors
+// 2) map colors to PAD+ theme colors
 $primary:            $some-green !default;
-$complementary:      $some-blue !default;
 $sidebar-background: $some-light-green !default;
-
-// Customisation done!
-// Do not modify below values, these are PAD+ theme values
 
 // PAD+ gray palette
 $white:    #fff;
@@ -46,7 +40,6 @@ $pad-btn-secondary-bg: scale-color($pad-link, $lightness: 90%);
 // Initialize theme-colors map with PAD customs (completed with Bootstrap _variables)
 $theme-colors: (
     primary:                $primary,
-    complementary:          $complementary,
     sidebar-background:     $sidebar-background,
     pad-primary-text-hover: $white, // used as front color when $primary is background color (e.g. hover state)
     pad-link:               $pad-link,

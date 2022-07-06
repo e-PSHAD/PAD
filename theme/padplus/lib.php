@@ -32,7 +32,6 @@ function theme_padplus_get_main_scss_content($theme) {
     // Map theme settings to SCSS variables.
     $settingstoscssmap = [
         'primarycolor' => 'primary',
-        'complementarycolor' => 'complementary',
         'sidebarcolor' => 'sidebar-background'
     ];
     $whitelabelscss = '';

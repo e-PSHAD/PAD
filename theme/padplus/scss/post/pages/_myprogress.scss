@@ -304,7 +304,7 @@
 
         &:after {
             border: none;
-            color: theme-color('complementary');
+            color: theme-color('pad-link');
             content: fa-content($fa-var-chevron-down);
             @include fa-icon();
             font-family: 'Font Awesome 5 Free';

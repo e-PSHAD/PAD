@@ -37,14 +37,6 @@ if ($ADMIN->fulltree) {
     $settings->add($setting);
 
     $setting = new admin_setting_configcolourpicker(
-        'theme_padplus/complementarycolor',
-        get_string('settings-complementary-color', 'theme_padplus'),
-        get_string('settings-complementary-color-desc', 'theme_padplus'),
-        '#0877D9');
-    $setting->set_updatedcallback('theme_reset_all_caches');
-    $settings->add($setting);
-
-    $setting = new admin_setting_configcolourpicker(
         'theme_padplus/sidebarcolor',
         get_string('settings-sidebarcolor', 'theme_padplus'),
         get_string('settings-sidebarcolor-desc', 'theme_padplus'),
