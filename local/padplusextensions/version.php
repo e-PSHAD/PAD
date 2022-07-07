@@ -23,6 +23,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2022050300; // This is the version of the plugin.
-$plugin->requires = 2021051700.00; // This is the version of Moodle this plugin requires.
 $plugin->component = 'local_padplusextensions';// Full name of the plugin (used for diagnostics).
+$plugin->version = 2022050300; // This is the version of the plugin.
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = 'v1.0.0';
+
+$plugin->requires = 2021051700.00; // This is the version of Moodle this plugin requires.

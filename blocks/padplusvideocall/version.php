@@ -18,6 +18,9 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_padplusvideocall';
 $plugin->version = 2022052400;
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = 'v1.0.0';
+
 $plugin->requires = 2021051706;
 
 $plugin->dependencies = array(
